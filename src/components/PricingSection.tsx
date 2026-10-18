@@ -18,7 +18,7 @@ export const PricingSection: React.FC = () => {
             <span>PENAWARAN TERBESAR BULAN INI · DISKON SPESIAL 80%</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight text-balance">
-            Harga Terbatas Rp 1.500.000 Jadi{' '}
+            Promo Terbatas Rp 1.500.000 Jadi{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
               Cuma Rp 300 Ribu!
             </span>
@@ -80,7 +80,7 @@ export const PricingSection: React.FC = () => {
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                     Harga Normal Agensi:
                   </div>
-                  {/* Harga Terbatas 1.5 Juta */}
+                  {/* Promo Terbatas 1.5 Juta */}
                   <div className="text-base sm:text-lg font-bold text-rose-500 line-through decoration-rose-600 decoration-3">
                     Rp 1.500.000,-
                   </div>
