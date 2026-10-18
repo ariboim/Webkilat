@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   AlertCircle,
   RotateCcw,
+  FileText,
 } from 'lucide-react';
 
 const INITIAL_FORM: OrderFormData = {
@@ -73,6 +74,7 @@ export const OrderFormSection: React.FC = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [agreedTerms, setAgreedTerms] = useState(true);
 
   useEffect(() => {
     try {
@@ -119,6 +121,7 @@ export const OrderFormSection: React.FC = () => {
     setFormData(INITIAL_FORM);
     setErrors({});
     setSubmittedSuccess(false);
+    setAgreedTerms(true);
     try {
       localStorage.removeItem('webkilat_saved_form');
     } catch {
@@ -148,6 +151,9 @@ export const OrderFormSection: React.FC = () => {
     }
     if (!formData.deskripsiProduk.trim()) {
       newErrors.deskripsiProduk = 'Deskripsi produk wajib diisi';
+    }
+    if (!agreedTerms) {
+      newErrors.agreedTerms = 'Anda wajib menyetujui syarat dan ketentuan promo';
     }
 
     setErrors(newErrors);
@@ -559,6 +565,57 @@ export const OrderFormSection: React.FC = () => {
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Syarat & Ketentuan Harga Promo */}
+            <div className="p-5 sm:p-6 bg-amber-50/90 rounded-2xl border-2 border-amber-300 space-y-3.5 shadow-xs">
+              <div className="flex items-center gap-2 text-amber-950 font-black text-xs sm:text-sm uppercase tracking-wider">
+                <FileText className="w-4 h-4 text-amber-700 shrink-0" />
+                <span>Syarat & Ketentuan Harga Promo (Rp 300.000)</span>
+              </div>
+
+              <ul className="space-y-2 text-xs text-slate-700 leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span><strong>Free revisi 1 kali</strong>, untuk revisi kedua dan seterusnya akan dikenakan biaya Rp 50.000 per revisi.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span><strong>Tidak mendapatkan email bisnis</strong> resmi (nama_bisnis@domain).</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span><strong>Free domain</strong> hanya berlaku untuk domain <strong>.my.id</strong> dan <strong>.biz.id</strong>.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span>Untuk domain seperti <strong>.com</strong>, <strong>.net</strong>, <strong>.id</strong>, dan lainnya akan dikenakan biaya pembelian domain.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span><strong>Garansi uang kembali tidak berlaku</strong> untuk proses pengerjaan yang melebihi 1 hari dikarenakan error server atau maintenance pihak ketiga.</span>
+                </li>
+              </ul>
+
+              <div className="pt-3 border-t border-amber-200/80">
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={agreedTerms}
+                    onChange={(e) => setAgreedTerms(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded text-sky-600 focus:ring-sky-500 border-amber-300 cursor-pointer"
+                  />
+                  <span className="text-xs font-bold text-amber-950">
+                    Semua pemesanan dianggap telah membaca dan menyetujui syarat dan ketentuan ini.
+                  </span>
+                </label>
+                {errors.agreedTerms && (
+                  <p className="text-[11px] text-rose-600 mt-1 font-semibold flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.agreedTerms}
+                  </p>
+                )}
               </div>
             </div>
 

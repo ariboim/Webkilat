@@ -106,7 +106,7 @@ export const PricingSection: React.FC = () => {
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
                     <strong className="text-slate-900 font-bold">FREE Domain Resmi 1 Tahun</strong>
-                    <div className="text-xs text-slate-500">Pilihan .my.id / .biz.id / promo .com atas nama brand Anda (Senilai Rp 250.000)</div>
+                    <div className="text-xs text-slate-500">Khusus domain .my.id & .biz.id (ekstensi .com / .net / .id dikenakan biaya domain)</div>
                   </div>
                 </div>
 
@@ -161,8 +161,8 @@ export const PricingSection: React.FC = () => {
                 <div className="flex items-start gap-2.5">
                   <Check className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-slate-900 font-bold">Garansi Revisi & Panduan Penggunaan</strong>
-                    <div className="text-xs text-slate-500">Bebas revisi materi sampai Anda benar-benar puas dan siap beriklan</div>
+                    <strong className="text-slate-900 font-bold">Free Revisi 1 Kali & Panduan</strong>
+                    <div className="text-xs text-slate-500">Free revisi 1x (revisi ke-2 dst dikenakan Rp 50rb) & panduan penggunaan lengkap</div>
                   </div>
                 </div>
               </div>

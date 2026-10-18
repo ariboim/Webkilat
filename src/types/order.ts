@@ -61,7 +61,10 @@ export function formatOrderToWhatsApp(data: OrderFormData): string {
     `• *Call to Action (CTA) Diinginkan:*`,
     ...(ctaList.length > 0 ? ctaList.map(c => `   - ${c}`) : [`   - (Belum ditentukan)`]),
     ``,
-    `Halo Admin Webkilat, saya sudah mengisi formulir order di atas. Mohon segera diproses untuk pengerjaan 1 hari kilat. Terima kasih!`
+    `*4. SYARAT & KETENTUAN:*`,
+    `• Menyetujui S&K Harga Promo (Free 1x revisi, Free domain .my.id/.biz.id, tanpa email bisnis)`,
+    ``,
+    `Halo Admin Webkilat, saya sudah mengisi formulir order di atas dan menyetujui syarat & ketentuan promo. Mohon segera diproses untuk pengerjaan 1 hari kilat. Terima kasih!`
   ];
 
   return lines.join('\n');

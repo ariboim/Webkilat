@@ -102,11 +102,19 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <div>
-            © {new Date().getFullYear()} webkilat. Jasa Pembuatan Landing Page 1 Hari Rp 300rb Free Domain.
+        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="text-slate-300 font-semibold text-xs">
+              Powered by Indodogital Lab Copyright @ 2026
+            </div>
+            <div className="text-slate-500 text-[11px]">
+              Jl pangkalan 6 raya no 16 RT 003 RW 004 Ciketing udik, Bekasi Jawa Barat 17153
+            </div>
+            <div className="text-slate-500 text-[10px]">
+              © {new Date().getFullYear()} webkilat. Jasa Pembuatan Landing Page 1 Hari Rp 300rb Free Domain.
+            </div>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 shrink-0 text-slate-400">
             <span>Didedikasikan untuk memajukan UMKM Indonesia</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
           </div>

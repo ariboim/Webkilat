@@ -13,7 +13,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-2',
     question: 'Domain gratis 1 tahun apa saja yang bisa saya dapatkan?',
-    answer: 'Anda bebas memilih ekstensi domain bisnis populer seperti .my.id, .biz.id, .web.id, atau subsidi kuota promo domain .com untuk brand Anda. Tim kami yang akan menguruskan pendaftaran dan setup DNS hingga langsung aktif.',
+    answer: 'Fasilitas gratis domain 1 tahun pada paket promo Rp 300.000 berlaku khusus untuk domain resmi .my.id dan .biz.id. Apabila Anda menginginkan domain komersial seperti .com, .net, .id, atau lainnya, akan dikenakan biaya pembelian domain sesuai harga registrar.',
   },
   {
     id: 'faq-3',
@@ -33,7 +33,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-6',
     question: 'Apakah saya mendapatkan garansi revisi jika ada yang ingin diubah?',
-    answer: 'Ya, Anda mendapatkan garansi revisi materi (seperti perubahan teks harga, kontak WhatsApp, nomor rekening, penyesuaian warna, atau penggantian foto) hingga landing page Anda benar-benar siap tayang dengan bangga.',
+    answer: 'Ya! Anda mendapatkan free revisi 1 kali (seperti penyesuaian teks, kontak WhatsApp, nomor rekening, penyesuaian warna, atau penggantian foto). Untuk revisi ke-2 dan seterusnya dikenakan biaya terjangkau Rp 50.000 per revisi.',
   },
   {
     id: 'faq-7',
