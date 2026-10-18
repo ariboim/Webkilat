@@ -86,8 +86,11 @@ export const HeroSection: React.FC = () => {
             </span>
             <span className="tracking-wide">
               PROMO TERBATAS:{' '}
-              <span className="line-through text-white/70 decoration-yellow-300 decoration-2 text-sm">
-                Rp 1.500.000
+              <span className="inline-flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
+                <span className="text-red-500 font-black text-xs select-none">✖️</span>
+                <span className="line-through text-white/90 decoration-red-500 decoration-[3px] text-sm font-black">
+                  Rp 1.500.000
+                </span>
               </span>{' '}
               ➔{' '}
               <span className="text-yellow-300 text-base font-black">
@@ -122,8 +125,12 @@ export const HeroSection: React.FC = () => {
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-black text-slate-900 tracking-tight leading-[1.1] text-balance">
               Landing Page Bisnis 1 Hari Jadi,{' '}
+              <span className="inline-flex items-center gap-1 text-red-600 mr-1.5">
+                <span className="text-red-600 text-2xl sm:text-3xl font-black select-none">✖️</span>
+                <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.5 Juta</span>
+              </span>{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
-                Promo Terbatas Rp 1.5 Juta Jadi Rp 300 Ribu!
+                Jadi Cuma Rp 300 Ribu!
               </span>
             </h1>
 
@@ -134,7 +141,7 @@ export const HeroSection: React.FC = () => {
                 <span>JANGAN BIARKAN CALON PEMBELI LARI KE KOMPETITOR!</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
-                Pebisnis sukses punya website sendiri untuk meyakinkan pembeli tanpa ragu. Khusus <strong className="text-rose-600">6 jam hari ini</strong>, dapatkan landing page kustom profesional + domain aktif 1 tahun <strong className="text-slate-900">cuma Rp 300.000</strong> (Diskon 80% dari harga normal Rp 1.500.000). Besok harga normal kembali!
+                Pebisnis sukses punya website sendiri untuk meyakinkan pembeli tanpa ragu. Khusus <strong className="text-rose-600">6 jam hari ini</strong>, dapatkan landing page kustom profesional + domain aktif 1 tahun <strong className="text-slate-900">cuma Rp 300.000</strong> (Diskon 80% dari harga normal <span className="inline-flex items-center gap-1 text-red-600 font-bold"><span className="text-red-600 font-black text-xs select-none">✖️</span><span className="line-through decoration-red-600 decoration-2">Rp 1.500.000</span></span>). Besok harga normal kembali!
               </p>
             </div>
 

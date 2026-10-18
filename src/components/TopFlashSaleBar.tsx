@@ -19,8 +19,11 @@ export const TopFlashSaleBar: React.FC = () => {
           </span>
           <span className="font-extrabold tracking-tight">
             PROMO TERBATAS:{' '}
-            <span className="line-through text-white/75 decoration-yellow-300 decoration-2 text-sm">
-              Rp 1.500.000
+            <span className="inline-flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
+              <span className="text-red-500 font-black text-xs select-none">✖️</span>
+              <span className="line-through text-white/90 decoration-red-500 decoration-[3px] text-sm font-black">
+                Rp 1.500.000
+              </span>
             </span>{' '}
             ➔{' '}
             <span className="text-yellow-300 text-sm font-black underline underline-offset-2">
