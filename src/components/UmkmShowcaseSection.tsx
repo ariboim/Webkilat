@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UMKM_SHOWCASES, UmkmShowcase } from '../data/umkmShowcase';
-import { Sparkles, MessageCircle, Check, ArrowRight, ShieldCheck, MapPin, ExternalLink } from 'lucide-react';
+import { Sparkles, MessageCircle, Check, ArrowRight, ShieldCheck, MapPin, ExternalLink, Globe } from 'lucide-react';
 import { ADMIN_WA_NUMBER } from '../types/order';
+
+const INSPIRATION_SITES = [
+  { domain: 'bucini.id', desc: 'Produk Kulit Asli & Kerajinan Nusantara', category: 'Craft & Leather' },
+  { domain: 'ladanglima.com', desc: 'Tepung Singkong Sehat & Gluten Free', category: 'Healthy Food & F&B' },
+  { domain: 'chocolatemonggo.com', desc: 'Cokelat Artisan Asli Khas Yogyakarta', category: 'Kuliner Premium' },
+  { domain: 'bengokcraft.com', desc: 'Kreasi Anyaman Eceng Gondok Ramah Lingkungan', category: 'Eco Creative Craft' },
+  { domain: 'gayolandcofee.com', desc: 'Kopi Arabika Premium Dataran Gayo', category: 'Specialty Coffee' },
+  { domain: 'lapisbogor.co.id', desc: 'Oleh-Oleh Khas Lapis Talas Sangkuriang', category: 'Kuliner Ikonik' },
+  { domain: 'seamwork.com', desc: 'Komunitas & Pola Desain Busana Mandiri', category: 'Fashion & Apparel' },
+  { domain: 'barkismet.com', desc: 'Nutrisi & Perawatan Hewan Peliharaan', category: 'Pet Supplies' },
+];
 
 export const UmkmShowcaseSection: React.FC = () => {
   const [activeTabId, setActiveTabId] = useState<string>(UMKM_SHOWCASES[0].id);
@@ -236,6 +247,74 @@ export const UmkmShowcaseSection: React.FC = () => {
             </div>
           </motion.div>
         </AnimatePresence>
+
+        {/* Inspirasi Landing Page UMKM Sukses */}
+        <div className="mt-16 pt-12 border-t border-slate-200">
+          <div className="text-center max-w-3xl mx-auto space-y-3 mb-8">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold">
+              <Globe className="w-3.5 h-3.5 text-sky-600" />
+              <span>Inspirasi Brand Lokal & Nasional</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              Berikut adalah beberapa contoh landing page umkm yang sukses sebagai inspirasi anda :
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Brand-brand ini membuktikan bahwa website mandiri dengan penataan visual rapi dan copywriting terarah mampu mengubah bisnis lokal menjadi brand bernilai tinggi dan dipercaya ribuan pelanggan.
+            </p>
+          </div>
+
+          {/* Grid of 8 inspiration links */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {INSPIRATION_SITES.map((site, sIdx) => (
+              <a
+                key={sIdx}
+                href={`https://${site.domain}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group p-4 bg-slate-50 hover:bg-sky-50/70 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-sm"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 bg-white px-2 py-0.5 rounded-md border border-slate-200/80">
+                      {site.category}
+                    </span>
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-600 transition-colors" />
+                  </div>
+                  <div className="text-sm font-extrabold text-slate-900 group-hover:text-sky-700 transition-colors flex items-center gap-1.5 pt-1">
+                    <span className="font-mono">{site.domain}</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 leading-snug">
+                    {site.desc}
+                  </p>
+                </div>
+
+                <div className="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-sky-600 font-bold group-hover:underline">
+                  <span>Lihat Website</span>
+                  <span>→</span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {/* Call to action connecting to our Rp 300rb custom service */}
+          <div className="mt-8 p-6 bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-50 rounded-2xl border border-sky-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="space-y-1">
+              <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
+                Ingin Punya Landing Page Sebagus & Seefektif Brand-Brand di Atas?
+              </h4>
+              <p className="text-xs text-slate-600 max-w-xl">
+                Tim Webkilat siap mendesain landing page kustom eksklusif untuk bisnis Anda hanya dalam 1 hari kerja seharga Rp 300.000 all-in sudah termasuk domain aktif 1 tahun!
+              </p>
+            </div>
+            <button
+              onClick={scrollToOrder}
+              className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black text-white bg-sky-600 hover:bg-sky-700 rounded-xl shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer active:scale-98 whitespace-nowrap"
+            >
+              <span>Mulai Buat Website Saya Sekarang</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
