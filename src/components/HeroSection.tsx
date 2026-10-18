@@ -85,7 +85,7 @@ export const HeroSection: React.FC = () => {
               FLASH SALE 6 JAM
             </span>
             <span className="tracking-wide">
-              HARGA CORET:{' '}
+              HARGA TERBATAS:{' '}
               <span className="line-through text-white/70 decoration-yellow-300 decoration-2 text-sm">
                 Rp 1.500.000
               </span>{' '}
@@ -123,7 +123,7 @@ export const HeroSection: React.FC = () => {
             <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-black text-slate-900 tracking-tight leading-[1.1] text-balance">
               Landing Page Bisnis 1 Hari Jadi,{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
-                Harga Coret Rp 1.5 Juta Jadi Rp 300 Ribu!
+                Harga Terbatas Rp 1.5 Juta Jadi Rp 300 Ribu!
               </span>
             </h1>
 
@@ -150,7 +150,7 @@ export const HeroSection: React.FC = () => {
               </button>
 
               <a
-                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20klaim%20harga%20coret%20promo%201.5%20juta%20jadi%20300%20ribu%20sebelum%20countdown%20habis!`}
+                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20klaim%20harga%20terbatas%20promo%201.5%20juta%20jadi%20300%20ribu%20sebelum%20countdown%20habis!`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-bold text-slate-700 bg-sky-50/90 hover:bg-sky-100/90 border border-sky-200/90 rounded-2xl transition-all whitespace-nowrap shadow-xs hover:shadow-md"

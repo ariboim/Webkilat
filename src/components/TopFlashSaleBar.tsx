@@ -18,7 +18,7 @@ export const TopFlashSaleBar: React.FC = () => {
             FLASH SALE DISKON 80%
           </span>
           <span className="font-extrabold tracking-tight">
-            HARGA CORET:{' '}
+            HARGA TERBATAS:{' '}
             <span className="line-through text-white/75 decoration-yellow-300 decoration-2 text-sm">
               Rp 1.500.000
             </span>{' '}
