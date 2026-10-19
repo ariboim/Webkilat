@@ -15,23 +15,22 @@ export const TopFlashSaleBar: React.FC = () => {
         <div className="flex items-center gap-2 flex-wrap justify-center md:justify-start text-center md:text-left">
           <span className="inline-flex items-center gap-1 bg-amber-400 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-bounce shadow-xs">
             <Flame className="w-3.5 h-3.5 fill-rose-600 text-rose-600" />
-            FLASH SALE DISKON 80%
+            FLASH SALE HEMAT 1.3 JT
           </span>
           <span className="font-extrabold tracking-tight">
             PROMO TERBATAS:{' '}
-            <span className="inline-flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
-              <span className="text-red-500 font-black text-xs select-none">✖️</span>
+            <span className="inline-flex items-center bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
               <span className="line-through text-white/90 decoration-red-500 decoration-[3px] text-sm font-black">
-                Rp 1.500.000
+                Rp 1.8 Juta
               </span>
             </span>{' '}
             ➔{' '}
             <span className="text-yellow-300 text-sm font-black underline underline-offset-2">
-              CUMA RP 300.000!
+              CUMA RP 499.000!
             </span>
           </span>
           <span className="hidden lg:inline bg-black/25 px-2 py-0.5 rounded text-[11px] font-semibold text-rose-100">
-            (HEMAT RP 1.200.000 + FREE DOMAIN 1 TAHUN)
+            (HEMAT RP 1.301.000 + FREE DOMAIN 1 TAHUN)
           </span>
         </div>
 
@@ -48,7 +47,7 @@ export const TopFlashSaleBar: React.FC = () => {
             onClick={scrollToOrder}
             className="inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-black bg-yellow-400 hover:bg-yellow-300 text-slate-950 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer whitespace-nowrap active:scale-95"
           >
-            <span>AMBIL DISKON 80%</span>
+            <span>AMBIL PROMO RP 499RB</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

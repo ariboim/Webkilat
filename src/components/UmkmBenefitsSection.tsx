@@ -97,7 +97,7 @@ export const UmkmBenefitsSection: React.FC = () => {
                 Peluang Pertumbuhan Bisnis
               </span>
               <h3 className="text-xl font-bold leading-snug">
-                Investasi Cuma Rp 300 Ribu, Manfaatnya Berkelanjutan
+                Investasi Cuma Rp 499 Ribu, Manfaatnya Berkelanjutan
               </h3>
               <p className="text-xs text-sky-100 leading-relaxed">
                 Biaya yang lebih murah dari makan bersama keluarga, namun menjadi aset digital resmi yang bisa Anda gunakan selamanya untuk promosi di Instagram, TikTok, Google, dan grup komunitas.

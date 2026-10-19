@@ -15,21 +15,20 @@ export const PricingSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-black uppercase tracking-wider border border-rose-200">
             <Flame className="w-4 h-4 fill-rose-600 text-rose-600 animate-pulse" />
-            <span>PENAWARAN TERBESAR BULAN INI · DISKON SPESIAL 80%</span>
+            <span>PENAWARAN TERBESAR BULAN INI · FLASH SALE HEMAT RP 1.3 JT</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight text-balance">
             Promo Terbatas{' '}
-            <span className="inline-flex items-center gap-1.5 text-red-600 mr-1">
-              <span className="text-red-600 text-2xl sm:text-4xl font-black select-none">✖️</span>
-              <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.500.000</span>
+            <span className="inline-flex items-center text-red-600 mr-1">
+              <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.8 Juta</span>
             </span>{' '}
             Jadi{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
-              Cuma Rp 300 Ribu!
+              Cuma Rp 499 Ribu!
             </span>
           </h2>
           <p className="text-base text-slate-700 font-medium leading-relaxed">
-            Anda menghemat <strong className="text-rose-600 underline decoration-rose-300">Rp 1.200.000,-</strong> khusus pemesanan hari ini. Sudah terima beres: domain aktif 1 tahun, hosting super cepat, dan copywriting kustom siap closing dalam 24 jam!
+            Anda menghemat <strong className="text-rose-600 underline decoration-rose-300">Rp 1.301.000,-</strong> khusus pemesanan hari ini. Sudah terima beres: domain aktif 1 tahun, hosting super cepat, dan copywriting kustom siap closing dalam 24 jam!
           </p>
         </div>
 
@@ -58,7 +57,7 @@ export const PricingSection: React.FC = () => {
                     Promo Berakhir Dalam 6 Jam Lagi!
                   </h4>
                   <p className="text-xs text-slate-400 max-w-sm">
-                    Setelah waktu habis, harga <strong className="text-white">otomatis kembali ke Rp 1.500.000</strong> tanpa pengecualian. Jangan lewatkan kesempatan langka ini!
+                    Setelah waktu habis, harga <strong className="text-white">otomatis kembali ke Rp 1.8 Juta</strong> tanpa pengecualian. Jangan lewatkan kesempatan langka ini!
                   </p>
                 </div>
 
@@ -71,7 +70,7 @@ export const PricingSection: React.FC = () => {
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200">
                 <div>
                   <div className="inline-block px-3 py-1 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs font-black uppercase tracking-wider mb-2">
-                    🔥 DISKON GILA-GILAAN 80%
+                    🔥 PROMO FLASH SALE (HEMAT RP 1.301.000)
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
                     Paket Komplit Landing Page Webkilat
@@ -85,25 +84,24 @@ export const PricingSection: React.FC = () => {
                   <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
                     Harga Normal Agensi:
                   </div>
-                  {/* Promo Terbatas 1.5 Juta dengan coret tanda ✖️ merah tebal */}
-                  <div className="inline-flex items-center gap-1.5 text-base sm:text-lg font-black text-red-600">
-                    <span className="text-red-600 text-lg sm:text-xl font-black select-none drop-shadow-xs">✖️</span>
+                  {/* Promo Terbatas 1.8 Juta dengan coret merah tebal */}
+                  <div className="inline-flex items-center text-base sm:text-lg font-black text-red-600">
                     <span className="line-through decoration-red-600 decoration-[3px] text-red-600 font-extrabold">
-                      Rp 1.500.000,-
+                      Rp 1.8 Juta
                     </span>
                   </div>
 
-                  {/* Harga Promo 300 Ribu */}
+                  {/* Harga Promo 499 Ribu */}
                   <div className="flex items-baseline gap-1 mt-1">
                     <span className="text-sm font-black text-slate-900">Rp</span>
                     <span className="text-4xl sm:text-5xl font-black text-sky-600 tracking-tight">
-                      300.000
+                      499.000
                     </span>
                     <span className="text-xs font-bold text-slate-500">/ all-in</span>
                   </div>
 
                   <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-black text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
-                    <span>✓ ANDA HEMAT RP 1.200.000 HARI INI</span>
+                    <span>✓ ANDA HEMAT RP 1.301.000 HARI INI</span>
                   </div>
                 </div>
               </div>
@@ -179,7 +177,7 @@ export const PricingSection: React.FC = () => {
               <div className="p-4 bg-amber-50 rounded-2xl border-2 border-amber-300 flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div className="text-xs text-amber-950 leading-relaxed">
-                  <strong className="font-extrabold text-amber-900 uppercase">JANGAN MENUNDA:</strong> Setiap hari ratusan pembeli mencari produk seperti yang Anda jual. Jangan biarkan mereka lari ke kompetitor hanya karena bisnis Anda belum punya website resmi! Promo Rp 300.000 ini akan ditutup otomatis ketika hitungan mundur selesai.
+                  <strong className="font-extrabold text-amber-900 uppercase">JANGAN MENUNDA:</strong> Setiap hari ratusan pembeli mencari produk seperti yang Anda jual. Jangan biarkan mereka lari ke kompetitor hanya karena bisnis Anda belum punya website resmi! Promo Rp 499.000 ini akan ditutup otomatis ketika hitungan mundur selesai.
                 </div>
               </div>
 
@@ -194,7 +192,7 @@ export const PricingSection: React.FC = () => {
                   onClick={scrollToOrder}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-black text-white bg-gradient-to-r from-rose-600 via-rose-500 to-sky-600 hover:from-rose-700 hover:to-sky-700 rounded-2xl shadow-xl hover:shadow-rose-500/25 transition-all cursor-pointer whitespace-nowrap active:scale-98"
                 >
-                  <span>KLAIM PROMO RP 300RB SEKARANG (HEMAT 1.2 JT)</span>
+                  <span>KLAIM PROMO RP 499RB SEKARANG (HEMAT 1.3 JT)</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

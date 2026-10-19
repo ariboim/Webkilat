@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-sky-400"></span>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              Jasa pembuatan landing page kustom 1 hari selesai untuk UMKM dan bisnis online Indonesia seharga Rp 300.000 all-in, gratis domain 1 tahun, dan langsung terhubung ke WhatsApp siap closing.
+              Jasa pembuatan landing page kustom 1 hari selesai untuk UMKM dan bisnis online Indonesia seharga Rp 499.000 all-in, gratis domain 1 tahun, dan langsung terhubung ke WhatsApp siap closing.
             </p>
             <div className="flex items-center gap-2 text-slate-300">
               <ShieldCheck className="w-4 h-4 text-sky-400" />
@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
                   onClick={() => scrollTo('paket-harga')}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Paket Rp 300rb All-In
+                  Paket Rp 499rb All-In
                 </button>
               </li>
               <li>
@@ -103,15 +103,22 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
-          <div className="space-y-1 text-center sm:text-left">
-            <div className="text-slate-300 font-semibold text-xs">
-              Powered by Indodogital Lab Copyright @ 2026
+          <div className="space-y-1.5 text-center sm:text-left">
+            <div className="inline-flex items-center justify-center sm:justify-start flex-wrap gap-2.5 text-xs text-slate-300">
+              <span className="text-slate-400 font-medium tracking-tight">powered by</span>
+              <img
+                src="/logo.svg"
+                alt="Indo Digital"
+                className="h-7 w-auto object-contain inline-block drop-shadow-[0_0_12px_rgba(56,189,248,0.35)] select-none"
+                loading="eager"
+              />
+              <span className="text-slate-400 font-medium tracking-tight">copyright @2026</span>
             </div>
             <div className="text-slate-500 text-[11px]">
               Jl pangkalan 6 raya no 16 RT 003 RW 004 Ciketing udik, Bekasi Jawa Barat 17153
             </div>
             <div className="text-slate-500 text-[10px]">
-              © {new Date().getFullYear()} webkilat. Jasa Pembuatan Landing Page 1 Hari Rp 300rb Free Domain.
+              © {new Date().getFullYear()} webkilat. Jasa Pembuatan Landing Page 1 Hari Rp 499rb Free Domain.
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0 text-slate-400">

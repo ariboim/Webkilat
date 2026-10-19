@@ -190,7 +190,7 @@ export const OrderFormSection: React.FC = () => {
         <div className="text-center space-y-3 mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Pengerjaan Kilat 24 Jam · Rp 300.000 All-In</span>
+            <span>Pengerjaan Kilat 24 Jam · Rp 499.000 All-In</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
             Formulir Pemesanan Jasa Pembuatan Landing Page
@@ -572,7 +572,7 @@ export const OrderFormSection: React.FC = () => {
             <div className="p-5 sm:p-6 bg-amber-50/90 rounded-2xl border-2 border-amber-300 space-y-3.5 shadow-xs">
               <div className="flex items-center gap-2 text-amber-950 font-black text-xs sm:text-sm uppercase tracking-wider">
                 <FileText className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Syarat & Ketentuan Harga Promo (Rp 300.000)</span>
+                <span>Syarat & Ketentuan Harga Promo (Rp 499.000)</span>
               </div>
 
               <ul className="space-y-2 text-xs text-slate-700 leading-relaxed">

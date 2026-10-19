@@ -296,14 +296,14 @@ export const UmkmShowcaseSection: React.FC = () => {
             ))}
           </div>
 
-          {/* Call to action connecting to our Rp 300rb custom service */}
+          {/* Call to action connecting to our Rp 499rb custom service */}
           <div className="mt-8 p-6 bg-gradient-to-r from-sky-50 via-blue-50/60 to-sky-50 rounded-2xl border border-sky-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
             <div className="space-y-1">
               <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
                 Ingin Punya Landing Page Sebagus & Seefektif Brand-Brand di Atas?
               </h4>
               <p className="text-xs text-slate-600 max-w-xl">
-                Tim Webkilat siap mendesain landing page kustom eksklusif untuk bisnis Anda hanya dalam 1 hari kerja seharga Rp 300.000 all-in sudah termasuk domain aktif 1 tahun!
+                Tim Webkilat siap mendesain landing page kustom eksklusif untuk bisnis Anda hanya dalam 1 hari kerja seharga Rp 499.000 all-in sudah termasuk domain aktif 1 tahun!
               </p>
             </div>
             <button

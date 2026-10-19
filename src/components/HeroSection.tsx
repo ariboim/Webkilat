@@ -86,17 +86,16 @@ export const HeroSection: React.FC = () => {
             </span>
             <span className="tracking-wide">
               PROMO TERBATAS:{' '}
-              <span className="inline-flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
-                <span className="text-red-500 font-black text-xs select-none">✖️</span>
+              <span className="inline-flex items-center bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">
                 <span className="line-through text-white/90 decoration-red-500 decoration-[3px] text-sm font-black">
-                  Rp 1.500.000
+                  Rp 1.8 Juta
                 </span>
               </span>{' '}
               ➔{' '}
               <span className="text-yellow-300 text-base font-black">
-                CUMA RP 300.000
+                CUMA RP 499.000
               </span>{' '}
-              (HEMAT RP 1.200.000!)
+              (HEMAT RP 1.301.000!)
             </span>
             <div className="hidden sm:flex items-center gap-1 bg-black/30 px-2 py-0.5 rounded-lg border border-white/20">
               <span className="text-[10px] text-amber-300 uppercase font-bold">Sisa Waktu:</span>
@@ -116,7 +115,7 @@ export const HeroSection: React.FC = () => {
             {/* Unboxed editorial kicker */}
             <div className="flex items-center gap-2 text-xs font-black text-rose-600 tracking-wide uppercase">
               <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
-              <span>KLAIM SEBELUM HARGA NAIK KEMBALI RP 1.500.000</span>
+              <span>KLAIM SEBELUM HARGA NAIK KEMBALI RP 1.8 JUTA</span>
               <span aria-hidden="true" className="text-slate-300">·</span>
               <span>1 HARI JADI</span>
               <span aria-hidden="true" className="text-slate-300">·</span>
@@ -125,12 +124,11 @@ export const HeroSection: React.FC = () => {
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-black text-slate-900 tracking-tight leading-[1.1] text-balance">
               Landing Page Bisnis 1 Hari Jadi,{' '}
-              <span className="inline-flex items-center gap-1 text-red-600 mr-1.5">
-                <span className="text-red-600 text-2xl sm:text-3xl font-black select-none">✖️</span>
-                <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.5 Juta</span>
+              <span className="inline-flex items-center text-red-600 mr-1.5">
+                <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.8 Juta</span>
               </span>{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
-                Jadi Cuma Rp 300 Ribu!
+                Jadi Cuma Rp 499 Ribu!
               </span>
             </h1>
 
@@ -141,7 +139,7 @@ export const HeroSection: React.FC = () => {
                 <span>JANGAN BIARKAN CALON PEMBELI LARI KE KOMPETITOR!</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
-                Pebisnis sukses punya website sendiri untuk meyakinkan pembeli tanpa ragu. Khusus <strong className="text-rose-600">6 jam hari ini</strong>, dapatkan landing page kustom profesional + domain aktif 1 tahun <strong className="text-slate-900">cuma Rp 300.000</strong> (Diskon 80% dari harga normal <span className="inline-flex items-center gap-1 text-red-600 font-bold"><span className="text-red-600 font-black text-xs select-none">✖️</span><span className="line-through decoration-red-600 decoration-2">Rp 1.500.000</span></span>). Besok harga normal kembali!
+                Pebisnis sukses punya website sendiri untuk meyakinkan pembeli tanpa ragu. Khusus <strong className="text-rose-600">6 jam hari ini</strong>, dapatkan landing page kustom profesional + domain aktif 1 tahun <strong className="text-slate-900">cuma Rp 499.000</strong> (Diskon spesial dari harga normal <span className="inline-flex items-center text-red-600 font-bold"><span className="line-through decoration-red-600 decoration-2">Rp 1.8 Juta</span></span>). Besok harga normal kembali!
               </p>
             </div>
 
@@ -152,12 +150,12 @@ export const HeroSection: React.FC = () => {
                 className="group relative inline-flex items-center justify-center gap-2 px-7 py-4 text-base font-black text-white bg-gradient-to-r from-rose-600 via-rose-500 to-sky-600 hover:from-rose-700 hover:to-sky-700 rounded-2xl shadow-xl hover:shadow-rose-500/25 transition-all cursor-pointer whitespace-nowrap active:scale-98 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
-                <span className="relative">KLAIM PROMO RP 300RB SEKARANG</span>
+                <span className="relative">KLAIM PROMO RP 499RB SEKARANG</span>
                 <ArrowRight className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
               <a
-                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20klaim%20promo%20terbatas%201.5%20juta%20jadi%20300%20ribu%20sebelum%20countdown%20habis!`}
+                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20klaim%20promo%20terbatas%201.8%20juta%20jadi%20499%20ribu%20sebelum%20countdown%20habis!`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-bold text-slate-700 bg-sky-50/90 hover:bg-sky-100/90 border border-sky-200/90 rounded-2xl transition-all whitespace-nowrap shadow-xs hover:shadow-md"
@@ -171,7 +169,7 @@ export const HeroSection: React.FC = () => {
             <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-slate-600 border-t border-slate-100">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
-                <span className="font-semibold text-slate-800">Rp 300rb All-In</span>
+                <span className="font-semibold text-slate-800">Rp 499rb All-In</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
@@ -389,7 +387,7 @@ export const HeroSection: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white flex items-center justify-center mb-4 transition-colors shadow-2xs">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-slate-900 mb-1">Cuma Rp 300 Ribu All-In</h3>
+            <h3 className="text-base font-bold text-slate-900 mb-1">Cuma Rp 499 Ribu All-In</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
               Harga hemat yang sangat ramah kantong UMKM. Tanpa biaya bulanan siluman, langsung siap untuk promosi medsos dan iklan.
             </p>

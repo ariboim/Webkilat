@@ -35,8 +35,8 @@ export function formatOrderToWhatsApp(data: OrderFormData): string {
 
   const lines = [
     `*FORMULIR PEMESANAN JASA LANDING PAGE WEB KILAT*`,
-    `Paket: FLASH SALE 6 JAM (Promo Terbatas Rp 1.500.000 -> Rp 300.000 - Free Domain 1 Thn)`,
-    `Diskon: 80% (Hemat Rp 1.200.000)`,
+    `Paket: FLASH SALE 6 JAM (Promo Terbatas Rp 1.8 Juta -> Rp 499.000 - Free Domain 1 Thn)`,
+    `Diskon: Promo Spesial (Hemat Rp 1.301.000)`,
     `Tanggal: ${new Date().toLocaleDateString('id-ID', { dateStyle: 'full' })}`,
     ``,
     data.namaSalesKonsultan ? `*Nama Sales Konsultan:* ${data.namaSalesKonsultan}` : `*Nama Sales Konsultan:* -`,

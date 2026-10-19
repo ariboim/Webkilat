@@ -34,7 +34,7 @@ export default function App() {
         {/* Custom UMKM Showcase (No Templates) */}
         <UmkmShowcaseSection />
 
-        {/* Pricing Section (Rp 300.000 all-in, 1 hari, free domain) */}
+        {/* Pricing Section (Rp 499.000 all-in, 1 hari, free domain) */}
         <PricingSection />
 
         {/* The Exact Order Form with WA 089673686625 */}

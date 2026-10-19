@@ -4,7 +4,7 @@ import { ADMIN_WA_NUMBER } from '../types/order';
 
 export const AnimatedMarqueeBanner: React.FC = () => {
   const items = [
-    { icon: Zap, text: 'PROMO UMKM: HANYA RP 300.000 ALL-IN', highlight: 'HOT PROMO' },
+    { icon: Zap, text: 'PROMO UMKM: HANYA RP 499.000 ALL-IN', highlight: 'HOT PROMO' },
     { icon: Globe, text: 'FREE DOMAIN 1 TAHUN (.MY.ID / .BIZ.ID / .COM)', highlight: 'GRATIS' },
     { icon: Clock, text: 'PENGERJAAN KILAT SELESAI DALAM 24 JAM', highlight: '1 HARI JADI' },
     { icon: Sparkles, text: 'DESAIN 100% KUSTOM SESUAI BRAND ANDA', highlight: 'BUKAN TEMPLATE' },

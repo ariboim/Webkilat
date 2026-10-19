@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('paket-harga')}
               className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
             >
-              Paket Rp 300rb
+              Paket Rp 499rb
             </button>
             <button
               onClick={() => scrollToSection('testimoni')}
@@ -106,7 +106,7 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('paket-harga')}
               className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
             >
-              Paket Rp 300rb All-In
+              Paket Rp 499rb All-In
             </button>
             <button
               onClick={() => scrollToSection('testimoni')}
@@ -127,10 +127,10 @@ export const Navbar: React.FC = () => {
               onClick={() => scrollToSection('formulir-order')}
               className="w-full text-center px-4 py-2.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm"
             >
-              Isi Formulir Order (Rp 300rb)
+              Isi Formulir Order (Rp 499rb)
             </button>
             <a
-              href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20tanya%20jasa%20landing%20page%201%20hari%20Rp%20300rb.`}
+              href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20tanya%20jasa%20landing%20page%201%20hari%20Rp%20499rb.`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-sky-200 rounded-lg hover:bg-sky-50"

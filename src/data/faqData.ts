@@ -7,13 +7,13 @@ export interface FaqItem {
 export const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'faq-1',
-    question: 'Apakah benar biayanya hanya Rp 300.000 all-in tanpa biaya tersembunyi?',
-    answer: 'Benar sekali! Biaya Rp 300.000 adalah harga all-in untuk 1 landing page siap pakai. Anda sudah mendapatkan domain aktif selama 1 tahun, cloud hosting cepat 1 tahun, desain responsif (bagus di HP & komputer), penulisan copywriting persuasif, integrasi tombol WhatsApp, hingga panduan pengguna. Tidak ada biaya langganan bulanan tersembunyi.',
+    question: 'Apakah benar biayanya hanya Rp 499.000 all-in tanpa biaya tersembunyi?',
+    answer: 'Benar sekali! Biaya Rp 499.000 adalah harga all-in untuk 1 landing page siap pakai. Anda sudah mendapatkan domain aktif selama 1 tahun, cloud hosting cepat 1 tahun, desain responsif (bagus di HP & komputer), penulisan copywriting persuasif, integrasi tombol WhatsApp, hingga panduan pengguna. Tidak ada biaya langganan bulanan tersembunyi.',
   },
   {
     id: 'faq-2',
     question: 'Domain gratis 1 tahun apa saja yang bisa saya dapatkan?',
-    answer: 'Fasilitas gratis domain 1 tahun pada paket promo Rp 300.000 berlaku khusus untuk domain resmi .my.id dan .biz.id. Apabila Anda menginginkan domain komersial seperti .com, .net, .id, atau lainnya, akan dikenakan biaya pembelian domain sesuai harga registrar.',
+    answer: 'Fasilitas gratis domain 1 tahun pada paket promo Rp 499.000 berlaku khusus untuk domain resmi .my.id dan .biz.id. Apabila Anda menginginkan domain komersial seperti .com, .net, .id, atau lainnya, akan dikenakan biaya pembelian domain sesuai harga registrar.',
   },
   {
     id: 'faq-3',
