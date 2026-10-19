@@ -31,6 +31,13 @@ export const Navbar: React.FC = () => {
           {/* Zone 2: Clean single-line text navigation links */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-700">
             <button
+              onClick={() => scrollToSection('alasan-landing-page')}
+              className="text-sky-700 font-semibold hover:text-sky-800 transition-colors whitespace-nowrap cursor-pointer py-1 flex items-center gap-1.5"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+              5 Alasan
+            </button>
+            <button
               onClick={() => scrollToSection('keunggulan')}
               className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
             >
@@ -90,6 +97,13 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden bg-sky-50 border-b border-sky-150 px-4 pt-3 pb-6 space-y-3 shadow-lg">
           <div className="flex flex-col space-y-2 text-sm font-medium text-slate-800">
+            <button
+              onClick={() => scrollToSection('alasan-landing-page')}
+              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors text-sky-700 font-semibold flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+              Video: 5 Alasan Punya Landing Page
+            </button>
             <button
               onClick={() => scrollToSection('keunggulan')}
               className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"

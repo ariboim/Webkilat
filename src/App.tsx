@@ -3,6 +3,7 @@ import { TopFlashSaleBar } from './components/TopFlashSaleBar';
 import { Navbar } from './components/Navbar';
 import { AnimatedMarqueeBanner } from './components/AnimatedMarqueeBanner';
 import { HeroSection } from './components/HeroSection';
+import { VideoLandingPageSection } from './components/VideoLandingPageSection';
 import { UmkmBenefitsSection } from './components/UmkmBenefitsSection';
 import { UmkmShowcaseSection } from './components/UmkmShowcaseSection';
 import { PricingSection } from './components/PricingSection';
@@ -27,6 +28,9 @@ export default function App() {
       <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Video: 5 Alasan Kenapa Anda Harus Punya Landing Page */}
+        <VideoLandingPageSection />
 
         {/* Benefits & Copywriting for UMKM */}
         <UmkmBenefitsSection />
