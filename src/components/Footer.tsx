@@ -132,7 +132,7 @@ export const Footer: React.FC = () => {
               </p>
             </div>
 
-            <div className="shrink-0 flex flex-col items-center lg:items-end gap-2 w-full lg:w-auto">
+            <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto">
               <a
                 href="https://indo-digital.myr.id"
                 target="_blank"
@@ -142,10 +142,6 @@ export const Footer: React.FC = () => {
                 <span>LIHAT SEMUA PRODUK INDODIGITAL</span>
                 <ExternalLink className="w-4 h-4 text-amber-400 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform" />
               </a>
-              <span className="text-[11px] font-extrabold text-slate-900 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
-                <span>Arahkan langsung ke: <strong className="underline font-mono">https://indo-digital.myr.id</strong></span>
-              </span>
             </div>
           </div>
         </div>
