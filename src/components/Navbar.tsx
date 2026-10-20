@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, MessageCircle, Sparkles, ExternalLink } from 'lucide-react';
 import { ADMIN_WA_NUMBER } from '../types/order';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const windowHeight =
+        document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (windowHeight > 0) {
+        const progress = (totalScroll / windowHeight) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, progress)));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
@@ -205,6 +222,18 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Thin Fixed Scroll Progress Bar below Navbar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-sky-200/40 overflow-hidden pointer-events-none">
+        <div
+          className="h-full bg-gradient-to-r from-sky-500 via-blue-600 to-rose-500 transition-all duration-75 ease-out shadow-xs"
+          style={{ width: `${scrollProgress}%` }}
+          role="progressbar"
+          aria-valuenow={Math.round(scrollProgress)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        />
+      </div>
     </header>
   );
 };

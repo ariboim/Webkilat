@@ -99,27 +99,69 @@ async function startServer() {
         parts: [{ text: message }],
       });
 
-      const generatePromise = ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: formattedContents,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.7,
-        },
-      });
+      let reply: string;
+      try {
+        const generatePromise = ai.models.generateContent({
+          model: 'gemini-3.8-flash',
+          contents: formattedContents,
+          config: {
+            systemInstruction: SYSTEM_INSTRUCTION,
+            temperature: 0.7,
+          },
+        });
 
-      const timeoutPromise = new Promise<{ text?: string }>((_, reject) => {
-        setTimeout(() => reject(new Error('TIMEOUT')), 14000);
-      });
+        // 8-second timeout for quick fallback if network latency is high
+        const timeoutPromise = new Promise<{ text?: string }>((_, reject) => {
+          setTimeout(() => reject(new Error('TIMEOUT_GRACEFUL')), 8000);
+        });
 
-      const response = await Promise.race([generatePromise, timeoutPromise]);
-      const reply = response.text || 'Halo! Terima kasih atas pertanyaannya. Tim kami siap membantu pembuatan landing page 1 hari untuk bisnis Anda. Silakan hubungi WhatsApp 0896-7368-6625 atau isi form order di bawah.';
+        const response = await Promise.race([generatePromise, timeoutPromise]);
+        reply = response.text || 'Halo! Terima kasih atas pertanyaannya. Tim kami siap membantu pembuatan landing page 1 hari untuk bisnis Anda. Silakan hubungi WhatsApp 0896-7368-6625 atau isi form order di bawah.';
+      } catch (err: unknown) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        // Only log non-timeout errors for debugging
+        if (!errorMsg.includes('TIMEOUT')) {
+          console.warn('Gemini request notice:', errorMsg);
+        }
+
+        // Smart domain-aware response about Webkilat
+        const lowerMsg = message.toLowerCase();
+        if (lowerMsg.includes('harga') || lowerMsg.includes('biaya') || lowerMsg.includes('promo') || lowerMsg.includes('diskon')) {
+          reply = `Halo! Saat ini Webkilat sedang mengadakan **Flash Sale Terbesar**: dari harga normal ~~Rp 1.800.000~~ menjadi **Cuma Rp 499.000 all-in** (hemat Rp 1.301.000)!
+Sudah termasuk:
+• Domain resmi aktif 1 tahun (.my.id / .biz.id)
+• Hosting super cepat & sertifikat SSL resmi
+• Desain 100% kustom siap closing dalam 24 jam
+• Tombol pesan terhubung otomatis ke WhatsApp Anda.
+
+Ingin klaim kuota promonya hari ini? Silakan isi formulir di bawah atau hubungi WhatsApp Admin di **0896-7368-6625**!`;
+        } else if (lowerMsg.includes('domain') || lowerMsg.includes('fasilitas') || lowerMsg.includes('fitur') || lowerMsg.includes('hosting')) {
+          reply = `Dengan paket **Rp 499.000 all-in**, Anda mendapatkan:
+1. **Free Domain 1 Tahun** (.my.id atau .biz.id resmi)
+2. **Cloud Hosting Cepat** dengan SSL/HTTPS aman
+3. **Pengerjaan Kilat 24 Jam** (1 hari kerja selesai)
+4. **Copywriting Menjual** disesuaikan produk Anda
+5. **Formulir Order WhatsApp Otomatis**
+6. **Free Revisi 1x & Panduan Lengkap**.
+
+Hubungi admin kami di **0896-7368-6625** untuk konsultasi lebih lanjut!`;
+        } else if (lowerMsg.includes('order') || lowerMsg.includes('pesan') || lowerMsg.includes('cara') || lowerMsg.includes('daftar')) {
+          reply = `Cara pemesanan sangat mudah dan cepat:
+1. Gulir ke bagian **"Formulir Pemesanan Kilat"** di halaman ini.
+2. Masukkan data produk/bisnis Anda dan nomor WhatsApp tujuan order.
+3. Klik tombol **"Order Sekarang via WhatsApp"**.
+4. Tim desainer Webkilat akan langsung memproses website Anda dalam 1 hari kerja!
+
+Ada pertanyaan sebelum memesan? Chat admin di **0896-7368-6625** (aktif 24 jam).`;
+        } else {
+          reply = `Halo! Terima kasih sudah menghubungi Webkilat. Tim kami siap membantu pembuatan landing page kustom 1 hari selesai seharga promo **Rp 499.000 all-in** (sudah termasuk gratis domain 1 tahun, copywriting persuasif, dan sistem order WhatsApp otomatis).
+
+Apakah ada bidang usaha atau produk tertentu yang ingin Anda buatkan landing page-nya hari ini? Anda juga bisa langsung chat Admin kami di WhatsApp **0896-7368-6625**!`;
+        }
+      }
 
       return res.json({ reply });
     } catch (err: unknown) {
-      const errorMsg = err instanceof Error ? err.message : String(err);
-      console.error('Error generating response with Gemini:', errorMsg);
-
       return res.json({
         reply: `Halo! Terima kasih sudah bertanya seputar Webkilat. Tim kami siap membantu pembuatan landing page kustom 1 hari selesai dengan harga promo Flash Sale **Rp 499.000 all-in** (sudah termasuk domain gratis 1 tahun, desain mobile-friendly, copywriting, dan form order WhatsApp).\n\nAnda dapat langsung mengobrol dengan Admin kami di WhatsApp **0896-7368-6625** untuk respon kilat atau scroll ke formulir order di bawah!`,
         isFallback: true
@@ -135,6 +177,24 @@ async function startServer() {
       timestamp: new Date().toISOString(),
       model: 'gemini-3.8-flash'
     });
+  });
+
+  // Google Search Console Site Verification Endpoints (File & TXT Method Support)
+  app.get(['/googleez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo.html', '/google-site-verification.html'], (_req: Request, res: Response) => {
+    res.type('text/html').send('google-site-verification: googleez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo.html');
+  });
+
+  app.get(['/google-site-verification', '/google-site-verification.txt'], (_req: Request, res: Response) => {
+    res.type('text/plain').send('google-site-verification=ez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo');
+  });
+
+  // Always serve public directory assets (robots.txt, icons, verification files)
+  app.use(express.static(path.resolve(__dirname, 'public')));
+
+  // Middleware to attach Google Site Verification header
+  app.use((_req: Request, res: Response, next) => {
+    res.setHeader('X-Google-Site-Verification', 'ez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo');
+    next();
   });
 
   // Serve static files in production or Vite middleware in development
