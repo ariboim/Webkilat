@@ -3,6 +3,7 @@ import { TopFlashSaleBar } from './components/TopFlashSaleBar';
 import { Navbar } from './components/Navbar';
 import { AnimatedMarqueeBanner } from './components/AnimatedMarqueeBanner';
 import { HeroSection } from './components/HeroSection';
+import { TrustBadgesSection } from './components/TrustBadgesSection';
 import { VideoLandingPageSection } from './components/VideoLandingPageSection';
 import { UmkmBenefitsSection } from './components/UmkmBenefitsSection';
 import { UmkmShowcaseSection } from './components/UmkmShowcaseSection';
@@ -12,6 +13,7 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { GeminiChatbot } from './components/GeminiChatbot';
 
 export default function App() {
   return (
@@ -28,6 +30,9 @@ export default function App() {
       <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Official Trust Badges & Guarantee Bar */}
+        <TrustBadgesSection />
 
         {/* Video: 5 Alasan Kenapa Anda Harus Punya Landing Page */}
         <VideoLandingPageSection />
@@ -56,6 +61,9 @@ export default function App() {
 
       {/* Floating WhatsApp Quick Action */}
       <FloatingWhatsApp />
+
+      {/* Gemini AI Interactive 24/7 Chatbot */}
+      <GeminiChatbot />
     </div>
   );
 }

@@ -165,8 +165,40 @@ export const HeroSection: React.FC = () => {
               </a>
             </div>
 
+            {/* Quick Gemini AI Consultation Trigger */}
+            <div className="pt-1 flex items-center">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-gemini-chat'))}
+                className="inline-flex items-center gap-2 text-xs font-medium text-indigo-700 hover:text-indigo-900 bg-indigo-50/80 hover:bg-indigo-100/90 border border-indigo-200/80 px-3.5 py-2 rounded-xl transition-all cursor-pointer group shadow-2xs"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse group-hover:rotate-12 transition-transform" />
+                <span>Butuh inspirasi copywriting atau punya pertanyaan? <strong className="font-bold underline decoration-indigo-300">Tanya Asisten AI Gemini (24 Jam) &rarr;</strong></span>
+              </button>
+            </div>
+
+            {/* Official Trust Badges Strip */}
+            <div className="pt-2 flex flex-wrap items-center gap-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-[11px] font-bold shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>100% Garansi Kepuasan</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-50 text-rose-800 border border-rose-200/80 text-[11px] font-bold shadow-2xs">
+                <Zap className="w-3.5 h-3.5 text-rose-600" />
+                <span>Garansi 1 Hari Jadi</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 text-sky-800 border border-sky-200/80 text-[11px] font-bold shadow-2xs">
+                <Globe className="w-3.5 h-3.5 text-sky-600" />
+                <span>Free Domain Resmi 1 Thn</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200/80 text-[11px] font-bold shadow-2xs">
+                <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
+                <span>500+ UMKM Terdaftar</span>
+              </div>
+            </div>
+
             {/* Proof checklist with modern pill badges */}
-            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-slate-600 border-t border-slate-100">
+            <div className="pt-3 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs text-slate-600 border-t border-slate-100">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-sky-600 shrink-0" />
                 <span className="font-semibold text-slate-800">Rp 499rb All-In</span>

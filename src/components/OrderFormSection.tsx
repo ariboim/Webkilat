@@ -17,6 +17,10 @@ import {
   AlertCircle,
   RotateCcw,
   FileText,
+  Lock,
+  Award,
+  Zap,
+  CheckCircle2,
 } from 'lucide-react';
 
 const INITIAL_FORM: OrderFormData = {
@@ -681,6 +685,50 @@ export const OrderFormSection: React.FC = () => {
                   <Copy className="w-3.5 h-3.5" />
                   <span>{copied ? 'Berhasil Tersalin ke Clipboard' : 'Salin Rincian Pesanan'}</span>
                 </button>
+              </div>
+
+              {/* Order Form Trust & Security Badges Box */}
+              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/90 shadow-2xs space-y-3">
+                <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
+                  <div className="flex items-center gap-2 text-xs font-black text-slate-800 uppercase tracking-wide">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span>Jaminan Keamanan & Garansi Transaksi</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full border border-emerald-200">
+                    100% Terverifikasi
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-700 font-medium">
+                  <div className="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200/70">
+                    <Award className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                    <span>Garansi 100% Puas</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200/70">
+                    <Zap className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                    <span>24 Jam Siap Pakai</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200/70">
+                    <Lock className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                    <span>SSL 256-Bit Encrypted</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-white p-2 rounded-xl border border-slate-200/70">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Bebas Template Pasaran</span>
+                  </div>
+                </div>
+
+                {/* Accepted Payment Channels */}
+                <div className="pt-1 flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500">
+                  <span className="font-semibold text-slate-600">Metode Pembayaran Resmi:</span>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-blue-800 font-bold">BCA</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-amber-700 font-bold">MANDIRI</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded text-blue-900 font-bold">BRI</span>
+                    <span className="px-2 py-0.5 bg-rose-50 border border-rose-200 rounded text-rose-700 font-black">QRIS</span>
+                    <span className="px-2 py-0.5 bg-sky-50 border border-sky-200 rounded text-sky-700 font-bold">GoPay/OVO</span>
+                  </div>
+                </div>
               </div>
 
               {submittedSuccess && (

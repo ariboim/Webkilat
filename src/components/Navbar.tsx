@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, MessageCircle, Sparkles, ExternalLink } from 'lucide-react';
 import { ADMIN_WA_NUMBER } from '../types/order';
 
 export const Navbar: React.FC = () => {
@@ -11,6 +11,11 @@ export const Navbar: React.FC = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const openGeminiChat = () => {
+    setMobileMenuOpen(false);
+    window.dispatchEvent(new CustomEvent('open-gemini-chat'));
   };
 
   return (
@@ -69,11 +74,32 @@ export const Navbar: React.FC = () => {
             </button>
           </nav>
 
-          {/* Zone 3: 1 Primary Action */}
-          <div className="hidden sm:flex items-center gap-3 shrink-0">
+          {/* Zone 3: Actions */}
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
+            <a
+              href="https://indo-digital.myr.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black text-amber-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 hover:from-amber-400 hover:to-yellow-400 rounded-lg shadow-sm border border-amber-400/90 transition-all transform hover:scale-105 active:scale-95 whitespace-nowrap group ring-2 ring-amber-300/60"
+              title="Kunjungi Produk Indo Digital Lainnya"
+            >
+              <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+              <span>PRODUK INDODIGITAL LAINNYA</span>
+              <ExternalLink className="w-3.5 h-3.5 text-amber-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+
+            <button
+              onClick={openGeminiChat}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg border border-indigo-200 transition-colors whitespace-nowrap cursor-pointer shadow-xs group"
+              title="Tanya Asisten AI Gemini 24 Jam"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse group-hover:rotate-12 transition-transform" />
+              <span>Tanya Gemini AI</span>
+            </button>
             <button
               onClick={() => scrollToSection('formulir-order')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
             >
               <span>Order Sekarang</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -97,6 +123,30 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="sm:hidden bg-sky-50 border-b border-sky-150 px-4 pt-3 pb-6 space-y-3 shadow-lg">
           <div className="flex flex-col space-y-2 text-sm font-medium text-slate-800">
+            {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
+            <a
+              href="https://indo-digital.myr.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-left px-3.5 py-3 rounded-xl bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 text-amber-950 font-black flex items-center justify-between border-2 border-amber-400 shadow-md group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+                </span>
+                <span className="tracking-wide">PRODUK INDODIGITAL LAINNYA</span>
+              </div>
+              <ExternalLink className="w-4 h-4 text-amber-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+
+            <button
+              onClick={openGeminiChat}
+              className="text-left px-3 py-2.5 rounded-lg bg-indigo-100/80 hover:bg-indigo-200/80 transition-colors text-indigo-900 font-bold flex items-center gap-2 border border-indigo-300/60 shadow-xs"
+            >
+              <Sparkles className="w-4 h-4 text-indigo-600 animate-pulse" />
+              <span>Tanya Asisten AI Gemini (24 Jam)</span>
+            </button>
             <button
               onClick={() => scrollToSection('alasan-landing-page')}
               className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors text-sky-700 font-semibold flex items-center gap-2"

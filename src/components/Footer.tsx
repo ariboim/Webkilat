@@ -1,6 +1,6 @@
 import React from 'react';
 import { ADMIN_WA_DISPLAY, ADMIN_WA_NUMBER } from '../types/order';
-import { MessageCircle, ShieldCheck, Heart } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Heart, ExternalLink, Sparkles, ArrowRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const scrollTo = (id: string) => {
@@ -73,6 +73,17 @@ export const Footer: React.FC = () => {
                   FAQ & Tanya Jawab
                 </button>
               </li>
+              <li className="pt-2">
+                <a
+                  href="https://indo-digital.myr.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-400 text-slate-950 text-[11px] font-black hover:bg-yellow-300 transition-all shadow-xs ring-1 ring-amber-300"
+                >
+                  <span>PRODUK INDODIGITAL LAINNYA</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -101,8 +112,46 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
+        {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
+        <div className="mt-12 mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 shadow-2xl border-2 border-yellow-200 relative overflow-hidden group">
+          {/* Decorative ambient background glow */}
+          <div className="absolute -right-10 -bottom-10 w-44 h-44 bg-white/30 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
+          <div className="absolute left-1/3 -top-12 w-32 h-32 bg-yellow-200/40 rounded-full blur-xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950 text-amber-300 text-[11px] font-black uppercase tracking-wider shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" style={{ animationDuration: '4s' }} />
+                <span>OFFICIAL DIGITAL ECOSYSTEM · INDODIGITAL</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
+                PRODUK INDODIGITAL LAINNYA
+              </h3>
+              <p className="text-xs sm:text-sm font-bold text-slate-900 max-w-xl leading-relaxed">
+                Jelajahi ekosistem layanan lengkap, tools bisnis, optimasi digital, dan solusi teknologi terpercaya lainnya dari Indo Digital untuk melipatgandakan omzet usaha Anda!
+              </p>
+            </div>
+
+            <div className="shrink-0 flex flex-col items-center lg:items-end gap-2 w-full lg:w-auto">
+              <a
+                href="https://indo-digital.myr.id"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-950 hover:bg-slate-900 text-amber-300 hover:text-amber-200 text-sm font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-98 transition-all duration-200 border-2 border-slate-900 group/btn whitespace-nowrap cursor-pointer ring-4 ring-amber-300/50"
+              >
+                <span>LIHAT SEMUA PRODUK INDODIGITAL</span>
+                <ExternalLink className="w-4 h-4 text-amber-400 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform" />
+              </a>
+              <span className="text-[11px] font-extrabold text-slate-900 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+                <span>Arahkan langsung ke: <strong className="underline font-mono">https://indo-digital.myr.id</strong></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
+        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
           <div className="space-y-1.5 text-center sm:text-left">
             <div className="inline-flex items-center justify-center sm:justify-start flex-wrap gap-2.5 text-xs text-slate-300">
               <span className="text-slate-400 font-medium tracking-tight">powered by</span>

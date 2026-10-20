@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, ArrowRight, ShieldCheck, Zap, Sparkles, AlertTriangle, Flame, Clock } from 'lucide-react';
+import { Check, ArrowRight, ShieldCheck, Zap, Sparkles, AlertTriangle, Flame, Clock, Lock, Award } from 'lucide-react';
 import { CountdownDisplay } from './CountdownTimer';
 
 export const PricingSection: React.FC = () => {
@@ -195,6 +195,26 @@ export const PricingSection: React.FC = () => {
                   <span>KLAIM PROMO RP 499RB SEKARANG (HEMAT 1.3 JT)</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
+              </div>
+
+              {/* Trust Badges Bar inside Pricing Card */}
+              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-center gap-2.5 text-[11px]">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200/80 rounded-lg font-bold">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>100% Garansi Kepuasan</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 text-sky-800 border border-sky-200/80 rounded-lg font-bold">
+                  <Lock className="w-3.5 h-3.5 text-sky-600" />
+                  <span>SSL 256-Bit Encrypted</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-lg font-bold">
+                  <Zap className="w-3.5 h-3.5 text-amber-600" />
+                  <span>24 Jam Selesai Kilat</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-50 text-slate-800 border border-slate-200 rounded-lg font-bold">
+                  <Award className="w-3.5 h-3.5 text-blue-600" />
+                  <span>Official UMKM Verified</span>
+                </div>
               </div>
             </div>
           </div>

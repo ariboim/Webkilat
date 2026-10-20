@@ -1,7 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UMKM_SHOWCASES, UmkmShowcase } from '../data/umkmShowcase';
-import { Sparkles, MessageCircle, Check, ArrowRight, ShieldCheck, MapPin, ExternalLink, Globe } from 'lucide-react';
+import {
+  Sparkles,
+  MessageCircle,
+  Check,
+  ArrowRight,
+  ShieldCheck,
+  MapPin,
+  ExternalLink,
+  Globe,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+  Smartphone,
+  Monitor,
+  CheckCircle2,
+  TrendingUp,
+  Award,
+  Layers,
+  Flame,
+  Info,
+} from 'lucide-react';
 import { ADMIN_WA_NUMBER } from '../types/order';
 
 const INSPIRATION_SITES = [
@@ -16,239 +37,581 @@ const INSPIRATION_SITES = [
 ];
 
 export const UmkmShowcaseSection: React.FC = () => {
-  const [activeTabId, setActiveTabId] = useState<string>(UMKM_SHOWCASES[0].id);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('all');
+  const [mockupOrderSuccess, setMockupOrderSuccess] = useState(false);
 
-  const activeCase: UmkmShowcase =
-    UMKM_SHOWCASES.find((item) => item.id === activeTabId) || UMKM_SHOWCASES[0];
+  const totalCases = UMKM_SHOWCASES.length;
+  const activeCase: UmkmShowcase = UMKM_SHOWCASES[currentIndex] || UMKM_SHOWCASES[0];
 
-  const scrollToOrder = () => {
-    const el = document.getElementById('formulir-order');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  // Auto-play interval
+  useEffect(() => {
+    if (!isAutoPlay) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isAutoPlay, currentIndex]);
+
+  const handleNext = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % totalCases);
+    setMockupOrderSuccess(false);
   };
 
+  const handlePrev = () => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + totalCases) % totalCases);
+    setMockupOrderSuccess(false);
+  };
+
+  const handleSelectCase = (index: number) => {
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
+    setMockupOrderSuccess(false);
+  };
+
+  const scrollToOrder = (caseName?: string) => {
+    const el = document.getElementById('formulir-order');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      // If a specific case is selected, prefill notes or business field if possible
+      if (caseName) {
+        try {
+          const inputBisnis = document.querySelector('input[name="namaBisnis"]') as HTMLInputElement;
+          if (inputBisnis && !inputBisnis.value) {
+            inputBisnis.placeholder = `Contoh: Terinspirasi model ${caseName}`;
+          }
+        } catch {
+          // ignore
+        }
+      }
+    }
+  };
+
+  // Filter cases for the category pills
+  const categories = [
+    { id: 'all', label: 'Semua Desain (8 Industri)', icon: '✨' },
+    ...UMKM_SHOWCASES.map((item) => ({
+      id: item.id,
+      label: item.industryTag,
+      icon: item.icon,
+    })),
+  ];
+
   return (
-    <section id="contoh-umkm" className="py-20 bg-white">
+    <section id="contoh-umkm" className="py-20 bg-slate-50/70 border-b border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100/90 text-sky-800 text-xs font-bold border border-sky-200">
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-black uppercase tracking-wider border border-sky-200 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>100% Desain Kustom · Bukan Template Pasaran</span>
+            <span>Interactive Portfolio Carousel · 100% Desain Kustom</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight text-balance">
-            Contoh Studi Kasus Landing Page UMKM Indonesia
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight text-balance">
+            Eksplorasi Desain Landing Page Lintas Industri
           </h2>
-          <p className="text-base text-slate-600 leading-relaxed">
-            Terinspirasi dari model bisnis UMKM riil di berbagai sektor. Kami menyusun struktur visual, teks penawaran, dan tombol order yang disesuaikan secara khusus untuk masing-masing bidang usaha.
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
+            Setiap industri memiliki psikologi pembeli yang berbeda. Klik dan geser carousel di bawah ini untuk melihat contoh struktur visual, penulisan copywriting, dan strategi closing per sektor UMKM Indonesia.
           </p>
         </div>
 
-        {/* Notice Banner: No Templates! */}
-        <div className="mb-10 p-4 bg-gradient-to-r from-sky-50 via-blue-50/40 to-sky-50 border border-sky-200 rounded-2xl flex items-start gap-3 shadow-2xs">
-          <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-          <div className="text-xs text-sky-950 leading-relaxed">
-            <strong className="font-bold">Kenapa Kami Tidak Menawarkan Pilihan Template?</strong> Karena bisnis kuliner membutuhkan visual yang menggugah selera dan jaminan rasa, sedangkan bisnis jasa teknik membutuhkan transparansi harga dan garansi servis darurat. Template pasaran tidak dapat mewakili karakter unik bisnis Anda. Di <strong>webkilat</strong>, setiap landing page dibuat <em>100% tailor-made</em> (kustom) untuk Anda!
+        {/* Notice Banner: No Generic Templates */}
+        <div className="mb-8 p-4.5 bg-gradient-to-r from-sky-50 via-blue-50/60 to-indigo-50/50 border border-sky-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-sm shadow-sky-600/30">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div className="text-xs text-sky-950 leading-relaxed">
+              <strong className="font-extrabold text-sky-900 uppercase">Kenapa Kami Tolak Template Murahan?</strong> Bisnis F&B butuh visual gurih & legalitas Halal, sedangkan jasa teknisi butuh garansi darurat 30 menit. Template pasaran tidak dapat mewakili produk Anda. Di <strong>Webkilat</strong>, website Anda didesain <em>100% tailor-made</em> seharga <strong>Rp 499.000 all-in</strong>!
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-[11px] font-bold text-slate-500 hidden md:inline">Auto-Slide:</span>
+            <button
+              onClick={() => setIsAutoPlay(!isAutoPlay)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                isAutoPlay
+                  ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
+                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              {isAutoPlay ? (
+                <>
+                  <Pause className="w-3.5 h-3.5" />
+                  <span>Jeda Putar</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-3.5 h-3.5" />
+                  <span>Putar Otomatis</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Animated Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10">
-          {UMKM_SHOWCASES.map((item) => {
-            const isActive = item.id === activeTabId;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTabId(item.id)}
-                className={`relative px-5 py-2.5 text-xs font-bold rounded-2xl transition-all cursor-pointer whitespace-nowrap ${
-                  isActive
-                    ? 'text-white shadow-md'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTabBadge"
-                    className="absolute inset-0 bg-sky-600 rounded-2xl -z-0"
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{item.category}</span>
-              </button>
-            );
-          })}
+        {/* Category Quick Jump Chips (Scrollable Bar) */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-300">
+            {categories.map((cat, idx) => {
+              const isSelected =
+                cat.id === 'all'
+                  ? activeCategoryFilter === 'all'
+                  : activeCase.id === cat.id;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    if (cat.id === 'all') {
+                      setActiveCategoryFilter('all');
+                    } else {
+                      setActiveCategoryFilter(cat.id);
+                      const targetIdx = UMKM_SHOWCASES.findIndex((c) => c.id === cat.id);
+                      if (targetIdx !== -1) {
+                        handleSelectCase(targetIdx);
+                      }
+                    }
+                  }}
+                  className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap border shrink-0 ${
+                    isSelected
+                      ? 'bg-sky-600 text-white border-sky-600 shadow-sm shadow-sky-600/25 scale-[1.02]'
+                      : 'bg-white text-slate-700 border-slate-200/90 hover:bg-slate-100/90 hover:border-slate-300'
+                  }`}
+                >
+                  <span className="text-sm">{cat.icon}</span>
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Active Case Study Detail & Mockup with Smooth Animated Transition */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCase.id}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.3 }}
-            className="bg-slate-50/80 rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200 shadow-sm"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-              {/* Left: Case Study Information */}
-              <div className="lg:col-span-6 space-y-6">
-                <div>
-                  <div className="flex items-center gap-2 text-xs text-slate-500 font-medium mb-1.5">
-                    <span className="font-bold text-sky-700">{activeCase.category}</span>
-                    <span>·</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                      {activeCase.city}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                    {activeCase.name}
-                  </h3>
-                  <p className="text-sm font-medium text-slate-600 mt-1 italic">
-                    "{activeCase.tagline}"
-                  </p>
+        {/* Main Interactive Carousel Frame */}
+        <div className="relative bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden mb-12">
+          {/* Top Carousel Navigation Toolbar */}
+          <div className="px-5 sm:px-8 py-4 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800">
+            <div className="flex items-center gap-3">
+              <span className="flex h-3 w-3 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </span>
+              <div>
+                <div className="text-xs font-black tracking-wider text-sky-400 uppercase flex items-center gap-2">
+                  <span>DESAIN PORTFOLIO #{currentIndex + 1} DARI {totalCases}</span>
+                  <span className="text-slate-500">•</span>
+                  <span className="text-emerald-400 font-bold">{activeCase.category}</span>
                 </div>
-
-                {/* Problem & Solution Accordion Cards */}
-                <div className="space-y-4 text-xs">
-                  <div className="p-4 bg-white rounded-2xl border border-rose-200 shadow-2xs">
-                    <div className="font-bold text-rose-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <span>Tantangan Awal UMKM:</span>
-                    </div>
-                    <p className="text-slate-700 leading-relaxed">{activeCase.problem}</p>
-                  </div>
-
-                  <div className="p-4 bg-white rounded-2xl border border-sky-200 shadow-2xs">
-                    <div className="font-bold text-sky-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                      <span>Solusi Landing Page Kustom Webkilat:</span>
-                    </div>
-                    <p className="text-slate-700 leading-relaxed">{activeCase.solution}</p>
-                  </div>
-                </div>
-
-                {/* Quantified Results */}
-                <div>
-                  <div className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">
-                    Hasil Nyata yang Didapatkan Klien:
-                  </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {activeCase.results.map((res, idx) => (
-                      <div key={idx} className="bg-white p-3.5 rounded-2xl border border-slate-200 text-center shadow-2xs">
-                        <div className="text-base sm:text-xl font-black text-sky-600">{res.value}</div>
-                        <div className="text-[11px] font-bold text-slate-800 mt-0.5">{res.label}</div>
-                        <div className="text-[10px] text-slate-500 mt-1 leading-tight">{res.note}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* CTA trigger */}
-                <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <button
-                    onClick={scrollToOrder}
-                    className="inline-flex items-center gap-2 px-6 py-3 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-98"
-                  >
-                    <span>Pesan Desain Kustom Serupa</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                  <a
-                    href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20tertarik%20dengan%20contoh%20landing%20page%20${encodeURIComponent(activeCase.category)}%20(${encodeURIComponent(activeCase.name)}).%20Bisa%20buatkan%20untuk%20usaha%20saya?`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-bold text-sky-700 hover:text-sky-800 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-sky-50 border border-sky-200"
-                  >
-                    <span>Tanya Model Ini di WA</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Right: Live Interactive Mockup Simulator of the Custom Page */}
-              <div className="lg:col-span-6">
-                <div className="bg-slate-900 rounded-3xl p-3.5 shadow-2xl border border-slate-800">
-                  {/* Browser bar */}
-                  <div className="flex items-center justify-between px-3 py-2 bg-slate-800 rounded-t-2xl mb-2 text-xs text-slate-300">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    </div>
-                    <div className="text-[11px] font-mono text-slate-300">
-                      https://{activeCase.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.my.id
-                    </div>
-                    <span className="text-[10px] text-emerald-400 font-semibold">Live Web</span>
-                  </div>
-
-                  {/* Inner Landing Page Container */}
-                  <div
-                    className="rounded-b-2xl p-5 text-slate-900 space-y-4 max-h-[460px] overflow-y-auto"
-                    style={{ backgroundColor: activeCase.palette.bg }}
-                  >
-                    {/* Top Bar of the client landing page */}
-                    <div className="flex items-center justify-between border-b border-black/5 pb-2">
-                      <div className="font-extrabold text-sm" style={{ color: activeCase.palette.primary }}>
-                        {activeCase.name}
-                      </div>
-                      <div className="text-[10px] text-slate-500 font-medium">
-                        {activeCase.city}
-                      </div>
-                    </div>
-
-                    {/* Hero Box inside the client mockup */}
-                    <div className="bg-white p-5 rounded-2xl shadow-sm border border-black/5 space-y-3">
-                      <div
-                        className="inline-block text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase"
-                        style={{
-                          backgroundColor: activeCase.palette.secondary,
-                          color: activeCase.palette.primary,
-                        }}
-                      >
-                        {activeCase.mockup.offerBadge}
-                      </div>
-
-                      <h4 className="text-base font-extrabold text-slate-900 leading-snug">
-                        {activeCase.mockup.headline}
-                      </h4>
-
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        {activeCase.mockup.subheadline}
-                      </p>
-
-                      <div className="text-xs font-bold text-slate-800">
-                        {activeCase.mockup.priceSnippet}
-                      </div>
-
-                      {/* Features list */}
-                      <div className="space-y-1.5 pt-1">
-                        {activeCase.mockup.features.map((feat, fIdx) => (
-                          <div key={fIdx} className="flex items-center gap-2 text-[11px] text-slate-700">
-                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                            <span>{feat}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* The WhatsApp CTA inside the client mockup */}
-                      <div className="pt-2">
-                        <div
-                          className="w-full text-white text-center py-2.5 px-3 rounded-xl text-xs font-bold shadow-xs flex items-center justify-center gap-2 transition-transform hover:scale-[1.01]"
-                          style={{ backgroundColor: '#16A34A' }}
-                        >
-                          <MessageCircle className="w-4 h-4" />
-                          <span>{activeCase.mockup.ctaLabel}</span>
-                        </div>
-                        <div className="text-[10px] text-center text-slate-500 mt-2">
-                          {activeCase.mockup.guarantee}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                  <span className="text-base">{activeCase.icon}</span>
+                  <span>{activeCase.name}</span>
                 </div>
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
 
-        {/* Inspirasi Landing Page UMKM Sukses */}
+            {/* Carousel Control Buttons & Mode Switch */}
+            <div className="flex items-center gap-3">
+              {/* Device Mode Switcher (Desktop vs Mobile) */}
+              <div className="flex items-center bg-slate-800 p-1 rounded-xl border border-slate-700">
+                <button
+                  onClick={() => setDeviceMode('desktop')}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    deviceMode === 'desktop'
+                      ? 'bg-sky-600 text-white shadow-xs'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="Lihat Tampilan Desktop"
+                >
+                  <Monitor className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Desktop</span>
+                </button>
+                <button
+                  onClick={() => setDeviceMode('mobile')}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                    deviceMode === 'mobile'
+                      ? 'bg-sky-600 text-white shadow-xs'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="Lihat Tampilan Mobile"
+                >
+                  <Smartphone className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">HP / Mobile</span>
+                </button>
+              </div>
+
+              {/* Prev / Next Buttons */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={handlePrev}
+                  className="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-sm"
+                  aria-label="Desain Sebelumnya"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="w-9 h-9 rounded-xl bg-sky-600 hover:bg-sky-500 text-white flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-md shadow-sky-600/30"
+                  aria-label="Desain Selanjutnya"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Carousel Slide Content with AnimatePresence */}
+          <div className="p-6 sm:p-8 lg:p-10">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={activeCase.id}
+                custom={direction}
+                initial={{ opacity: 0, x: direction > 0 ? 40 : -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction > 0 ? -40 : 40 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start"
+              >
+                {/* Left Column: Business Insights & Custom Strategy */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-bold text-slate-500 mb-2">
+                      <span className="px-2.5 py-1 bg-sky-50 text-sky-700 rounded-lg border border-sky-200">
+                        {activeCase.industryTag}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1 text-slate-600">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                        {activeCase.city}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                      {activeCase.name}
+                    </h3>
+                    <p className="text-xs sm:text-sm font-medium text-slate-600 mt-1.5 italic">
+                      "{activeCase.tagline}"
+                    </p>
+                  </div>
+
+                  {/* Problem & Solution Comparison Cards */}
+                  <div className="space-y-3.5 text-xs">
+                    <div className="p-4 bg-rose-50/70 rounded-2xl border border-rose-200 shadow-2xs">
+                      <div className="font-extrabold text-rose-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
+                        <span>Tantangan Awal Bisnis:</span>
+                      </div>
+                      <p className="text-slate-700 leading-relaxed font-medium">
+                        {activeCase.problem}
+                      </p>
+                    </div>
+
+                    <div className="p-4 bg-sky-50/70 rounded-2xl border border-sky-200 shadow-2xs">
+                      <div className="font-extrabold text-sky-900 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-sky-500 inline-block"></span>
+                        <span>Solusi Landing Page Kustom Webkilat:</span>
+                      </div>
+                      <p className="text-slate-700 leading-relaxed font-medium">
+                        {activeCase.solution}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Quantified Real Results */}
+                  <div className="space-y-2">
+                    <div className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                      <TrendingUp className="w-4 h-4 text-emerald-600" />
+                      <span>Hasil Nyata Pasca Website Live:</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2.5">
+                      {activeCase.results.map((res, rIdx) => (
+                        <div
+                          key={rIdx}
+                          className="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center shadow-2xs"
+                        >
+                          <div className="text-base sm:text-lg font-black text-sky-600 leading-none">
+                            {res.value}
+                          </div>
+                          <div className="text-[11px] font-bold text-slate-800 mt-1">
+                            {res.label}
+                          </div>
+                          <div className="text-[10px] text-slate-500 mt-0.5 leading-tight">
+                            {res.note}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Color Palette Demonstration */}
+                  <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/90 flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-slate-500" />
+                      <span className="font-bold text-slate-700">Palet Warna Kustom:</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-5 h-5 rounded-full border border-black/10 shadow-xs"
+                        style={{ backgroundColor: activeCase.palette.primary }}
+                        title="Primary Color"
+                      />
+                      <span
+                        className="w-5 h-5 rounded-full border border-black/10 shadow-xs"
+                        style={{ backgroundColor: activeCase.palette.accent }}
+                        title="Accent Color"
+                      />
+                      <span
+                        className="w-5 h-5 rounded-full border border-black/10 shadow-xs"
+                        style={{ backgroundColor: activeCase.palette.secondary }}
+                        title="Secondary Color"
+                      />
+                      <span className="text-[10px] font-mono text-slate-500 font-semibold">
+                        {activeCase.palette.primary}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Action CTA Buttons */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <button
+                      onClick={() => scrollToOrder(activeCase.name)}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-black text-white bg-gradient-to-r from-sky-600 to-blue-700 hover:from-sky-700 hover:to-blue-800 rounded-xl transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-98"
+                    >
+                      <span>Pesan Desain Kustom Industri Ini</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    <a
+                      href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20tertarik%20dengan%20contoh%20landing%20page%20${encodeURIComponent(activeCase.category)}%20(${encodeURIComponent(activeCase.name)}).%20Bisa%20buatkan%20untuk%20usaha%20saya?`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-3.5 text-xs font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl transition-all"
+                    >
+                      <span>Konsultasi WA</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right Column: Realistic Interactive Device Simulator */}
+                <div className="lg:col-span-7 flex justify-center">
+                  <div
+                    className={`transition-all duration-300 w-full ${
+                      deviceMode === 'mobile' ? 'max-w-[340px]' : 'max-w-full'
+                    }`}
+                  >
+                    {/* Device Shell */}
+                    <div className="bg-slate-900 rounded-3xl p-3 sm:p-4 shadow-2xl border-4 border-slate-800">
+                      {/* Browser Chrome Header */}
+                      <div className="flex items-center justify-between px-3 py-2 bg-slate-800/90 rounded-t-2xl mb-2 text-xs text-slate-300">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        </div>
+                        <div className="text-[11px] font-mono text-slate-300 truncate max-w-[200px] sm:max-w-xs flex items-center gap-1">
+                          <span className="text-emerald-400">🔒</span>
+                          <span>https://{activeCase.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.my.id</span>
+                        </div>
+                        <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-800 shrink-0">
+                          Live Active
+                        </span>
+                      </div>
+
+                      {/* Webpage Screen Body */}
+                      <div
+                        className="rounded-b-2xl p-4 sm:p-6 text-slate-900 space-y-4 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300"
+                        style={{ backgroundColor: activeCase.palette.bg }}
+                      >
+                        {/* Client Website Navbar */}
+                        <div className="flex items-center justify-between border-b border-black/10 pb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">{activeCase.icon}</span>
+                            <div>
+                              <div
+                                className="font-black text-sm tracking-tight leading-none"
+                                style={{ color: activeCase.palette.primary }}
+                              >
+                                {activeCase.name}
+                              </div>
+                              <div className="text-[10px] text-slate-500 mt-0.5">
+                                {activeCase.city}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-[10px] font-bold text-slate-600 bg-white/80 px-2 py-1 rounded-md border border-black/5">
+                            Menu ☰
+                          </div>
+                        </div>
+
+                        {/* Client Website Hero Section */}
+                        <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-black/5 space-y-3">
+                          <div
+                            className="inline-block text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider"
+                            style={{
+                              backgroundColor: activeCase.palette.secondary,
+                              color: activeCase.palette.primary,
+                            }}
+                          >
+                            {activeCase.mockup.offerBadge}
+                          </div>
+
+                          <h4 className="text-base sm:text-lg font-black text-slate-900 leading-snug">
+                            {activeCase.mockup.headline}
+                          </h4>
+
+                          <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                            {activeCase.mockup.subheadline}
+                          </p>
+
+                          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                            <span className="text-xs font-black text-slate-900">
+                              {activeCase.mockup.priceSnippet}
+                            </span>
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                              Stok Terbatas
+                            </span>
+                          </div>
+
+                          {/* Social Proof */}
+                          <div className="text-[11px] font-semibold text-slate-700 bg-amber-50/80 p-2 rounded-lg border border-amber-200/60">
+                            {activeCase.mockup.socialProof}
+                          </div>
+
+                          {/* Feature Bullet Points */}
+                          <div className="space-y-1.5 pt-1">
+                            {activeCase.mockup.features.map((feat, fIdx) => (
+                              <div
+                                key={fIdx}
+                                className="flex items-start gap-2 text-[11px] text-slate-700 font-medium"
+                              >
+                                <Check
+                                  className="w-3.5 h-3.5 shrink-0 mt-0.5"
+                                  style={{ color: activeCase.palette.primary }}
+                                />
+                                <span>{feat}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Industry Products / Menu Items if any */}
+                          {activeCase.mockup.items && (
+                            <div className="pt-2 border-t border-slate-100 space-y-2">
+                              <div className="text-[10px] font-bold uppercase text-slate-500 tracking-wider">
+                                Pilihan Paket Unggulan:
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                {activeCase.mockup.items.map((item, itIdx) => (
+                                  <div
+                                    key={itIdx}
+                                    className="p-2 bg-slate-50 rounded-xl border border-slate-200/80 text-left"
+                                  >
+                                    <div className="text-[11px] font-bold text-slate-800 truncate">
+                                      {item.name}
+                                    </div>
+                                    <div className="text-xs font-black text-slate-900 mt-0.5">
+                                      {item.price}
+                                    </div>
+                                    {item.tag && (
+                                      <span
+                                        className="inline-block text-[9px] font-bold px-1.5 py-0.2 rounded mt-1"
+                                        style={{
+                                          backgroundColor: activeCase.palette.secondary,
+                                          color: activeCase.palette.primary,
+                                        }}
+                                      >
+                                        {item.tag}
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Interactive WhatsApp CTA Button Inside Simulator */}
+                          <div className="pt-2 space-y-2">
+                            <button
+                              type="button"
+                              onClick={() => setMockupOrderSuccess(true)}
+                              className="w-full text-white text-center py-3 px-4 rounded-xl text-xs font-black shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer hover:brightness-105 active:scale-98"
+                              style={{ backgroundColor: '#16A34A' }}
+                            >
+                              <MessageCircle className="w-4 h-4 fill-white" />
+                              <span>{activeCase.mockup.ctaLabel}</span>
+                            </button>
+
+                            {mockupOrderSuccess && (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-center text-xs text-emerald-900 font-semibold"
+                              >
+                                ✨ Simulasi Berhasil! Pada landing page riil, tombol ini langsung membuka aplikasi WhatsApp pelanggan dengan teks draf order otomatis siap kirim.
+                              </motion.div>
+                            )}
+
+                            <div className="text-[10px] text-center text-slate-500 font-medium">
+                              🛡️ {activeCase.mockup.guarantee}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Bottom Thumbnail Strip: Click Any Industry to Jump */}
+          <div className="px-6 py-4 bg-slate-50 border-t border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+                Pilih Industri Untuk Melihat Desain Kustom:
+              </span>
+              <span className="text-[11px] font-semibold text-slate-500">
+                Klik kartu di bawah untuk berpindah slide
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+              {UMKM_SHOWCASES.map((item, idx) => {
+                const isActive = idx === currentIndex;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleSelectCase(idx)}
+                    className={`p-2.5 rounded-xl text-left transition-all cursor-pointer border flex flex-col justify-between ${
+                      isActive
+                        ? 'bg-white border-sky-500 shadow-md ring-2 ring-sky-400/30'
+                        : 'bg-white/80 hover:bg-white border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-base">{item.icon}</span>
+                      {isActive && (
+                        <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
+                      )}
+                    </div>
+                    <div className="mt-1">
+                      <div className="text-[11px] font-black text-slate-900 leading-tight truncate">
+                        {item.industryTag}
+                      </div>
+                      <div className="text-[9px] text-slate-500 truncate mt-0.5">
+                        {item.name}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Inspirasi Brand Lokal & Nasional */}
         <div className="mt-16 pt-12 border-t border-slate-200">
           <div className="text-center max-w-3xl mx-auto space-y-3 mb-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold">
@@ -258,7 +621,7 @@ export const UmkmShowcaseSection: React.FC = () => {
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               Berikut adalah beberapa contoh landing page umkm yang sukses sebagai inspirasi anda :
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
               Brand-brand ini membuktikan bahwa website mandiri dengan penataan visual rapi dan copywriting terarah mampu mengubah bisnis lokal menjadi brand bernilai tinggi dan dipercaya ribuan pelanggan.
             </p>
           </div>
@@ -271,11 +634,11 @@ export const UmkmShowcaseSection: React.FC = () => {
                 href={`https://${site.domain}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group p-4 bg-slate-50 hover:bg-sky-50/70 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-sm"
+                className="group p-4 bg-white hover:bg-sky-50/70 border border-slate-200 hover:border-sky-300 rounded-2xl transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-sm"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 bg-white px-2 py-0.5 rounded-md border border-slate-200/80">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
                       {site.category}
                     </span>
                     <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-sky-600 transition-colors" />
@@ -283,12 +646,12 @@ export const UmkmShowcaseSection: React.FC = () => {
                   <div className="text-sm font-extrabold text-slate-900 group-hover:text-sky-700 transition-colors flex items-center gap-1.5 pt-1">
                     <span className="font-mono">{site.domain}</span>
                   </div>
-                  <p className="text-[11px] text-slate-500 leading-snug">
+                  <p className="text-[11px] text-slate-500 leading-snug font-medium">
                     {site.desc}
                   </p>
                 </div>
 
-                <div className="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-sky-600 font-bold group-hover:underline">
+                <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-sky-600 font-bold group-hover:underline">
                   <span>Lihat Website</span>
                   <span>→</span>
                 </div>
@@ -302,12 +665,12 @@ export const UmkmShowcaseSection: React.FC = () => {
               <h4 className="text-sm sm:text-base font-extrabold text-slate-900">
                 Ingin Punya Landing Page Sebagus & Seefektif Brand-Brand di Atas?
               </h4>
-              <p className="text-xs text-slate-600 max-w-xl">
+              <p className="text-xs text-slate-600 max-w-xl font-medium">
                 Tim Webkilat siap mendesain landing page kustom eksklusif untuk bisnis Anda hanya dalam 1 hari kerja seharga Rp 499.000 all-in sudah termasuk domain aktif 1 tahun!
               </p>
             </div>
             <button
-              onClick={scrollToOrder}
+              onClick={() => scrollToOrder()}
               className="inline-flex items-center gap-2 px-6 py-3 text-xs font-black text-white bg-sky-600 hover:bg-sky-700 rounded-xl shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer active:scale-98 whitespace-nowrap"
             >
               <span>Mulai Buat Website Saya Sekarang</span>
