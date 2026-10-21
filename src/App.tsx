@@ -14,6 +14,7 @@ import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { GeminiChatbot } from './components/GeminiChatbot';
+import { BackToTop } from './components/BackToTop';
 
 export default function App() {
   return (
@@ -64,6 +65,9 @@ export default function App() {
 
       {/* Gemini AI Interactive 24/7 Chatbot */}
       <GeminiChatbot />
+
+      {/* Floating Back to Top Button (appears after 400px scroll) */}
+      <BackToTop />
     </div>
   );
 }

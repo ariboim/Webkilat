@@ -12,8 +12,6 @@ import {
   Globe,
   ChevronLeft,
   ChevronRight,
-  Play,
-  Pause,
   Smartphone,
   Monitor,
   CheckCircle2,
@@ -40,21 +38,23 @@ export const UmkmShowcaseSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
-  const [isAutoPlay, setIsAutoPlay] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('all');
   const [mockupOrderSuccess, setMockupOrderSuccess] = useState(false);
 
   const totalCases = UMKM_SHOWCASES.length;
   const activeCase: UmkmShowcase = UMKM_SHOWCASES[currentIndex] || UMKM_SHOWCASES[0];
 
-  // Auto-play interval
+  // Auto-play runs automatically every 5 seconds, pauses when isPaused is true (upon touching business name)
   useEffect(() => {
-    if (!isAutoPlay) return;
+    if (isPaused) return;
     const timer = setInterval(() => {
-      handleNext();
-    }, 6000);
+      setDirection(1);
+      setCurrentIndex((prev) => (prev + 1) % totalCases);
+      setMockupOrderSuccess(false);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [isAutoPlay, currentIndex]);
+  }, [isPaused, currentIndex, totalCases]);
 
   const handleNext = () => {
     setDirection(1);
@@ -130,27 +130,24 @@ export const UmkmShowcaseSection: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-[11px] font-bold text-slate-500 hidden md:inline">Auto-Slide:</span>
-            <button
-              onClick={() => setIsAutoPlay(!isAutoPlay)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                isAutoPlay
-                  ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
+            <div
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+                isPaused
+                  ? 'bg-amber-100/90 text-amber-950 border-amber-300 shadow-xs'
+                  : 'bg-emerald-50 text-emerald-800 border-emerald-200 shadow-2xs'
               }`}
             >
-              {isAutoPlay ? (
-                <>
-                  <Pause className="w-3.5 h-3.5" />
-                  <span>Jeda Putar</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3.5 h-3.5" />
-                  <span>Putar Otomatis</span>
-                </>
-              )}
-            </button>
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  isPaused ? 'bg-amber-500' : 'bg-emerald-500 animate-ping'
+                }`}
+              />
+              <span>
+                {isPaused
+                  ? '⏸️ Dijeda (Lepas sentuhan untuk lanjut)'
+                  : '▶️ Otomatis Berputar (Sentuh nama untuk jeda)'}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -206,9 +203,23 @@ export const UmkmShowcaseSection: React.FC = () => {
                   <span className="text-slate-500">•</span>
                   <span className="text-emerald-400 font-bold">{activeCase.category}</span>
                 </div>
-                <div className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                <div
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
+                  onTouchStart={() => setIsPaused(true)}
+                  onTouchEnd={() => setIsPaused(false)}
+                  className="text-sm font-extrabold text-white flex items-center gap-1.5 cursor-pointer hover:text-sky-300 transition-colors select-none group/topname"
+                  title="Sentuh untuk menjeda putaran"
+                >
                   <span className="text-base">{activeCase.icon}</span>
-                  <span>{activeCase.name}</span>
+                  <span className="underline decoration-dotted decoration-white/40 group-hover/topname:decoration-sky-400">
+                    {activeCase.name}
+                  </span>
+                  {isPaused && (
+                    <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded ml-1 animate-pulse">
+                      Dijeda
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -277,7 +288,14 @@ export const UmkmShowcaseSection: React.FC = () => {
               >
                 {/* Left Column: Business Insights & Custom Strategy */}
                 <div className="lg:col-span-5 space-y-6">
-                  <div>
+                  <div
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setIsPaused(false)}
+                    className="group/biz cursor-pointer p-3 -m-3 rounded-2xl hover:bg-sky-50/60 transition-all select-none border border-transparent hover:border-sky-200"
+                    title="Sentuh nama usaha untuk menjeda putaran carousel"
+                  >
                     <div className="flex items-center gap-2 text-xs font-bold text-slate-500 mb-2">
                       <span className="px-2.5 py-1 bg-sky-50 text-sky-700 rounded-lg border border-sky-200">
                         {activeCase.industryTag}
@@ -287,14 +305,22 @@ export const UmkmShowcaseSection: React.FC = () => {
                         <MapPin className="w-3.5 h-3.5 text-slate-400" />
                         {activeCase.city}
                       </span>
+                      {isPaused && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 text-[10px] font-black border border-amber-300 animate-pulse ml-auto">
+                          ⏸️ Dijeda
+                        </span>
+                      )}
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
-                      {activeCase.name}
+                    <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight group-hover/biz:text-sky-600 transition-colors flex items-center gap-2">
+                      <span>{activeCase.name}</span>
                     </h3>
                     <p className="text-xs sm:text-sm font-medium text-slate-600 mt-1.5 italic">
                       "{activeCase.tagline}"
                     </p>
+                    <div className="text-[10px] text-sky-600 font-bold mt-1.5 flex items-center gap-1">
+                      <span>👆 Sentuh nama usaha untuk menjeda putaran</span>
+                    </div>
                   </div>
 
                   {/* Problem & Solution Comparison Cards */}
@@ -427,7 +453,14 @@ export const UmkmShowcaseSection: React.FC = () => {
                       >
                         {/* Client Website Navbar */}
                         <div className="flex items-center justify-between border-b border-black/10 pb-3">
-                          <div className="flex items-center gap-2">
+                          <div
+                            onMouseEnter={() => setIsPaused(true)}
+                            onMouseLeave={() => setIsPaused(false)}
+                            onTouchStart={() => setIsPaused(true)}
+                            onTouchEnd={() => setIsPaused(false)}
+                            className="flex items-center gap-2 cursor-pointer p-1 -m-1 rounded-lg hover:bg-black/5 transition-colors select-none"
+                            title="Sentuh untuk menjeda"
+                          >
                             <span className="text-xl">{activeCase.icon}</span>
                             <div>
                               <div
@@ -573,7 +606,7 @@ export const UmkmShowcaseSection: React.FC = () => {
                 Pilih Industri Untuk Melihat Desain Kustom:
               </span>
               <span className="text-[11px] font-semibold text-slate-500">
-                Klik kartu di bawah untuk berpindah slide
+                Sentuh nama usaha untuk menjeda putaran
               </span>
             </div>
 
@@ -584,6 +617,10 @@ export const UmkmShowcaseSection: React.FC = () => {
                   <button
                     key={item.id}
                     onClick={() => handleSelectCase(idx)}
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onTouchStart={() => setIsPaused(true)}
+                    onTouchEnd={() => setIsPaused(false)}
                     className={`p-2.5 rounded-xl text-left transition-all cursor-pointer border flex flex-col justify-between ${
                       isActive
                         ? 'bg-white border-sky-500 shadow-md ring-2 ring-sky-400/30'

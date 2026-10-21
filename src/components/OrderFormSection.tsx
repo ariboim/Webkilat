@@ -6,6 +6,7 @@ import {
   generateWhatsAppUrl,
   formatOrderToWhatsApp,
 } from '../types/order';
+import { trackOrderSubmission } from '../utils/analytics';
 import {
   Send,
   MessageCircle,
@@ -176,6 +177,7 @@ export const OrderFormSection: React.FC = () => {
     }
 
     setSubmittedSuccess(true);
+    trackOrderSubmission(formData.namaBisnis, 499000);
     const waUrl = generateWhatsAppUrl(formData);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
