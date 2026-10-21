@@ -142,6 +142,7 @@ export const OrderFlowSection: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(1);
 
   const scrollToSection = (id: string) => {
+    window.dispatchEvent(new CustomEvent('navigate-tab', { detail: 'order' }));
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });

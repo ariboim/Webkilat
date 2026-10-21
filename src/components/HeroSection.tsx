@@ -56,6 +56,7 @@ export const HeroSection: React.FC = () => {
   }, []);
 
   const scrollToOrder = () => {
+    window.dispatchEvent(new CustomEvent('navigate-tab', { detail: 'order' }));
     const el = document.getElementById('formulir-order');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };

@@ -1,11 +1,24 @@
 import React from 'react';
 import { ADMIN_WA_DISPLAY, ADMIN_WA_NUMBER } from '../types/order';
-import { MessageCircle, ShieldCheck, Heart, ExternalLink, Sparkles, ArrowRight } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Heart, ExternalLink, Sparkles, ArrowRight, Home, FileEdit, PhoneCall, MapPin } from 'lucide-react';
+import { PageTab } from './Navbar';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onTabChange?: (tab: PageTab) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onTabChange }) => {
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (onTabChange) {
+      onTabChange('home');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -25,31 +38,48 @@ export const Footer: React.FC = () => {
               <ShieldCheck className="w-4 h-4 text-sky-400" />
               <span>100% Desain Kustom · Bebas Template Pasaran</span>
             </div>
+            <div className="pt-2 text-[11px] text-slate-400 space-y-1">
+              <div className="flex items-start gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-sky-400 shrink-0 mt-0.5" />
+                <span>Jl. Pangkalan 6 Raya No. 16 RT 003 RW 004, Ciketing Udik, Bantar Gebang, Kota Bekasi 17153</span>
+              </div>
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links (3 Navtabs + Key Sections) */}
           <div className="md:col-span-3 space-y-3">
             <div className="text-sm font-bold text-white uppercase tracking-wider">
               Navigasi Halaman
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               <li>
                 <button
-                  onClick={() => scrollTo('keunggulan')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => onTabChange ? onTabChange('home') : scrollTo('root')}
+                  className="hover:text-white transition-colors cursor-pointer flex items-center gap-2 text-slate-300 font-semibold"
                 >
-                  Keunggulan untuk UMKM
+                  <Home className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Home (Beranda)</span>
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => scrollTo('contoh-umkm')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  onClick={() => onTabChange ? onTabChange('order') : scrollTo('formulir-order')}
+                  className="hover:text-white transition-colors cursor-pointer flex items-center gap-2 text-slate-300 font-semibold"
                 >
-                  Contoh Kasus Kustom
+                  <FileEdit className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Form Order (Rp 499rb)</span>
                 </button>
               </li>
               <li>
+                <button
+                  onClick={() => onTabChange ? onTabChange('kontak') : scrollTo('root')}
+                  className="hover:text-white transition-colors cursor-pointer flex items-center gap-2 text-slate-300 font-semibold"
+                >
+                  <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Kontak Kami (Studio & WA)</span>
+                </button>
+              </li>
+              <li className="pt-1 border-t border-slate-800">
                 <button
                   onClick={() => scrollTo('paket-harga')}
                   className="hover:text-white transition-colors cursor-pointer"
@@ -59,10 +89,10 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button
-                  onClick={() => scrollTo('testimoni')}
+                  onClick={() => scrollTo('contoh-umkm')}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Testimoni Pelaku Usaha
+                  Portfolio 8 Industri
                 </button>
               </li>
               <li>
@@ -93,18 +123,28 @@ export const Footer: React.FC = () => {
               Kontak Admin & Konsultasi
             </div>
             <p className="text-slate-400 leading-relaxed">
-              Ada pertanyaan seputar pemesanan landing page kilat untuk usaha Anda? Hubungi admin resmi kami:
+              Ada pertanyaan seputar pemesanan landing page kilat untuk usaha Anda? Hubungi tim Indo Digital:
             </p>
-            <div className="pt-1">
+            <div className="pt-1 flex flex-col gap-2">
               <a
                 href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20konsultasi%20pembuatan%20landing%20page.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 fill-white" />
                 <span>WhatsApp Admin: {ADMIN_WA_DISPLAY}</span>
               </a>
+
+              {onTabChange && (
+                <button
+                  onClick={() => onTabChange('kontak')}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-semibold transition-colors cursor-pointer"
+                >
+                  <PhoneCall className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Buka Halaman Kontak Lengkap & Peta</span>
+                </button>
+              )}
             </div>
             <div className="text-[11px] text-slate-500 pt-1">
               Jam Operasional: Setiap Hari (08.00 - 22.00 WIB)
@@ -112,63 +152,32 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
-        <div className="mt-12 mb-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 shadow-2xl border-2 border-yellow-200 relative overflow-hidden group">
-          {/* Decorative ambient background glow */}
-          <div className="absolute -right-10 -bottom-10 w-44 h-44 bg-white/30 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-500" />
-          <div className="absolute left-1/3 -top-12 w-32 h-32 bg-yellow-200/40 rounded-full blur-xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-950 text-amber-300 text-[11px] font-black uppercase tracking-wider shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" style={{ animationDuration: '4s' }} />
-                <span>OFFICIAL DIGITAL ECOSYSTEM · INDODIGITAL</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight leading-tight">
-                PRODUK INDODIGITAL LAINNYA
-              </h3>
-              <p className="text-xs sm:text-sm font-bold text-slate-900 max-w-xl leading-relaxed">
-                Jelajahi ekosistem layanan lengkap, tools bisnis, optimasi digital, dan solusi teknologi terpercaya lainnya dari Indo Digital untuk melipatgandakan omzet usaha Anda!
-              </p>
-            </div>
-
-            <div className="shrink-0 flex items-center justify-center lg:justify-end w-full lg:w-auto">
-              <a
-                href="https://indo-digital.myr.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-950 hover:bg-slate-900 text-amber-300 hover:text-amber-200 text-sm font-black rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 active:scale-98 transition-all duration-200 border-2 border-slate-900 group/btn whitespace-nowrap cursor-pointer ring-4 ring-amber-300/50"
-              >
-                <span>LIHAT SEMUA PRODUK INDODIGITAL</span>
-                <ExternalLink className="w-4 h-4 text-amber-400 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform" />
-              </a>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-[11px] text-slate-400">
-          <div className="space-y-1.5 text-center sm:text-left">
-            <div className="inline-flex items-center justify-center sm:justify-start flex-wrap gap-2.5 text-xs text-slate-300">
-              <span className="text-slate-400 font-medium tracking-tight">powered by</span>
-              <img
-                src="/logo.svg"
-                alt="Indo Digital"
-                className="h-7 w-auto object-contain inline-block drop-shadow-[0_0_12px_rgba(56,189,248,0.35)] select-none"
-                loading="eager"
-              />
-              <span className="text-slate-400 font-medium tracking-tight">copyright @2026</span>
-            </div>
-            <div className="text-slate-500 text-[11px]">
-              Jl pangkalan 6 raya no 16 RT 003 RW 004 Ciketing udik, Bekasi Jawa Barat 17153
-            </div>
-            <div className="text-slate-500 text-[10px]">
-              © {new Date().getFullYear()} webkilat. Jasa Pembuatan Landing Page 1 Hari Rp 499rb Free Domain.
-            </div>
+        <div className="mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
+          <div>
+            &copy; {new Date().getFullYear()} <strong>webkilat</strong> by Indo Digital Solution. Hak Cipta Dilindungi Undang-Undang.
           </div>
-          <div className="flex items-center gap-1.5 shrink-0 text-slate-400">
-            <span>Didedikasikan untuk memajukan UMKM Indonesia</span>
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => onTabChange ? onTabChange('home') : scrollTo('root')}
+              className="hover:text-slate-400 cursor-pointer"
+            >
+              Beranda
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onTabChange ? onTabChange('order') : scrollTo('formulir-order')}
+              className="hover:text-slate-400 cursor-pointer"
+            >
+              Form Order
+            </button>
+            <span>•</span>
+            <button
+              onClick={() => onTabChange ? onTabChange('kontak') : scrollTo('root')}
+              className="hover:text-slate-400 cursor-pointer"
+            >
+              Kontak Kami
+            </button>
           </div>
         </div>
       </div>

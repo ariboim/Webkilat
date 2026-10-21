@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, MessageCircle, Sparkles, ExternalLink } from 'lucide-react';
-import { ADMIN_WA_NUMBER } from '../types/order';
+import {
+  Menu,
+  X,
+  ArrowRight,
+  MessageCircle,
+  Sparkles,
+  ExternalLink,
+  Home,
+  FileEdit,
+  PhoneCall,
+  Flame,
+} from 'lucide-react';
+import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from '../types/order';
 
-export const Navbar: React.FC = () => {
+export type PageTab = 'home' | 'order' | 'kontak';
+
+interface NavbarProps {
+  activeTab: PageTab;
+  onTabChange: (tab: PageTab) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -22,11 +40,26 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
+  const handleSelectTab = (tab: PageTab) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    onTabChange(tab);
+  };
+
+  const scrollToSectionOnHome = (id: string) => {
+    setMobileMenuOpen(false);
+    if (activeTab !== 'home') {
+      onTabChange('home');
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -38,68 +71,74 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-sky-50/95 backdrop-blur-md border-b border-sky-100 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-8 h-18">
-          {/* Zone 1: Single Brand Wordmark */}
+        <div className="flex items-center justify-between gap-4 lg:gap-8 h-18">
+          {/* Zone 1: Brand Wordmark */}
           <div className="flex items-center gap-2 shrink-0">
-            <a
-              href="#"
-              className="text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5"
+            <button
+              onClick={() => handleSelectTab('home')}
+              className="text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5 cursor-pointer text-left"
+              title="Kembali ke Beranda"
             >
               <span className="text-sky-600 font-black">web</span>kilat
               <span className="w-2 h-2 rounded-full bg-sky-500 inline-block mb-1"></span>
-            </a>
+            </button>
           </div>
 
-          {/* Zone 2: Clean single-line text navigation links */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-700">
+          {/* Zone 2: 3 Primary Navigation Tabs (Home, Form Order, Kontak Kami) */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-white/90 rounded-2xl border border-sky-200/80 shadow-2xs">
+            {/* Tab 1: Home */}
             <button
-              onClick={() => scrollToSection('alasan-landing-page')}
-              className="text-sky-700 font-semibold hover:text-sky-800 transition-colors whitespace-nowrap cursor-pointer py-1 flex items-center gap-1.5"
+              onClick={() => handleSelectTab('home')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+                activeTab === 'home'
+                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+              }`}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-              5 Alasan
+              <Home className="w-4 h-4" />
+              <span>Home</span>
             </button>
+
+            {/* Tab 2: Form Order */}
             <button
-              onClick={() => scrollToSection('keunggulan')}
-              className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
+              onClick={() => handleSelectTab('order')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer relative ${
+                activeTab === 'order'
+                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+              }`}
             >
-              Keunggulan UMKM
+              <FileEdit className="w-4 h-4" />
+              <span>Form Order</span>
+              <span
+                className={`text-[10px] px-2 py-0.5 rounded-full font-black flex items-center gap-1 ${
+                  activeTab === 'order'
+                    ? 'bg-amber-400 text-slate-950'
+                    : 'bg-rose-100 text-rose-700 border border-rose-200'
+                }`}
+              >
+                <Flame className="w-3 h-3 fill-current" />
+                <span>Rp 499rb</span>
+              </span>
             </button>
+
+            {/* Tab 3: Kontak Kami */}
             <button
-              onClick={() => scrollToSection('contoh-umkm')}
-              className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
+              onClick={() => handleSelectTab('kontak')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+                activeTab === 'kontak'
+                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+              }`}
             >
-              Contoh Kustom
-            </button>
-            <button
-              onClick={() => scrollToSection('paket-harga')}
-              className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
-            >
-              Paket Rp 499rb
-            </button>
-            <button
-              onClick={() => scrollToSection('alur-pemesanan')}
-              className="text-sky-900 font-bold hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1 flex items-center gap-1.5"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Alur Pesan
-            </button>
-            <button
-              onClick={() => scrollToSection('testimoni')}
-              className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
-            >
-              Testimoni
-            </button>
-            <button
-              onClick={() => scrollToSection('faq')}
-              className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
-            >
-              FAQ
+              <PhoneCall className="w-4 h-4" />
+              <span>Kontak Kami</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </button>
           </nav>
 
-          {/* Zone 3: Actions */}
-          <div className="hidden sm:flex items-center gap-2 shrink-0">
+          {/* Zone 3: Actions (Produk Lainnya, Tanya AI, CTA) */}
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
             {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
             <a
               href="https://indo-digital.myr.id"
@@ -121,17 +160,26 @@ export const Navbar: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse group-hover:rotate-12 transition-transform" />
               <span>Tanya Gemini AI</span>
             </button>
-            <button
-              onClick={() => scrollToSection('formulir-order')}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
-            >
-              <span>Order Sekarang</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+
+            {activeTab !== 'order' && (
+              <button
+                onClick={() => handleSelectTab('order')}
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
+              >
+                <span>Pesan Sekarang</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
           {/* Mobile hamburger button */}
-          <div className="flex sm:hidden items-center">
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={() => handleSelectTab('order')}
+              className="px-3 py-1.5 text-[11px] font-black text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-xs"
+            >
+              Pesan Rp 499rb
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-slate-700 hover:text-sky-700 hover:bg-sky-100/60 focus:outline-hidden"
@@ -143,95 +191,139 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile navigation drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden bg-sky-50 border-b border-sky-150 px-4 pt-3 pb-6 space-y-3 shadow-lg">
-          <div className="flex flex-col space-y-2 text-sm font-medium text-slate-800">
-            {/* Highlighted Direct Link: PRODUK INDODIGITAL LAINNYA */}
+        <div className="md:hidden bg-sky-50/98 border-b border-sky-200/60 px-4 pt-3 pb-6 space-y-4 shadow-xl">
+          {/* 3 Main Page Tabs on Mobile */}
+          <div className="space-y-1.5">
+            <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-3">
+              Pilih Halaman Website:
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              <button
+                onClick={() => handleSelectTab('home')}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
+                  activeTab === 'home'
+                    ? 'bg-sky-600 text-white shadow-md'
+                    : 'bg-white text-slate-800 border border-slate-200'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Home className="w-4 h-4" />
+                  <span>1. Home (Beranda)</span>
+                </div>
+                {activeTab === 'home' && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full">Aktif</span>}
+              </button>
+
+              <button
+                onClick={() => handleSelectTab('order')}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
+                  activeTab === 'order'
+                    ? 'bg-sky-600 text-white shadow-md'
+                    : 'bg-white text-slate-800 border border-slate-200'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <FileEdit className="w-4 h-4 text-amber-500" />
+                  <span>2. Form Order (Pemesanan Kilat)</span>
+                </div>
+                <span className="text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full">
+                  Rp 499rb
+                </span>
+              </button>
+
+              <button
+                onClick={() => handleSelectTab('kontak')}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
+                  activeTab === 'kontak'
+                    ? 'bg-sky-600 text-white shadow-md'
+                    : 'bg-white text-slate-800 border border-slate-200'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <PhoneCall className="w-4 h-4 text-emerald-600" />
+                  <span>3. Kontak Kami (WhatsApp & Studio)</span>
+                </div>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              </button>
+            </div>
+          </div>
+
+          {/* Sub-sections links when on Home */}
+          {activeTab === 'home' && (
+            <div className="pt-2 border-t border-sky-200/60">
+              <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-3 mb-2">
+                Bagian Halaman Home:
+              </div>
+              <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-700">
+                <button
+                  onClick={() => scrollToSectionOnHome('alasan-landing-page')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100"
+                >
+                  5 Alasan
+                </button>
+                <button
+                  onClick={() => scrollToSectionOnHome('keunggulan')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100"
+                >
+                  Keunggulan
+                </button>
+                <button
+                  onClick={() => scrollToSectionOnHome('contoh-umkm')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100"
+                >
+                  Portfolio 8 Sektor
+                </button>
+                <button
+                  onClick={() => scrollToSectionOnHome('paket-harga')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100 font-bold text-sky-800"
+                >
+                  Harga Rp 499rb
+                </button>
+                <button
+                  onClick={() => scrollToSectionOnHome('alur-pemesanan')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100"
+                >
+                  Alur Pemesanan
+                </button>
+                <button
+                  onClick={() => scrollToSectionOnHome('faq')}
+                  className="text-left px-3 py-2 rounded-lg bg-white/80 hover:bg-sky-100"
+                >
+                  FAQ Tanya Jawab
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Action Links & External */}
+          <div className="pt-2 border-t border-sky-200/60 flex flex-col gap-2">
             <a
               href="https://indo-digital.myr.id"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-left px-3.5 py-3 rounded-xl bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 text-amber-950 font-black flex items-center justify-between border-2 border-amber-400 shadow-md group"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-black text-amber-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 rounded-lg shadow-sm border border-amber-400"
             >
-              <div className="flex items-center gap-2">
-                <span className="flex h-2.5 w-2.5 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
-                </span>
-                <span className="tracking-wide">PRODUK INDODIGITAL LAINNYA</span>
-              </div>
-              <ExternalLink className="w-4 h-4 text-amber-950 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>PRODUK INDODIGITAL LAINNYA</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
             <button
               onClick={openGeminiChat}
-              className="text-left px-3 py-2.5 rounded-lg bg-indigo-100/80 hover:bg-indigo-200/80 transition-colors text-indigo-900 font-bold flex items-center gap-2 border border-indigo-300/60 shadow-xs"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100"
             >
-              <Sparkles className="w-4 h-4 text-indigo-600 animate-pulse" />
-              <span>Tanya Asisten AI Gemini (24 Jam)</span>
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span>Tanya Asisten AI Gemini 24 Jam</span>
             </button>
-            <button
-              onClick={() => scrollToSection('alasan-landing-page')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors text-sky-700 font-semibold flex items-center gap-2"
-            >
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-              Video: 5 Alasan Punya Landing Page
-            </button>
-            <button
-              onClick={() => scrollToSection('keunggulan')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
-            >
-              Keunggulan UMKM
-            </button>
-            <button
-              onClick={() => scrollToSection('contoh-umkm')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
-            >
-              Contoh Landing Page Kustom
-            </button>
-            <button
-              onClick={() => scrollToSection('paket-harga')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
-            >
-              Paket Rp 499rb All-In
-            </button>
-            <button
-              onClick={() => scrollToSection('alur-pemesanan')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors text-sky-900 font-bold flex items-center gap-2"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Alur Pemesanan 5 Langkah
-            </button>
-            <button
-              onClick={() => scrollToSection('testimoni')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
-            >
-              Testimoni Klien
-            </button>
-            <button
-              onClick={() => scrollToSection('faq')}
-              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
-            >
-              FAQ (Tanya Jawab)
-            </button>
-          </div>
 
-          <div className="pt-2 border-t border-sky-200/60 flex flex-col gap-2">
-            <button
-              onClick={() => scrollToSection('formulir-order')}
-              className="w-full text-center px-4 py-2.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm"
-            >
-              Isi Formulir Order (Rp 499rb)
-            </button>
             <a
-              href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20tanya%20jasa%20landing%20page%201%20hari%20Rp%20499rb.`}
+              href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20konsultasi%20jasa%20landing%20page%201%20hari%20Rp%20499rb.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-sky-200 rounded-lg hover:bg-sky-50"
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-slate-700 bg-white border border-sky-200 rounded-lg hover:bg-sky-50"
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
-              <span>Chat WhatsApp Admin (089673686625)</span>
+              <span>WhatsApp Admin ({ADMIN_WA_DISPLAY})</span>
             </a>
           </div>
         </div>
