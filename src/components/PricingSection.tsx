@@ -217,6 +217,29 @@ export const PricingSection: React.FC = () => {
                   <span>Official UMKM Verified</span>
                 </div>
               </div>
+
+              {/* Supported Bank & Payment Methods Banner */}
+              <div className="mt-6 pt-5 border-t border-slate-200/80 flex flex-col items-center text-center space-y-2.5">
+                <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-slate-600">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Mendukung Metode Pembayaran Transfer Antar Bank & Virtual Account:</span>
+                </div>
+                <div className="max-w-2xl w-full bg-slate-50/80 p-3 sm:p-4 rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-sm transition-shadow">
+                  <img
+                    src="/assets/aistudio/transfer-antar-bank-gratis-scaled-1_1561b3d5.jpg"
+                    alt="Logo Berbagai Metode Pembayaran Bank di Indonesia: BNI, BRI, Mandiri, BCA, CIMB Niaga, Muamalat, BTPN, Jenius, Permata, Digibank"
+                    className="w-full h-auto object-contain rounded-xl max-h-24 sm:max-h-28 mx-auto"
+                    loading="lazy"
+                  />
+                  <div className="text-[10px] text-slate-500 font-medium mt-2 flex items-center justify-center gap-2 flex-wrap">
+                    <span>✓ Bebas Biaya Transfer</span>
+                    <span>•</span>
+                    <span>✓ Verifikasi Otomatis 24 Jam</span>
+                    <span>•</span>
+                    <span>✓ QRIS Semua Bank & E-Wallet</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

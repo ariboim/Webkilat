@@ -490,6 +490,20 @@ export const OrderFlowSection: React.FC = () => {
                         </div>
                       </div>
 
+                      {/* Bank Transfer Channels Logo Image */}
+                      <div className="bg-white rounded-2xl p-2.5 border border-slate-700 shadow-sm">
+                        <div className="text-[10px] font-bold text-slate-600 mb-1.5 flex items-center justify-between">
+                          <span>Mendukung Transfer Bank & Virtual Account:</span>
+                          <span className="text-emerald-700 font-extrabold text-[9px] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Bebas Biaya Admin</span>
+                        </div>
+                        <img
+                          src="/assets/aistudio/transfer-antar-bank-gratis-scaled-1_1561b3d5.jpg"
+                          alt="Logo Metode Pembayaran Bank: BNI, BRI, Mandiri, BCA, CIMB Niaga, Muamalat, BTPN, Jenius, Permata, Digibank"
+                          className="w-full h-auto object-contain rounded-lg max-h-24 sm:max-h-28 mx-auto"
+                          loading="lazy"
+                        />
+                      </div>
+
                       <div className="text-[10px] text-slate-400 text-center">
                         🔒 Pembayaran otomatis terverifikasi tanpa biaya tambahan.
                       </div>

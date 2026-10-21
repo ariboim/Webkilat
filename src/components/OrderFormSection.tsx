@@ -731,6 +731,22 @@ export const OrderFormSection: React.FC = () => {
                     <span className="px-2 py-0.5 bg-sky-50 border border-sky-200 rounded text-sky-700 font-bold">GoPay/OVO</span>
                   </div>
                 </div>
+
+                {/* Bank Transfer Channels Logo Image */}
+                <div className="pt-2 border-t border-slate-200/80 space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px] text-slate-700 font-bold">
+                    <span>Mendukung Transfer Bank & Virtual Account Seluruh Indonesia:</span>
+                    <span className="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-extrabold">Bebas Biaya Transfer</span>
+                  </div>
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-200/90 shadow-2xs">
+                    <img
+                      src="/assets/aistudio/transfer-antar-bank-gratis-scaled-1_1561b3d5.jpg"
+                      alt="Logo Berbagai Metode Pembayaran Bank di Indonesia: BNI, BRI, Mandiri, BCA, CIMB Niaga, Muamalat, BTPN, Jenius, Permata, Digibank"
+                      className="w-full h-auto object-contain rounded-lg max-h-24 sm:max-h-28 mx-auto"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
               </div>
 
               {submittedSuccess && (
