@@ -78,6 +78,13 @@ export const Navbar: React.FC = () => {
               Paket Rp 499rb
             </button>
             <button
+              onClick={() => scrollToSection('alur-pemesanan')}
+              className="text-sky-900 font-bold hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1 flex items-center gap-1.5"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Alur Pesan
+            </button>
+            <button
               onClick={() => scrollToSection('testimoni')}
               className="hover:text-sky-700 transition-colors whitespace-nowrap cursor-pointer py-1"
             >
@@ -188,6 +195,13 @@ export const Navbar: React.FC = () => {
               className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors"
             >
               Paket Rp 499rb All-In
+            </button>
+            <button
+              onClick={() => scrollToSection('alur-pemesanan')}
+              className="text-left px-3 py-2 rounded-md hover:bg-sky-100/80 transition-colors text-sky-900 font-bold flex items-center gap-2"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Alur Pemesanan 5 Langkah
             </button>
             <button
               onClick={() => scrollToSection('testimoni')}

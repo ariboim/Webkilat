@@ -8,6 +8,7 @@ import { VideoLandingPageSection } from './components/VideoLandingPageSection';
 import { UmkmBenefitsSection } from './components/UmkmBenefitsSection';
 import { UmkmShowcaseSection } from './components/UmkmShowcaseSection';
 import { PricingSection } from './components/PricingSection';
+import { OrderFlowSection } from './components/OrderFlowSection';
 import { OrderFormSection } from './components/OrderFormSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
@@ -46,6 +47,9 @@ export default function App() {
 
         {/* Pricing Section (Rp 499.000 all-in, 1 hari, free domain) */}
         <PricingSection />
+
+        {/* 5-Step Professional Order Flow Diagram */}
+        <OrderFlowSection />
 
         {/* The Exact Order Form with WA 089673686625 */}
         <OrderFormSection />
