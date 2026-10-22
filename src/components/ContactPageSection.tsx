@@ -206,7 +206,12 @@ Mohon responnya ya Admin. Terima kasih!`;
                   <Mail className="w-4 h-4 text-indigo-600 shrink-0" />
                   <div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase">Email Korespondensi:</div>
-                    <div className="font-semibold text-slate-900">bca.ccpl@gmail.com</div>
+                    <a
+                      href="mailto:indodigital1978@gmail.com"
+                      className="font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
+                    >
+                      indodigital1978@gmail.com
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200/70">
