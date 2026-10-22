@@ -628,24 +628,6 @@ export const OrderFormSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Ketentuan Pembayaran 1 x 24 Jam Highlight Box */}
-            <div className="p-4 sm:p-5 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 rounded-2xl border-2 border-amber-300 shadow-sm flex items-start gap-3.5 text-xs text-amber-950">
-              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 font-black shadow-sm">
-                <Clock className="w-5 h-5 text-slate-950" />
-              </div>
-              <div className="space-y-1">
-                <div className="font-black text-amber-900 uppercase tracking-wide flex items-center gap-2">
-                  <span>KETENTUAN INVOICE &amp; PEMBAYARAN:</span>
-                  <span className="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-black border border-amber-300">
-                    Batas Waktu 1 x 24 Jam
-                  </span>
-                </div>
-                <p className="leading-relaxed font-semibold text-slate-800 text-xs sm:text-[13px]">
-                  Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran ,jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending ( tidak bisa online ).
-                </p>
-              </div>
-            </div>
-
             {/* Admin Target WA Notice */}
             <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200/80 flex items-center justify-between gap-3 text-xs text-emerald-950">
               <div className="flex items-center gap-2.5">
