@@ -10,10 +10,11 @@ import {
   FileEdit,
   PhoneCall,
   Flame,
+  BookOpen,
 } from 'lucide-react';
 import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from '../types/order';
 
-export type PageTab = 'home' | 'order' | 'kontak';
+export type PageTab = 'home' | 'order' | 'artikel' | 'kontak';
 
 interface NavbarProps {
   activeTab: PageTab;
@@ -122,7 +123,23 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               </span>
             </button>
 
-            {/* Tab 3: Kontak Kami */}
+            {/* Tab 3: Artikel */}
+            <button
+              onClick={() => handleSelectTab('artikel')}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+                activeTab === 'artikel'
+                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Artikel</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                Kisah UMKM
+              </span>
+            </button>
+
+            {/* Tab 4: Kontak Kami */}
             <button
               onClick={() => handleSelectTab('kontak')}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
@@ -233,6 +250,23 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               </button>
 
               <button
+                onClick={() => handleSelectTab('artikel')}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
+                  activeTab === 'artikel'
+                    ? 'bg-sky-600 text-white shadow-md'
+                    : 'bg-white text-slate-800 border border-slate-200'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <BookOpen className="w-4 h-4 text-sky-600" />
+                  <span>3. Artikel (Kisah Sukses UMKM)</span>
+                </div>
+                <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
+                  Tips & Data
+                </span>
+              </button>
+
+              <button
                 onClick={() => handleSelectTab('kontak')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
                   activeTab === 'kontak'
@@ -242,7 +276,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               >
                 <div className="flex items-center gap-2.5">
                   <PhoneCall className="w-4 h-4 text-emerald-600" />
-                  <span>3. Kontak Kami (WhatsApp & Studio)</span>
+                  <span>4. Kontak Kami (WhatsApp & Studio)</span>
                 </div>
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               </button>

@@ -13,6 +13,7 @@ import { DomainCheckerSection } from './components/DomainCheckerSection';
 import { OrderFormSection } from './components/OrderFormSection';
 import { OrderPageSection } from './components/OrderPageSection';
 import { ContactPageSection } from './components/ContactPageSection';
+import { ArticlesPageSection } from './components/ArticlesPageSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
@@ -25,6 +26,7 @@ import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from './types/order';
 export default function App() {
   const getTabFromHash = (): PageTab => {
     const hash = window.location.hash.toLowerCase();
+    if (hash.includes('artikel') || hash.includes('article') || hash.includes('blog')) return 'artikel';
     if (hash.includes('order') || hash.includes('pesan')) return 'order';
     if (hash.includes('kontak') || hash.includes('contact') || hash.includes('hubungi')) return 'kontak';
     return 'home';
@@ -162,7 +164,16 @@ export default function App() {
           </div>
         )}
 
-        {/* ================= PAGE 3: KONTAK KAMI (HUBUNGI KAMI) ================= */}
+        {/* ================= PAGE 3: ARTIKEL (KISAH SUKSES UMKM) ================= */}
+        {activeTab === 'artikel' && (
+          <div className="animate-fade-in">
+            <ArticlesPageSection
+              onNavigateToOrder={() => handleTabChange('order')}
+            />
+          </div>
+        )}
+
+        {/* ================= PAGE 4: KONTAK KAMI (HUBUNGI KAMI) ================= */}
         {activeTab === 'kontak' && (
           <div className="animate-fade-in">
             <ContactPageSection

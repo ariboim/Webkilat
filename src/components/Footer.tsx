@@ -1,6 +1,6 @@
 import React from 'react';
 import { ADMIN_WA_DISPLAY, ADMIN_WA_NUMBER } from '../types/order';
-import { MessageCircle, ShieldCheck, Heart, ExternalLink, Sparkles, ArrowRight, Home, FileEdit, PhoneCall, MapPin } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Heart, ExternalLink, Sparkles, ArrowRight, Home, FileEdit, PhoneCall, MapPin, BookOpen } from 'lucide-react';
 import { PageTab } from './Navbar';
 
 interface FooterProps {
@@ -68,6 +68,15 @@ export const Footer: React.FC<FooterProps> = ({ onTabChange }) => {
                 >
                   <FileEdit className="w-3.5 h-3.5 text-amber-400" />
                   <span>Form Order (Rp 499rb)</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onTabChange ? onTabChange('artikel') : scrollTo('root')}
+                  className="hover:text-white transition-colors cursor-pointer flex items-center gap-2 text-slate-300 font-semibold"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Artikel (Kisah Sukses UMKM)</span>
                 </button>
               </li>
               <li>
