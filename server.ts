@@ -179,6 +179,106 @@ Apakah ada bidang usaha atau produk tertentu yang ingin Anda buatkan landing pag
     });
   });
 
+  // Domain Availability Check Endpoint
+  app.get('/api/check-domain', async (req: Request, res: Response) => {
+    try {
+      const rawDomain = ((req.query.domain as string) || '').toLowerCase().trim();
+      if (!rawDomain) {
+        return res.status(400).json({ error: 'Parameter domain wajib diisi.' });
+      }
+
+      // Clean domain input: strip protocol, www, slashes, spaces
+      let clean = rawDomain
+        .replace(/^https?:\/\//i, '')
+        .replace(/^www\./i, '')
+        .replace(/\/.*$/, '')
+        .replace(/[^a-z0-9.-]/g, '');
+
+      if (!clean) {
+        return res.status(400).json({ error: 'Nama domain tidak valid.' });
+      }
+
+      const extensions = ['.my.id', '.biz.id', '.com', '.id'];
+      let baseName = clean;
+      let specifiedExt = '';
+
+      for (const ext of extensions) {
+        if (clean.endsWith(ext)) {
+          baseName = clean.slice(0, -ext.length);
+          specifiedExt = ext;
+          break;
+        }
+      }
+
+      if (baseName.includes('.')) {
+        baseName = baseName.split('.')[0];
+      }
+
+      let extList = [...extensions];
+      if (specifiedExt) {
+        extList = [specifiedExt, ...extensions.filter((e) => e !== specifiedExt)];
+      }
+
+      const checkPromises = extList.map(async (ext) => {
+        const fullDomain = `${baseName}${ext}`;
+        let isAvailable = false;
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+          const dohRes = await fetch(
+            `https://dns.google/resolve?name=${encodeURIComponent(fullDomain)}&type=NS`,
+            {
+              headers: { Accept: 'application/dns-json' },
+              signal: controller.signal,
+            }
+          );
+          clearTimeout(timeoutId);
+
+          if (dohRes.ok) {
+            const data: any = await dohRes.json();
+            if (data.Status === 3) {
+              isAvailable = true;
+            } else if (
+              data.Status === 0 &&
+              (!data.Answer || data.Answer.length === 0) &&
+              (!data.Authority || data.Authority.length === 0)
+            ) {
+              isAvailable = true;
+            } else {
+              isAvailable = false;
+            }
+          } else {
+            isAvailable = true;
+          }
+        } catch {
+          isAvailable = true;
+        }
+
+        const isFree = ext === '.my.id' || ext === '.biz.id';
+        return {
+          domain: fullDomain,
+          extension: ext,
+          isAvailable,
+          isFreeWithPromo: isFree,
+          badge: isFree ? 'Gratis 1 Tahun Promo' : 'Ekstensi Populer',
+          message: isAvailable
+            ? `${fullDomain} TERSEDIA! Siap digunakan untuk landing page Anda.`
+            : `${fullDomain} sudah dipakai. Coba nama lain ya.`,
+        };
+      });
+
+      const results = await Promise.all(checkPromises);
+      return res.json({
+        baseName,
+        results,
+      });
+    } catch (err) {
+      console.error('Error checking domain:', err);
+      return res.status(500).json({ error: 'Gagal memeriksa domain.' });
+    }
+  });
+
   // Google Search Console Site Verification Endpoints (File & TXT Method Support)
   app.get(['/googleez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo.html', '/google-site-verification.html'], (_req: Request, res: Response) => {
     res.type('text/html').send('google-site-verification: googleez3PPngLLzR9N5oWru-nh_vT-YcBeL5--Y-BlX-Gozo.html');

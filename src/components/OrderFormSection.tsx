@@ -23,6 +23,7 @@ import {
   Zap,
   CheckCircle2,
   Clock,
+  Globe,
 } from 'lucide-react';
 
 const INITIAL_FORM: OrderFormData = {
@@ -31,6 +32,7 @@ const INITIAL_FORM: OrderFormData = {
   nomorWa: '',
   email: '',
   namaBisnis: '',
+  domainPilihan: '',
   alamatBisnis: '',
   mediaSosial: '',
   namaProduk: '',
@@ -49,6 +51,7 @@ const SAMPLE_DEMO_DATA: OrderFormData = {
   nomorWa: '081234567890',
   email: 'budi.santoso@gmail.com',
   namaBisnis: 'Dapur Nusantara Frozen Food',
+  domainPilihan: 'dapurnusantara.my.id',
   alamatBisnis: 'Jl. Rungkut Asri Timur No. 45, Surabaya, Jawa Timur',
   mediaSosial: '@dapurnusantara.id (Instagram) / TikTok: @dapurnusantara',
   namaProduk: 'Paket Frozen Sambal Cumi & Rendang Daging Sapi Kemasan Vakum',
@@ -81,6 +84,31 @@ export const OrderFormSection: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [agreedTerms, setAgreedTerms] = useState(true);
+
+  useEffect(() => {
+    const handleDomainSelected = (e: CustomEvent<string>) => {
+      if (e.detail) {
+        setFormData((prev) => ({
+          ...prev,
+          domainPilihan: e.detail,
+          namaBisnis: prev.namaBisnis || e.detail.split('.')[0],
+        }));
+      }
+    };
+
+    try {
+      const stored = sessionStorage.getItem('selected_domain');
+      if (stored) {
+        setFormData((prev) => ({
+          ...prev,
+          domainPilihan: stored,
+        }));
+      }
+    } catch {}
+
+    window.addEventListener('domain-selected' as any, handleDomainSelected);
+    return () => window.removeEventListener('domain-selected' as any, handleDomainSelected);
+  }, []);
 
   useEffect(() => {
     try {
@@ -342,6 +370,32 @@ export const OrderFormSection: React.FC = () => {
                       {errors.namaBisnis}
                     </p>
                   )}
+                </div>
+
+                <div className="sm:col-span-2">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-slate-800">
+                      Pilihan Nama Domain Website <span className="text-slate-400 font-normal">(Gratis .my.id / .biz.id)</span>
+                    </label>
+                    <a
+                      href="#cek-domain"
+                      className="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1"
+                    >
+                      <Globe className="w-3 h-3" />
+                      <span>Cek Ketersediaan Domain &rarr;</span>
+                    </a>
+                  </div>
+                  <input
+                    type="text"
+                    name="domainPilihan"
+                    value={formData.domainPilihan || ''}
+                    onChange={handleInputChange}
+                    placeholder="Contoh: namabisnis.my.id (otomatis terisi jika menggunakan fitur Cek Domain)"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50/50 border rounded-xl focus:bg-white focus:ring-2 focus:ring-sky-500 transition-all outline-hidden text-slate-900 border-slate-200"
+                  />
+                  <p className="text-[11px] text-slate-500 mt-1">
+                    Free domain 1 tahun untuk ekstensi <strong>.my.id</strong> dan <strong>.biz.id</strong> (untuk .com atau .id dikenakan biaya tambahan registrar).
+                  </p>
                 </div>
 
                 <div className="sm:col-span-2">

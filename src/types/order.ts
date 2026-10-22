@@ -5,6 +5,7 @@ export interface OrderFormData {
   nomorWa: string;
   email: string;
   namaBisnis: string;
+  domainPilihan?: string;
   alamatBisnis: string;
   mediaSosial: string;
   // 2. Informasi Produk / Layanan
@@ -46,6 +47,7 @@ export function formatOrderToWhatsApp(data: OrderFormData): string {
     `• *No. WhatsApp / Kontak:* ${data.nomorWa || '-'}`,
     `• *Email:* ${data.email || '-'}`,
     `• *Nama Bisnis / Brand:* ${data.namaBisnis || '-'}`,
+    `• *Pilihan Nama Domain:* ${data.domainPilihan || '(Belum ditentukan / minta rekomendasi admin)'}`,
     `• *Alamat Bisnis / Usaha:* ${data.alamatBisnis || '-'}`,
     `• *Web / Medsos Saat Ini:* ${data.mediaSosial || '-'}`,
     ``,
