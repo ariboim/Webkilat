@@ -207,10 +207,10 @@ Mohon responnya ya Admin. Terima kasih!`;
                   <div>
                     <div className="text-[10px] text-slate-400 font-bold uppercase">Email Korespondensi:</div>
                     <a
-                      href="mailto:indodigital1978@gmail.com"
+                      href="mailto:admin@webmurah.biz.id"
                       className="font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
                     >
-                      indodigital1978@gmail.com
+                      admin@webmurah.biz.id
                     </a>
                   </div>
                 </div>
