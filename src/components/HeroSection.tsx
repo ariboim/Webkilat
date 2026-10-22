@@ -113,6 +113,21 @@ export const HeroSection: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-7 space-y-6"
           >
+            {/* Super Clear Guarantee Badge: PESAN SEKARANG BAYAR SETELAH JADI */}
+            <div>
+              <div className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-black text-xs sm:text-sm uppercase tracking-wide shadow-xl shadow-emerald-600/25 border-2 border-emerald-300 transform hover:scale-[1.02] transition-all">
+                <span className="flex h-3 w-3 relative shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                </span>
+                <ShieldCheck className="w-5 h-5 text-emerald-200 shrink-0" />
+                <span>PESAN SEKARANG, BAYAR SETELAH JADI!</span>
+                <span className="bg-white/20 text-[10px] font-bold px-2 py-0.5 rounded-full text-emerald-100 hidden sm:inline">
+                  100% Bebas Risiko
+                </span>
+              </div>
+            </div>
+
             {/* Unboxed editorial kicker */}
             <div className="flex items-center gap-2 text-xs font-black text-rose-600 tracking-wide uppercase">
               <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
@@ -164,6 +179,15 @@ export const HeroSection: React.FC = () => {
                 <MessageCircle className="w-5 h-5 text-emerald-600" />
                 <span>Klaim via WA (089673686625)</span>
               </a>
+            </div>
+
+            {/* Reassurance Banner: PESAN SEKARANG BAYAR SETELAH JADI */}
+            <div className="flex items-center gap-2.5 p-3.5 bg-emerald-50 rounded-2xl border-2 border-emerald-300 text-emerald-950 text-xs font-bold shadow-2xs">
+              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+              <div>
+                <strong className="font-black text-emerald-900 uppercase">JAMINAN 100% AMAN & BEBAS RISIKO: </strong>
+                <span>Pesan Sekarang, Bayar Setelah Web Selesai &amp; Anda Review!</span>
+              </div>
             </div>
 
             {/* Quick Gemini AI Consultation Trigger */}

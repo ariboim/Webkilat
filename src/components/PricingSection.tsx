@@ -33,6 +33,14 @@ export const PricingSection: React.FC = () => {
           </p>
         </div>
 
+        {/* PESAN SEKARANG BAYAR SETELAH JADI Banner */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg border-2 border-emerald-300">
+            <ShieldCheck className="w-5 h-5 text-emerald-200" />
+            <span>PESAN SEKARANG, BAYAR SETELAH JADI! (100% BEBAS RISIKO)</span>
+          </div>
+        </div>
+
         {/* Pricing Card Grid */}
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-3xl border-3 border-rose-500 shadow-2xl overflow-hidden relative">

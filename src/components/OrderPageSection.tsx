@@ -18,9 +18,9 @@ export const OrderPageSection: React.FC<OrderPageSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Page Top Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-black uppercase tracking-wider border border-sky-200 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>Pengerjaan Kilat 24 Jam • Flash Sale Rp 499.000 All-In</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider shadow-md border-2 border-emerald-300">
+            <ShieldCheck className="w-4 h-4 text-emerald-200" />
+            <span>PESAN SEKARANG, BAYAR SETELAH JADI! (100% BEBAS RISIKO)</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight text-balance">
             Formulir Pemesanan <span className="text-sky-600">Landing Page</span>
@@ -43,6 +43,15 @@ export const OrderPageSection: React.FC<OrderPageSectionProps> = ({
               <MessageCircle className="w-4 h-4 text-emerald-600" />
               <span>Siap Closing WhatsApp</span>
             </span>
+          </div>
+        </div>
+
+        {/* Notice 1x24 Jam Box */}
+        <div className="max-w-4xl mx-auto p-4 sm:p-4.5 bg-amber-50 rounded-2xl border-2 border-amber-300 text-amber-950 text-xs sm:text-[13px] flex items-start gap-3 shadow-xs">
+          <Clock className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="leading-relaxed">
+            <strong className="font-extrabold text-amber-900 uppercase">Ketentuan Invoice &amp; Pembayaran: </strong>
+            Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran, jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending (tidak bisa online).
           </div>
         </div>
 

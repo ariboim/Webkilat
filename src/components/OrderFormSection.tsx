@@ -22,6 +22,7 @@ import {
   Award,
   Zap,
   CheckCircle2,
+  Clock,
 } from 'lucide-react';
 
 const INITIAL_FORM: OrderFormData = {
@@ -602,6 +603,12 @@ export const OrderFormSection: React.FC = () => {
                   <span className="text-amber-600 font-bold shrink-0">•</span>
                   <span><strong>Garansi uang kembali tidak berlaku</strong> untuk proses pengerjaan yang melebihi 1 hari dikarenakan error server atau maintenance pihak ketiga.</span>
                 </li>
+                <li className="flex items-start gap-2 p-2.5 bg-amber-100/80 rounded-xl border border-amber-300">
+                  <span className="text-amber-800 font-black shrink-0 text-sm">⚠️</span>
+                  <span className="text-amber-950 font-bold leading-relaxed">
+                    Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran ,jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending ( tidak bisa online ).
+                  </span>
+                </li>
               </ul>
 
               <div className="pt-3 border-t border-amber-200/80">
@@ -613,7 +620,7 @@ export const OrderFormSection: React.FC = () => {
                     className="mt-0.5 h-4 w-4 rounded text-sky-600 focus:ring-sky-500 border-amber-300 cursor-pointer"
                   />
                   <span className="text-xs font-bold text-amber-950">
-                    Semua pemesanan dianggap telah membaca dan menyetujui syarat dan ketentuan ini.
+                    Semua pemesanan dianggap telah membaca dan menyetujui syarat dan ketentuan ini (termasuk batas pembayaran 1x24 jam setelah web jadi).
                   </span>
                 </label>
                 {errors.agreedTerms && (
@@ -622,6 +629,24 @@ export const OrderFormSection: React.FC = () => {
                     {errors.agreedTerms}
                   </p>
                 )}
+              </div>
+            </div>
+
+            {/* Ketentuan Pembayaran 1 x 24 Jam Highlight Box */}
+            <div className="p-4 sm:p-5 bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 rounded-2xl border-2 border-amber-300 shadow-sm flex items-start gap-3.5 text-xs text-amber-950">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 font-black shadow-sm">
+                <Clock className="w-5 h-5 text-slate-950" />
+              </div>
+              <div className="space-y-1">
+                <div className="font-black text-amber-900 uppercase tracking-wide flex items-center gap-2">
+                  <span>KETENTUAN INVOICE &amp; PEMBAYARAN:</span>
+                  <span className="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-black border border-amber-300">
+                    Batas Waktu 1 x 24 Jam
+                  </span>
+                </div>
+                <p className="leading-relaxed font-semibold text-slate-800 text-xs sm:text-[13px]">
+                  Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran ,jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending ( tidak bisa online ).
+                </p>
               </div>
             </div>
 

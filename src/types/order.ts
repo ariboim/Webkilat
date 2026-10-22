@@ -62,6 +62,8 @@ export function formatOrderToWhatsApp(data: OrderFormData): string {
     ...(ctaList.length > 0 ? ctaList.map(c => `   - ${c}`) : [`   - (Belum ditentukan)`]),
     ``,
     `*4. SYARAT & KETENTUAN:*`,
+    `• PESAN SEKARANG BAYAR SETELAH JADI.`,
+    `• Setelah web jadi kami akan mengirimkan invoice dengan batas waktu 1 x 24 jam untuk pembayaran, jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending (tidak bisa online).`,
     `• Menyetujui S&K Harga Promo (Free 1x revisi, Free domain .my.id/.biz.id, tanpa email bisnis)`,
     ``,
     `Halo Admin Webkilat, saya sudah mengisi formulir order di atas dan menyetujui syarat & ketentuan promo. Mohon segera diproses untuk pengerjaan 1 hari kilat. Terima kasih!`

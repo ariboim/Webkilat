@@ -17,6 +17,9 @@ export const TopFlashSaleBar: React.FC = () => {
             <Flame className="w-3.5 h-3.5 fill-rose-600 text-rose-600" />
             FLASH SALE HEMAT 1.3 JT
           </span>
+          <span className="inline-flex items-center gap-1 bg-emerald-500 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs border border-emerald-300">
+            🛡️ PESAN SEKARANG, BAYAR SETELAH JADI
+          </span>
           <span className="font-extrabold tracking-tight">
             PROMO TERBATAS:{' '}
             <span className="inline-flex items-center bg-black/40 px-2 py-0.5 rounded border border-rose-400/40">

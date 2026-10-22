@@ -162,15 +162,21 @@ export const OrderFlowSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-black uppercase tracking-wider border border-sky-200 shadow-2xs">
-            <Zap className="w-3.5 h-3.5 text-sky-600 fill-sky-600" />
-            <span>Transparan & Bebas Khawatir</span>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-black uppercase tracking-wider border border-emerald-300 shadow-2xs">
+              <ShieldCheck className="w-4 h-4 text-emerald-700" />
+              <span>PESAN SEKARANG, BAYAR SETELAH JADI!</span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-black uppercase tracking-wider border border-sky-200 shadow-2xs">
+              <Zap className="w-3.5 h-3.5 text-sky-600 fill-sky-600" />
+              <span>Batas Bayar 1 x 24 Jam Setelah Web Jadi</span>
+            </div>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight text-balance">
             Alur Pemesanan Landing Page <span className="text-sky-600">5 Langkah Kilat</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-            Proses pemesanan di Indo Digital dirancang sangat mudah, transparan, dan aman. Dari pengisian formulir hingga website Anda live hanya butuh waktu 1 hari kerja.
+            Proses pemesanan di Indo Digital dirancang sangat mudah, transparan, dan aman. Anda bisa pesan sekarang dan bayar setelah website selesai dikerjakan!
           </p>
         </div>
 
