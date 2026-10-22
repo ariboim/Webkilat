@@ -15,6 +15,7 @@ import {
   Send,
   Zap,
 } from 'lucide-react';
+import { KumpulBloggerAds } from './KumpulBloggerAds';
 
 export interface Article {
   id: string;
@@ -271,6 +272,9 @@ export const ArticlesPageSection: React.FC<ArticlesPageSectionProps> = ({
             </article>
           ))}
         </div>
+
+        {/* KumpulBlogger Classified Ads in Content */}
+        <KumpulBloggerAds variant="content" />
 
         {/* Big Bottom Social Proof Callout */}
         <div className="bg-gradient-to-r from-sky-900 via-slate-900 to-indigo-950 rounded-3xl p-8 sm:p-12 text-white text-center space-y-6 shadow-xl relative overflow-hidden">
