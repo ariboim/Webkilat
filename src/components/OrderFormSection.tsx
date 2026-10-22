@@ -599,10 +599,6 @@ export const OrderFormSection: React.FC = () => {
                   <span className="text-amber-600 font-bold shrink-0">•</span>
                   <span>Untuk domain seperti <strong>.com</strong>, <strong>.net</strong>, <strong>.id</strong>, dan lainnya akan dikenakan biaya pembelian domain.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-amber-600 font-bold shrink-0">•</span>
-                  <span><strong>Garansi uang kembali tidak berlaku</strong> untuk proses pengerjaan yang melebihi 1 hari dikarenakan error server atau maintenance pihak ketiga.</span>
-                </li>
                 <li className="flex items-start gap-2 p-2.5 bg-amber-100/80 rounded-xl border border-amber-300">
                   <span className="text-amber-800 font-black shrink-0 text-sm">⚠️</span>
                   <span className="text-amber-950 font-bold leading-relaxed">
