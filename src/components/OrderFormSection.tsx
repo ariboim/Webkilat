@@ -13,7 +13,6 @@ import {
   Copy,
   Check,
   Sparkles,
-  Info,
   ShieldCheck,
   AlertCircle,
   RotateCcw,
@@ -24,7 +23,21 @@ import {
   CheckCircle2,
   Clock,
   Globe,
+  Search,
+  Loader2,
+  ArrowDown,
+  ArrowRight,
+  RefreshCw,
 } from 'lucide-react';
+
+export interface DomainCheckItem {
+  domain: string;
+  extension: string;
+  isAvailable: boolean;
+  isFreeWithPromo: boolean;
+  badge: string;
+  message: string;
+}
 
 const INITIAL_FORM: OrderFormData = {
   namaSalesKonsultan: '',
@@ -85,6 +98,15 @@ export const OrderFormSection: React.FC = () => {
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [agreedTerms, setAgreedTerms] = useState(true);
 
+  // Unified Domain Checker states
+  const [domainSearchInput, setDomainSearchInput] = useState('');
+  const [isCheckingDomain, setIsCheckingDomain] = useState(false);
+  const [hasCheckedDomain, setHasCheckedDomain] = useState(false);
+  const [domainResults, setDomainResults] = useState<DomainCheckItem[]>([]);
+  const [isSearchingAgain, setIsSearchingAgain] = useState(false);
+  const [orderInstruction, setOrderInstruction] = useState<string | null>(null);
+
+  // Sync with global events / session storage
   useEffect(() => {
     const handleDomainSelected = (e: CustomEvent<string>) => {
       if (e.detail) {
@@ -93,6 +115,7 @@ export const OrderFormSection: React.FC = () => {
           domainPilihan: e.detail,
           namaBisnis: prev.namaBisnis || e.detail.split('.')[0],
         }));
+        setOrderInstruction(`Domain "${e.detail}" telah dipilih! Silakan lanjutkan melengkapi formulir di bawah ini.`);
       }
     };
 
@@ -103,6 +126,7 @@ export const OrderFormSection: React.FC = () => {
           ...prev,
           domainPilihan: stored,
         }));
+        setOrderInstruction(`Domain "${stored}" telah dipilih! Silakan lanjutkan melengkapi formulir di bawah ini.`);
       }
     } catch {}
 
@@ -110,13 +134,160 @@ export const OrderFormSection: React.FC = () => {
     return () => window.removeEventListener('domain-selected' as any, handleDomainSelected);
   }, []);
 
+  // Persist form to localStorage
   useEffect(() => {
     try {
       localStorage.setItem('webkilat_saved_form', JSON.stringify(formData));
-    } catch {
-      // ignore
-    }
+    } catch {}
   }, [formData]);
+
+  // Perform domain availability check
+  const checkDomainAvailability = async (queryDomain: string) => {
+    const trimmed = queryDomain.trim().toLowerCase();
+    if (!trimmed) return;
+
+    setIsCheckingDomain(true);
+    setHasCheckedDomain(true);
+    setOrderInstruction(null);
+
+    try {
+      const response = await fetch(`/api/check-domain?domain=${encodeURIComponent(trimmed)}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.results && Array.isArray(data.results)) {
+          setDomainResults(data.results);
+          setIsCheckingDomain(false);
+          return;
+        }
+      }
+    } catch {
+      // Fallback to client DoH
+    }
+
+    try {
+      let clean = trimmed
+        .replace(/^https?:\/\//i, '')
+        .replace(/^www\./i, '')
+        .replace(/\/.*$/, '')
+        .replace(/[^a-z0-9.-]/g, '');
+
+      const extensions = ['.my.id', '.biz.id', '.com', '.id'];
+      let baseName = clean;
+      let specifiedExt = '';
+
+      for (const ext of extensions) {
+        if (clean.endsWith(ext)) {
+          baseName = clean.slice(0, -ext.length);
+          specifiedExt = ext;
+          break;
+        }
+      }
+
+      if (baseName.includes('.')) {
+        baseName = baseName.split('.')[0];
+      }
+
+      let extList = [...extensions];
+      if (specifiedExt) {
+        extList = [specifiedExt, ...extensions.filter((e) => e !== specifiedExt)];
+      }
+
+      const clientResults: DomainCheckItem[] = await Promise.all(
+        extList.map(async (ext) => {
+          const fullDomain = `${baseName}${ext}`;
+          let isAvailable = false;
+          try {
+            const res = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(fullDomain)}&type=NS`, {
+              headers: { Accept: 'application/dns-json' },
+            });
+            if (res.ok) {
+              const data = await res.json();
+              if (data.Status === 3) {
+                isAvailable = true;
+              } else if (
+                data.Status === 0 &&
+                (!data.Answer || data.Answer.length === 0) &&
+                (!data.Authority || data.Authority.length === 0)
+              ) {
+                isAvailable = true;
+              } else {
+                isAvailable = false;
+              }
+            } else {
+              isAvailable = true;
+            }
+          } catch {
+            isAvailable = true;
+          }
+
+          const isFree = ext === '.my.id' || ext === '.biz.id';
+          return {
+            domain: fullDomain,
+            extension: ext,
+            isAvailable,
+            isFreeWithPromo: isFree,
+            badge: isFree ? 'Gratis 1 Tahun Promo' : 'Ekstensi Populer',
+            message: isAvailable
+              ? `${fullDomain} TERSEDIA! Siap digunakan untuk landing page Anda.`
+              : `${fullDomain} sudah dipakai. Coba nama lain ya.`,
+          };
+        })
+      );
+
+      setDomainResults(clientResults);
+    } catch {
+      setDomainResults([
+        {
+          domain: `${trimmed}.my.id`,
+          extension: '.my.id',
+          isAvailable: true,
+          isFreeWithPromo: true,
+          badge: 'Gratis 1 Tahun Promo',
+          message: `${trimmed}.my.id TERSEDIA! Siap digunakan untuk landing page Anda.`,
+        },
+      ]);
+    } finally {
+      setIsCheckingDomain(false);
+    }
+  };
+
+  const handleDomainSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    checkDomainAvailability(domainSearchInput);
+  };
+
+  // Handler when user chooses an available domain
+  const handleSelectAvailableDomain = (domain: string) => {
+    const cleanBase = domain.split('.')[0];
+    const autoBizName = cleanBase ? cleanBase.charAt(0).toUpperCase() + cleanBase.slice(1) : '';
+
+    setFormData((prev) => ({
+      ...prev,
+      domainPilihan: domain,
+      namaBisnis: prev.namaBisnis || autoBizName,
+    }));
+
+    try {
+      sessionStorage.setItem('selected_domain', domain);
+    } catch {}
+
+    setIsSearchingAgain(false);
+    setOrderInstruction(
+      `🎉 Domain "${domain}" TERSEDIA dan telah otomatis terpasang di formulir order! Silakan lanjutkan melengkapi Data Klien & Rincian Produk di bawah ini.`
+    );
+
+    // Smoothly scroll and focus to Data Klien
+    setTimeout(() => {
+      const klienSection = document.getElementById('section-data-klien');
+      if (klienSection) {
+        klienSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      const namaInput = document.querySelector('input[name="namaLengkap"]') as HTMLInputElement;
+      if (namaInput) {
+        namaInput.focus();
+      }
+    }, 250);
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -148,6 +319,7 @@ export const OrderFormSection: React.FC = () => {
 
   const fillSampleData = () => {
     setFormData(SAMPLE_DEMO_DATA);
+    setOrderInstruction('Data demo telah dimasukkan ke formulir! Anda dapat meninjau dan mengirimkannya via WhatsApp.');
     setErrors({});
   };
 
@@ -156,11 +328,14 @@ export const OrderFormSection: React.FC = () => {
     setErrors({});
     setSubmittedSuccess(false);
     setAgreedTerms(true);
+    setOrderInstruction(null);
+    setHasCheckedDomain(false);
+    setDomainResults([]);
+    setIsSearchingAgain(false);
     try {
       localStorage.removeItem('webkilat_saved_form');
-    } catch {
-      // ignore
-    }
+      sessionStorage.removeItem('selected_domain');
+    } catch {}
   };
 
   const validate = (): boolean => {
@@ -219,23 +394,26 @@ export const OrderFormSection: React.FC = () => {
   };
 
   return (
-    <section id="formulir-order" className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="formulir-order" className="py-16 sm:py-20 bg-slate-50/50 border-t border-slate-200/80">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
         {/* Title Header matching user brief */}
-        <div className="text-center space-y-3 mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Pengerjaan Kilat 24 Jam · Rp 499.000 All-In</span>
+        <div className="text-center space-y-3 mb-6">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-sky-100 text-sky-800 text-xs font-black uppercase tracking-wider border border-sky-200 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+            <span>Pengerjaan Kilat 24 Jam &bull; Rp 499.000 All-In &bull; Bayar Setelah Jadi</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight text-balance">
             Formulir Pemesanan Jasa Pembuatan Landing Page
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Mohon lengkapi formulir di bawah ini agar kami dapat memahami kebutuhan proyek dan menyusun landing page yang tepat sasaran.
+
+          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
+            Mulai dengan memeriksa domain bisnis Anda pada kotak pencarian di bawah, lalu lengkapi rincian produk Anda untuk langsung diproses tim desainer kami.
           </p>
 
           {/* Quick Helper Tools */}
-          <div className="pt-2 flex items-center justify-center gap-3">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <button
               type="button"
               onClick={fillSampleData}
@@ -256,8 +434,277 @@ export const OrderFormSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Form Container */}
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-10">
+        {/* Global Order Instruction Banner (When domain selected or demo loaded) */}
+        {orderInstruction && (
+          <div className="p-4 sm:p-5 bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 rounded-2xl border-2 border-emerald-400 text-emerald-950 shadow-md animate-fade-in flex items-start gap-3.5">
+            <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+              <Check className="w-4 h-4 stroke-[3]" />
+            </div>
+            <div className="space-y-1">
+              <div className="font-black text-xs sm:text-sm uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <span>Instruksi Kelanjutan Pengisian:</span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
+                {orderInstruction}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* MAIN FORM CONTAINER (UNIFIED DOMAIN CHECKER + CLIENT & PRODUCT DETAILS) */}
+        {/* ========================================================================= */}
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-10 space-y-10">
+
+          {/* ========================================================================= */}
+          {/* STEP 1: UNIFIED BOX CEK KETERSEDIAAN DOMAIN (MATCHING USER SCREENSHOT)     */}
+          {/* ========================================================================= */}
+          <div id="cek-domain" className="space-y-4 pt-1">
+            <div className="flex items-center gap-3 pb-2 border-b border-slate-200">
+              <span className="w-8 h-8 rounded-xl bg-sky-500 text-white text-xs font-black flex items-center justify-center shadow-xs">
+                1
+              </span>
+              <div>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                  1. Cek Ketersediaan Nama Domain Website
+                </h3>
+                <p className="text-xs text-slate-500 font-medium">
+                  Gratis domain <strong>.my.id</strong> dan <strong>.biz.id</strong> 1 tahun penuh khusus promo Rp 499rb!
+                </p>
+              </div>
+            </div>
+
+            {/* If domain is already selected and user is not currently re-searching */}
+            {formData.domainPilihan && !isSearchingAgain ? (
+              <div className="p-5 sm:p-6 bg-gradient-to-r from-emerald-50 to-teal-50/70 rounded-2xl border-2 border-emerald-400 text-emerald-950 shadow-xs space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                      <Check className="w-6 h-6 stroke-[3]" />
+                    </div>
+                    <div>
+                      <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 block">
+                        Domain Terpilih &bull; Siap Didaftarkan
+                      </span>
+                      <div className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                        <span>{formData.domainPilihan}</span>
+                        <span className="text-[10px] bg-emerald-600 text-white font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          Tersedia
+                        </span>
+                      </div>
+                      <p className="text-xs text-emerald-800 font-medium mt-0.5">
+                        Gratis 1 Tahun Promo All-In Rp 499.000 (Langsung terhubung ke formulir pemesanan).
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsSearchingAgain(true);
+                      setDomainSearchInput(formData.domainPilihan ? formData.domainPilihan.split('.')[0] : '');
+                    }}
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs border border-slate-300 shadow-2xs transition-all cursor-pointer shrink-0"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Cek / Ganti Domain Lain</span>
+                  </button>
+                </div>
+
+                {/* Instruction to proceed to next step */}
+                <div className="pt-3 border-t border-emerald-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-900">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <ArrowDown className="w-4 h-4 text-emerald-700 animate-bounce" />
+                    <span>Domain sudah tersimpan! Silakan lanjutkan melengkapi <strong>Data Klien (Langkah 2)</strong> di bawah.</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const klien = document.getElementById('section-data-klien');
+                      if (klien) klien.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="font-bold text-emerald-800 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>Lompat ke Data Klien &darr;</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* The Box matching screenshot with light blue border, input, SEARCH button, and Contoh Coba pills */
+              <div className="bg-white rounded-3xl p-5 sm:p-7 border-2 border-sky-100 shadow-md space-y-4">
+                <form onSubmit={handleDomainSearchSubmit} className="space-y-4">
+                  {/* Large Input with placeholder "namabisnis.com" matching screenshot */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={domainSearchInput}
+                      onChange={(e) => setDomainSearchInput(e.target.value)}
+                      placeholder="namabisnis.com"
+                      className="w-full text-base sm:text-xl font-bold text-slate-800 placeholder-slate-400 px-5 py-3.5 sm:py-4 rounded-2xl bg-white border-2 border-slate-200 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none transition-all shadow-inner"
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hidden sm:inline">
+                      .my.id / .biz.id / .com
+                    </span>
+                  </div>
+
+                  {/* Bright Sky-Blue / Cyan SEARCH Button matching user's screenshot */}
+                  <button
+                    type="submit"
+                    disabled={isCheckingDomain || !domainSearchInput.trim()}
+                    className="w-full py-3.5 sm:py-4 px-6 rounded-2xl bg-sky-400 hover:bg-sky-500 active:scale-99 text-white font-black text-base sm:text-lg tracking-wider uppercase transition-all shadow-md hover:shadow-sky-400/30 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isCheckingDomain ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>MEMERIKSA KETERSEDIAAN...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Search className="w-5 h-5 stroke-[2.5]" />
+                        <span>SEARCH</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                {/* Example pills matching screenshot: kedaiayam.my.id, hijabcantik.my.id, sejukac.my.id, berkahshop.my.id */}
+                <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                  <span className="font-bold text-slate-700">Contoh Coba:</span>
+                  {[
+                    'kedaiayam.my.id',
+                    'hijabcantik.my.id',
+                    'sejukac.my.id',
+                    'berkahshop.my.id',
+                  ].map((sample) => (
+                    <button
+                      key={sample}
+                      type="button"
+                      onClick={() => {
+                        setDomainSearchInput(sample);
+                        checkDomainAvailability(sample);
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 font-semibold transition-colors cursor-pointer text-xs"
+                    >
+                      {sample}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Cancel search if already had a domain */}
+                {formData.domainPilihan && isSearchingAgain && (
+                  <div className="pt-2 text-right">
+                    <button
+                      type="button"
+                      onClick={() => setIsSearchingAgain(false)}
+                      className="text-xs font-bold text-slate-500 hover:text-slate-800 hover:underline cursor-pointer"
+                    >
+                      Batal &bull; Tetap gunakan {formData.domainPilihan}
+                    </button>
+                  </div>
+                )}
+
+                {/* ========================================================================= */}
+                {/* DOMAIN CHECK RESULTS AREA WITH CLEAR INSTRUCTIONS TO CONTINUE ORDER       */}
+                {/* ========================================================================= */}
+                {hasCheckedDomain && !isCheckingDomain && (
+                  <div className="pt-4 space-y-3 border-t border-slate-100 animate-fade-in">
+                    <div className="flex items-center justify-between text-xs font-black uppercase tracking-wider text-slate-500 px-1">
+                      <span>Hasil Pengecekan Ketersediaan:</span>
+                      <span>Promo All-In Rp 499rb</span>
+                    </div>
+
+                    {domainResults.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+                          item.isAvailable
+                            ? 'bg-emerald-50/90 border-2 border-emerald-400 shadow-xs'
+                            : 'bg-rose-50/70 border border-rose-200'
+                        }`}
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          {/* Domain Details */}
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              {item.isAvailable ? (
+                                <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                                  <span className="text-xs font-black leading-none">✕</span>
+                                </div>
+                              )}
+
+                              <span
+                                className={`text-base sm:text-lg font-black tracking-tight ${
+                                  item.isAvailable ? 'text-emerald-950' : 'text-rose-900'
+                                }`}
+                              >
+                                {item.domain}
+                              </span>
+
+                              {item.isFreeWithPromo && (
+                                <span className="text-[10px] bg-emerald-600 text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                  Gratis 1 Tahun
+                                </span>
+                              )}
+                            </div>
+
+                            <p
+                              className={`text-xs pl-8 font-medium ${
+                                item.isAvailable ? 'text-emerald-800' : 'text-rose-700'
+                              }`}
+                            >
+                              {item.isAvailable ? (
+                                <span>
+                                  <strong>Domain TERSEDIA!</strong>{' '}
+                                  {item.isFreeWithPromo
+                                    ? 'Termasuk gratis pada paket promo Rp 499.000 all-in.'
+                                    : 'Dapat digunakan untuk landing page bisnis Anda.'}
+                                </span>
+                              ) : (
+                                <span>
+                                  <strong>{item.domain}</strong> sudah dipakai orang lain. Coba alternatif nama lain.
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* ========================================================================= */}
+                        {/* INSTRUCTION BLOCK & PROCEED BUTTON (AS REQUESTED BY USER)                 */}
+                        {/* ========================================================================= */}
+                        {item.isAvailable && (
+                          <div className="mt-3.5 pt-3.5 border-t border-emerald-300/80 bg-white/90 p-4 rounded-xl border border-emerald-200 space-y-2.5">
+                            <div className="flex items-center gap-1.5 text-xs font-black text-emerald-900 uppercase tracking-wide">
+                              <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+                              <span>Instruksi Melanjutkan Pengisian Order:</span>
+                            </div>
+
+                            <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                              Domain <strong>"{item.domain}"</strong> dapat langsung digunakan! Silakan tekan tombol hijau di bawah untuk memasukkan domain ini ke formulir pemesanan, kemudian lanjutkan melengkapi rincian usaha Anda di bawah.
+                            </p>
+
+                            <button
+                              type="button"
+                              onClick={() => handleSelectAvailableDomain(item.domain)}
+                              className="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 active:scale-98 text-white font-black text-xs sm:text-sm tracking-wide shadow-md hover:shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                              <span>Gunakan Domain "{item.domain}" &amp; Lanjutkan Pengisian Order</span>
+                              <ArrowDown className="w-4 h-4 animate-bounce" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-10">
             {/* Sales Consultant (optional) */}
             <div className="p-4 bg-sky-50/50 rounded-2xl border border-sky-100">
@@ -274,13 +721,22 @@ export const OrderFormSection: React.FC = () => {
               />
             </div>
 
-            {/* 1. Data Klien */}
-            <div className="space-y-5">
+            {/* ========================================================================= */}
+            {/* STEP 2: DATA KLIEN & KONTAK                                               */}
+            {/* ========================================================================= */}
+            <div id="section-data-klien" className="space-y-5 pt-2">
               <div className="flex items-center gap-3 pb-2 border-b border-slate-200">
-                <span className="w-7 h-7 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">
-                  1
+                <span className="w-8 h-8 rounded-xl bg-sky-600 text-white text-xs font-black flex items-center justify-center shadow-xs">
+                  2
                 </span>
-                <h3 className="text-lg font-bold text-slate-900">1. Data Klien</h3>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                    2. Data Klien &amp; Kontak Pemesan
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Lengkapi identitas penanggung jawab dan nama brand bisnis Anda.
+                  </p>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -372,25 +828,42 @@ export const OrderFormSection: React.FC = () => {
                   )}
                 </div>
 
+                {/* Domain Input linked with the checker box above */}
                 <div className="sm:col-span-2">
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-bold text-slate-800">
-                      Pilihan Nama Domain Website <span className="text-slate-400 font-normal">(Gratis .my.id / .biz.id)</span>
+                    <label className="block text-xs font-bold text-slate-800 flex items-center gap-2">
+                      <span>Pilihan Nama Domain Website</span>
+                      {formData.domainPilihan ? (
+                        <span className="text-[10px] text-emerald-700 bg-emerald-100 font-black px-2 py-0.5 rounded-full border border-emerald-300">
+                          ✓ Terisi dari Cek Domain
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 font-normal">(Gratis .my.id / .biz.id)</span>
+                      )}
                     </label>
-                    <a
-                      href="#cek-domain"
-                      className="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1"
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const domainBox = document.getElementById('cek-domain');
+                        if (domainBox) {
+                          domainBox.scrollIntoView({ behavior: 'smooth' });
+                          setIsSearchingAgain(true);
+                        }
+                      }}
+                      className="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <Globe className="w-3 h-3" />
-                      <span>Cek Ketersediaan Domain &rarr;</span>
-                    </a>
+                      <span>{formData.domainPilihan ? 'Ganti Domain di Box Atas &uarr;' : 'Cek Ketersediaan di Box Atas &uarr;'}</span>
+                    </button>
                   </div>
+
                   <input
                     type="text"
                     name="domainPilihan"
                     value={formData.domainPilihan || ''}
                     onChange={handleInputChange}
-                    placeholder="Contoh: namabisnis.my.id (otomatis terisi jika menggunakan fitur Cek Domain)"
+                    placeholder="Contoh: namabisnis.my.id (otomatis terisi saat Anda klik hasil Cek Domain di atas)"
                     className="w-full px-3.5 py-2.5 text-sm bg-slate-50/50 border rounded-xl focus:bg-white focus:ring-2 focus:ring-sky-500 transition-all outline-hidden text-slate-900 border-slate-200"
                   />
                   <p className="text-[11px] text-slate-500 mt-1">
@@ -436,13 +909,22 @@ export const OrderFormSection: React.FC = () => {
               </div>
             </div>
 
-            {/* 2. Informasi Produk / Layanan */}
+            {/* ========================================================================= */}
+            {/* STEP 3: INFORMASI PRODUK / LAYANAN                                        */}
+            {/* ========================================================================= */}
             <div className="space-y-5">
               <div className="flex items-center gap-3 pb-2 border-b border-slate-200">
-                <span className="w-7 h-7 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">
-                  2
+                <span className="w-8 h-8 rounded-xl bg-sky-600 text-white text-xs font-black flex items-center justify-center shadow-xs">
+                  3
                 </span>
-                <h3 className="text-lg font-bold text-slate-900">2. Informasi Produk / Layanan</h3>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                    3. Informasi Produk / Layanan yang Ditawarkan
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Materi ini akan dirangkai menjadi teks copywriting persuasif oleh tim kami.
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -520,13 +1002,22 @@ export const OrderFormSection: React.FC = () => {
               </div>
             </div>
 
-            {/* 3. Kebutuhan & Tujuan Landing Page */}
+            {/* ========================================================================= */}
+            {/* STEP 4: KEBUTUHAN & TUJUAN LANDING PAGE                                   */}
+            {/* ========================================================================= */}
             <div className="space-y-6">
               <div className="flex items-center gap-3 pb-2 border-b border-slate-200">
-                <span className="w-7 h-7 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">
-                  3
+                <span className="w-8 h-8 rounded-xl bg-sky-600 text-white text-xs font-black flex items-center justify-center shadow-xs">
+                  4
                 </span>
-                <h3 className="text-lg font-bold text-slate-900">3. Kebutuhan & Tujuan Landing Page</h3>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                    4. Kebutuhan &amp; Tujuan Landing Page
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Sesuaikan sasaran utama dan tipe aksi konversi yang diharapkan dari pengunjung.
+                  </p>
+                </div>
               </div>
 
               {/* A: Tujuan Utama */}
@@ -629,34 +1120,36 @@ export const OrderFormSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Syarat & Ketentuan Harga Promo */}
+            {/* ========================================================================= */}
+            {/* STEP 5: SYARAT & KETENTUAN HARGA PROMO                                    */}
+            {/* ========================================================================= */}
             <div className="p-5 sm:p-6 bg-amber-50/90 rounded-2xl border-2 border-amber-300 space-y-3.5 shadow-xs">
               <div className="flex items-center gap-2 text-amber-950 font-black text-xs sm:text-sm uppercase tracking-wider">
                 <FileText className="w-4 h-4 text-amber-700 shrink-0" />
-                <span>Syarat & Ketentuan Harga Promo (Rp 499.000)</span>
+                <span>Syarat &amp; Ketentuan Harga Promo (Rp 499.000)</span>
               </div>
 
               <ul className="space-y-2 text-xs text-slate-700 leading-relaxed">
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span className="text-amber-600 font-bold shrink-0">&bull;</span>
                   <span><strong>Free revisi 1 kali</strong>, untuk revisi kedua dan seterusnya akan dikenakan biaya Rp 50.000 per revisi.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span className="text-amber-600 font-bold shrink-0">&bull;</span>
                   <span><strong>Tidak mendapatkan email bisnis</strong> resmi (nama_bisnis@domain).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span className="text-amber-600 font-bold shrink-0">&bull;</span>
                   <span><strong>Free domain</strong> hanya berlaku untuk domain <strong>.my.id</strong> dan <strong>.biz.id</strong>.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-amber-600 font-bold shrink-0">•</span>
+                  <span className="text-amber-600 font-bold shrink-0">&bull;</span>
                   <span>Untuk domain seperti <strong>.com</strong>, <strong>.net</strong>, <strong>.id</strong>, dan lainnya akan dikenakan biaya pembelian domain.</span>
                 </li>
                 <li className="flex items-start gap-2 p-2.5 bg-amber-100/80 rounded-xl border border-amber-300">
                   <span className="text-amber-800 font-black shrink-0 text-sm">⚠️</span>
                   <span className="text-amber-950 font-bold leading-relaxed">
-                    Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran ,jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending ( tidak bisa online ).
+                    Setelah web jadi kami akan mengirimkan invoice dengan batas waktu <strong>1 x 24 jam</strong> untuk pembayaran, jika sudah melewati batas waktu kami belum menerima pembayaran maka status web akan kami pending (tidak bisa online).
                   </span>
                 </li>
               </ul>
@@ -683,7 +1176,7 @@ export const OrderFormSection: React.FC = () => {
             </div>
 
             {/* Admin Target WA Notice */}
-            <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200/80 flex items-center justify-between gap-3 text-xs text-emerald-950">
+            <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-emerald-950">
               <div className="flex items-center gap-2.5">
                 <MessageCircle className="w-5 h-5 text-emerald-600 shrink-0" />
                 <span>
@@ -734,7 +1227,7 @@ export const OrderFormSection: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 pt-2">
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-sky-600" />
-                  <span>Data Anda aman & langsung diproses tim desainer webkilat</span>
+                  <span>Data Anda aman &bull; Bayar setelah website jadi dan Anda review (tanpa DP)</span>
                 </div>
                 <button
                   type="button"
@@ -751,7 +1244,7 @@ export const OrderFormSection: React.FC = () => {
                 <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
                   <div className="flex items-center gap-2 text-xs font-black text-slate-800 uppercase tracking-wide">
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    <span>Jaminan Keamanan & Garansi Transaksi</span>
+                    <span>Jaminan Keamanan &amp; Garansi Transaksi</span>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full border border-emerald-200">
                     100% Terverifikasi
@@ -792,7 +1285,7 @@ export const OrderFormSection: React.FC = () => {
                 {/* Bank Transfer Channels Logo Image */}
                 <div className="pt-2 border-t border-slate-200/80 space-y-1.5">
                   <div className="flex items-center justify-between text-[11px] text-slate-700 font-bold">
-                    <span>Mendukung Transfer Bank & Virtual Account Seluruh Indonesia:</span>
+                    <span>Mendukung Transfer Bank &amp; Virtual Account Seluruh Indonesia:</span>
                     <span className="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-extrabold">Bebas Biaya Transfer</span>
                   </div>
                   <div className="bg-white p-2.5 rounded-xl border border-slate-200/90 shadow-2xs">

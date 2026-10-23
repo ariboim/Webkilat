@@ -1,7 +1,6 @@
 import React from 'react';
 import { Sparkles, ShieldCheck, Clock, MessageCircle, ArrowLeft } from 'lucide-react';
 import { OrderFlowSection } from './OrderFlowSection';
-import { DomainCheckerSection } from './DomainCheckerSection';
 import { OrderFormSection } from './OrderFormSection';
 import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from '../types/order';
 
@@ -59,10 +58,7 @@ export const OrderPageSection: React.FC<OrderPageSectionProps> = ({
         {/* 5-Step Order Flow Diagram */}
         <OrderFlowSection />
 
-        {/* Domain Availability Checker Box */}
-        <DomainCheckerSection />
-
-        {/* The Exact Order Form */}
+        {/* The Exact Order Form with Unified Domain Checker */}
         <OrderFormSection />
 
         {/* Help Banner */}

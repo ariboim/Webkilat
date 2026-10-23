@@ -9,7 +9,6 @@ import { UmkmBenefitsSection } from './components/UmkmBenefitsSection';
 import { UmkmShowcaseSection } from './components/UmkmShowcaseSection';
 import { PricingSection } from './components/PricingSection';
 import { OrderFlowSection } from './components/OrderFlowSection';
-import { DomainCheckerSection } from './components/DomainCheckerSection';
 import { OrderFormSection } from './components/OrderFormSection';
 import { OrderPageSection } from './components/OrderPageSection';
 import { ContactPageSection } from './components/ContactPageSection';
@@ -97,10 +96,7 @@ export default function App() {
             {/* 5-Step Order Flow Diagram */}
             <OrderFlowSection />
 
-            {/* Box Cek Ketersediaan Domain (Posisi tepat di atas Form Order pada tab Home) */}
-            <DomainCheckerSection />
-
-            {/* Formulir Pemesanan Langsung di Tab Home */}
+            {/* Formulir Pemesanan Lengkap dengan Box Cek Ketersediaan Domain Terintegrasi */}
             <OrderFormSection />
 
             {/* Testimonials from UMKM Owners */}
