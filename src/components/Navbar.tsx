@@ -65,10 +65,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
     }
   };
 
-  const openGeminiChat = () => {
-    setMobileMenuOpen(false);
-    window.dispatchEvent(new CustomEvent('open-gemini-chat'));
-  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs">
@@ -169,14 +165,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               <ExternalLink className="w-3.5 h-3.5 text-amber-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
 
-            <button
-              onClick={openGeminiChat}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl border border-indigo-200 transition-colors whitespace-nowrap cursor-pointer shadow-2xs group"
-              title="Tanya Asisten AI Gemini 24 Jam"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse group-hover:rotate-12 transition-transform" />
-              <span>Tanya Gemini AI</span>
-            </button>
 
             {activeTab !== 'order' && (
               <button
@@ -342,13 +330,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
-            <button
-              onClick={openGeminiChat}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100"
-            >
-              <Sparkles className="w-4 h-4 text-indigo-600" />
-              <span>Tanya Asisten AI Gemini 24 Jam</span>
-            </button>
 
             <a
               href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20konsultasi%20jasa%20landing%20page%201%20hari%20Rp%20499rb.`}

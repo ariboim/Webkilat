@@ -106,6 +106,15 @@ export const OrderFormSection: React.FC = () => {
   const [isSearchingAgain, setIsSearchingAgain] = useState(false);
   const [orderInstruction, setOrderInstruction] = useState<string | null>(null);
 
+  // Promo 50% state
+  const [isPromoActive, setIsPromoActive] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('promo_50_active') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   // Sync with global events / session storage
   useEffect(() => {
     const handleDomainSelected = (e: CustomEvent<string>) => {
@@ -119,6 +128,17 @@ export const OrderFormSection: React.FC = () => {
       }
     };
 
+    const handlePromoClaimed = () => {
+      setIsPromoActive(true);
+      setFormData((prev) => ({ ...prev, isPromoActive: true }));
+      try {
+        sessionStorage.setItem('promo_50_active', 'true');
+      } catch {}
+      setOrderInstruction(
+        '🎉 SELAMAT! PROMO DISKON 50% AKTIF. Total tagihan pembuatan landing page otomatis menjadi Rp 249.000 (Hemat Rp 250.000).'
+      );
+    };
+
     try {
       const stored = sessionStorage.getItem('selected_domain');
       if (stored) {
@@ -128,10 +148,18 @@ export const OrderFormSection: React.FC = () => {
         }));
         setOrderInstruction(`Domain "${stored}" telah dipilih! Silakan lanjutkan melengkapi formulir di bawah ini.`);
       }
+
+      if (sessionStorage.getItem('promo_50_active') === 'true') {
+        setIsPromoActive(true);
+      }
     } catch {}
 
     window.addEventListener('domain-selected' as any, handleDomainSelected);
-    return () => window.removeEventListener('domain-selected' as any, handleDomainSelected);
+    window.addEventListener('promo-50-claimed' as any, handlePromoClaimed);
+    return () => {
+      window.removeEventListener('domain-selected' as any, handleDomainSelected);
+      window.removeEventListener('promo-50-claimed' as any, handlePromoClaimed);
+    };
   }, []);
 
   // Persist form to localStorage
@@ -381,20 +409,22 @@ export const OrderFormSection: React.FC = () => {
     }
 
     setSubmittedSuccess(true);
-    trackOrderSubmission(formData.namaBisnis, 499000);
-    const waUrl = generateWhatsAppUrl(formData);
+    const finalPrice = isPromoActive ? 249000 : 499000;
+    trackOrderSubmission(formData.namaBisnis, finalPrice);
+    const waUrl = generateWhatsAppUrl(formData, isPromoActive);
     window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleCopyText = () => {
-    const text = formatOrderToWhatsApp(formData);
+    const text = formatOrderToWhatsApp(formData, isPromoActive);
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
 
   return (
-    <section id="formulir-order" className="py-16 sm:py-20 bg-slate-50/50 border-t border-slate-200/80">
+    <section id="form-order" className="scroll-mt-16">
+      <div id="formulir-order" className="py-16 sm:py-20 bg-slate-50/50 border-t border-slate-200/80">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Title Header matching user brief */}
@@ -830,7 +860,7 @@ export const OrderFormSection: React.FC = () => {
 
                 {/* Domain Input linked with the checker box above */}
                 <div className="sm:col-span-2">
-                  <div className="flex items-center justify-between mb-1.5">
+                  <div className="mb-1.5">
                     <label className="block text-xs font-bold text-slate-800 flex items-center gap-2">
                       <span>Pilihan Nama Domain Website</span>
                       {formData.domainPilihan ? (
@@ -841,21 +871,6 @@ export const OrderFormSection: React.FC = () => {
                         <span className="text-slate-400 font-normal">(Gratis .my.id / .biz.id)</span>
                       )}
                     </label>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const domainBox = document.getElementById('cek-domain');
-                        if (domainBox) {
-                          domainBox.scrollIntoView({ behavior: 'smooth' });
-                          setIsSearchingAgain(true);
-                        }
-                      }}
-                      className="text-[11px] font-bold text-sky-600 hover:text-sky-800 hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <Globe className="w-3 h-3" />
-                      <span>{formData.domainPilihan ? 'Ganti Domain di Box Atas &uarr;' : 'Cek Ketersediaan di Box Atas &uarr;'}</span>
-                    </button>
                   </div>
 
                   <input
@@ -988,7 +1003,7 @@ export const OrderFormSection: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-800 mb-1.5">
-                    Harga & Penawaran Khusus: <span className="text-slate-500 font-normal">(Harga normal, harga promo, bonus/diskon jika ada)</span>
+                    Harga &amp; Penawaran Khusus: <span className="text-slate-500 font-normal">(Harga normal, harga promo, bonus/diskon jika ada)</span>
                   </label>
                   <input
                     type="text"
@@ -996,6 +1011,20 @@ export const OrderFormSection: React.FC = () => {
                     value={formData.hargaPenawaran}
                     onChange={handleInputChange}
                     placeholder="Contoh: Normal Rp 45.000 / botol. Promo: Beli 3 botol hanya Rp 100.000 + gratis 1 sachet sambal bawang!"
+                    className="w-full px-3.5 py-2.5 text-sm bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-sky-500 transition-all outline-hidden text-slate-900"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-800 mb-1.5">
+                    Catatan Tambahan untuk Desainer / Admin <span className="text-slate-400 font-normal">(opsional)</span>
+                  </label>
+                  <textarea
+                    rows={2}
+                    name="catatanTambahan"
+                    value={formData.catatanTambahan || ''}
+                    onChange={handleInputChange}
+                    placeholder="Contoh: Tolong gunakan aksen warna biru navy, logo sudah siap di link Drive, target launching hari Sabtu..."
                     className="w-full px-3.5 py-2.5 text-sm bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-sky-500 transition-all outline-hidden text-slate-900"
                   />
                 </div>
@@ -1208,20 +1237,129 @@ export const OrderFormSection: React.FC = () => {
                   </button>
                 </div>
                 <pre className="whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto text-[11px] text-slate-200">
-                  {formatOrderToWhatsApp(formData)}
+                  {formatOrderToWhatsApp(formData, isPromoActive)}
                 </pre>
               </div>
             )}
+
+            {/* ========================================================================= */}
+            {/* RINGKASAN HARGA & STATUS PROMO OTOMATIS                                   */}
+            {/* ========================================================================= */}
+            <div
+              className={`p-5 sm:p-6 rounded-2xl border-2 transition-all ${
+                isPromoActive
+                  ? 'bg-gradient-to-r from-amber-50 via-yellow-50/80 to-emerald-50 border-amber-400 shadow-md ring-2 ring-amber-300/60'
+                  : 'bg-sky-50/60 border-sky-200'
+              }`}
+            >
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Ringkasan Total Tagihan:
+                    </span>
+                    {isPromoActive ? (
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black text-[11px] uppercase tracking-wider shadow-xs animate-pulse border border-amber-600/30">
+                        <Sparkles className="w-3 h-3 fill-current" />
+                        <span>PROMO DISKON 50% AKTIF</span>
+                      </span>
+                    ) : (
+                      <span className="px-2.5 py-0.5 rounded-full bg-sky-200 text-sky-900 font-bold text-[10px] uppercase">
+                        Harga Normal
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-baseline gap-3">
+                    {isPromoActive ? (
+                      <>
+                        <span className="text-3xl sm:text-4xl font-black text-emerald-700">
+                          Rp 249.000
+                        </span>
+                        <span className="text-base sm:text-lg font-bold text-slate-400 line-through">
+                          Rp 499.000
+                        </span>
+                        <span className="text-xs font-black text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md border border-emerald-300">
+                          HEMAT 50% (Rp 250.000)
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-3xl sm:text-4xl font-black text-slate-900">
+                          Rp 499.000
+                        </span>
+                        <span className="text-base font-bold text-slate-400 line-through">
+                          Rp 1.800.000
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  <p className="text-xs text-slate-600 font-medium">
+                    {isPromoActive ? (
+                      <span className="text-emerald-900 font-semibold">
+                        ✓ Diskon 50% diterapkan! Nota WhatsApp otomatis menyertakan status promo untuk verifikasi Admin.
+                      </span>
+                    ) : (
+                      <span>
+                        All-in termasuk pengerjaan kilat 1 hari, free domain 1 tahun, dan form order WhatsApp.
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                <div className="shrink-0 flex items-center gap-2">
+                  {!isPromoActive ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPromoActive(true);
+                        setFormData((prev) => ({ ...prev, isPromoActive: true }));
+                        try {
+                          sessionStorage.setItem('promo_50_active', 'true');
+                        } catch {}
+                      }}
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer transform hover:scale-102 active:scale-95"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 fill-current" />
+                      <span>Klaim Diskon 50%</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPromoActive(false);
+                        setFormData((prev) => ({ ...prev, isPromoActive: false }));
+                        try {
+                          sessionStorage.removeItem('promo_50_active');
+                        } catch {}
+                      }}
+                      className="text-[11px] font-bold text-slate-500 hover:text-slate-800 underline cursor-pointer"
+                    >
+                      Gunakan Harga Normal (Rp 499rb)
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
 
             {/* Main Submit Button: Order Sekarang */}
             <div className="space-y-4 pt-2">
               <button
                 type="submit"
-                className="relative group w-full py-4 px-6 text-base font-extrabold text-white bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-600 hover:from-emerald-700 hover:to-green-700 active:scale-99 rounded-2xl shadow-xl hover:shadow-emerald-500/25 transition-all cursor-pointer flex items-center justify-center gap-3 overflow-hidden"
+                className={`relative group w-full py-4 px-6 text-base font-extrabold text-white rounded-2xl shadow-xl transition-all cursor-pointer flex items-center justify-center gap-3 overflow-hidden active:scale-99 ${
+                  isPromoActive
+                    ? 'bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-700 hover:to-green-700 hover:shadow-emerald-500/30'
+                    : 'bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-600 hover:from-emerald-700 hover:to-green-700 hover:shadow-emerald-500/25'
+                }`}
               >
                 <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
                 <Send className="relative w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                <span className="relative tracking-wide">ORDER SEKARANG VIA WHATSAPP (0896-7368-6625)</span>
+                <span className="relative tracking-wide">
+                  {isPromoActive
+                    ? 'KIRIM PESANAN VIA WHATSAPP (PROMO RP 249.000)'
+                    : 'KIRIM PESANAN VIA WHATSAPP (RP 499.000)'}
+                </span>
               </button>
 
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 pt-2">
@@ -1300,21 +1438,22 @@ export const OrderFormSection: React.FC = () => {
               </div>
 
               {submittedSuccess && (
-                <div className="p-4 bg-sky-50 border border-sky-200 rounded-xl text-center text-xs text-sky-900 font-medium">
-                  WhatsApp sedang dibuka! Jika jendela WhatsApp tidak terbuka otomatis karena diblokir browser, silakan{' '}
-                  <a
-                    href={generateWhatsAppUrl(formData)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-bold underline text-sky-700"
-                  >
-                    klik tautan langsung ini
-                  </a>{' '}
-                  atau salin rincian pesanan di atas lalu kirimkan manual ke <strong>0896-7368-6625</strong>.
-                </div>
-              )}
-            </div>
-          </form>
+                  <div className="p-4 bg-sky-50 border border-sky-200 rounded-xl text-center text-xs text-sky-900 font-medium">
+                    WhatsApp sedang dibuka! Jika jendela WhatsApp tidak terbuka otomatis karena diblokir browser, silakan{' '}
+                    <a
+                      href={generateWhatsAppUrl(formData, isPromoActive)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold underline text-sky-700"
+                    >
+                      klik tautan langsung ini
+                    </a>{' '}
+                    atau salin rincian pesanan di atas lalu kirimkan manual ke <strong>0896-7368-6625</strong>.
+                  </div>
+                )}
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>

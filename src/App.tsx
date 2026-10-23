@@ -17,9 +17,9 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { GeminiChatbot } from './components/GeminiChatbot';
 import { BackToTop } from './components/BackToTop';
-import { Sparkles, ArrowRight, MessageCircle, FileEdit, PhoneCall, ShieldCheck } from 'lucide-react';
+import { PromoModal } from './components/PromoModal';
+import { Sparkles, ArrowRight, MessageCircle, FileEdit, PhoneCall, ShieldCheck, Tag } from 'lucide-react';
 import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from './types/order';
 
 export default function App() {
@@ -32,6 +32,7 @@ export default function App() {
   };
 
   const [activeTab, setActiveTab] = useState<PageTab>(getTabFromHash);
+  const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
 
   // Sync with browser hash (back/forward button & direct URL access)
   useEffect(() => {
@@ -40,6 +41,28 @@ export default function App() {
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Show promo pop-up overlay on first visit
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      try {
+        const alreadyDismissed = sessionStorage.getItem('promo_banner_dismissed') === 'true';
+        if (!alreadyDismissed) {
+          setIsPromoModalOpen(true);
+        }
+      } catch {
+        setIsPromoModalOpen(true);
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Listen to open-promo-modal event
+  useEffect(() => {
+    const handleOpenPromo = () => setIsPromoModalOpen(true);
+    window.addEventListener('open-promo-modal', handleOpenPromo);
+    return () => window.removeEventListener('open-promo-modal', handleOpenPromo);
   }, []);
 
   // Listen to custom navigation events from buttons across components
@@ -57,6 +80,32 @@ export default function App() {
     setActiveTab(tab);
     window.location.hash = '#/' + tab;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleClaimPromo = () => {
+    try {
+      sessionStorage.setItem('promo_50_active', 'true');
+      sessionStorage.setItem('promo_banner_dismissed', 'true');
+    } catch {}
+    window.dispatchEvent(new CustomEvent('promo-50-claimed'));
+
+    if (activeTab === 'artikel' || activeTab === 'kontak') {
+      handleTabChange('order');
+    }
+
+    setTimeout(() => {
+      const formEl = document.getElementById('form-order') || document.getElementById('formulir-order');
+      if (formEl) {
+        formEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 250);
+  };
+
+  const handleClosePromo = () => {
+    setIsPromoModalOpen(false);
+    try {
+      sessionStorage.setItem('promo_banner_dismissed', 'true');
+    } catch {}
   };
 
   return (
@@ -186,11 +235,28 @@ export default function App() {
       {/* Floating WhatsApp Quick Action */}
       <FloatingWhatsApp />
 
-      {/* Gemini AI Interactive 24/7 Chatbot */}
-      <GeminiChatbot />
+      {/* Floating Promo 50% Badge Trigger (Clickable anytime) */}
+      <button
+        type="button"
+        onClick={() => setIsPromoModalOpen(true)}
+        className="fixed bottom-20 left-4 z-40 px-3.5 py-2 rounded-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-500 hover:to-yellow-500 text-slate-950 font-black text-xs shadow-xl border border-white/70 flex items-center gap-1.5 transform hover:scale-105 active:scale-95 transition-all cursor-pointer ring-2 ring-amber-300/60"
+        title="Buka Promo Diskon 50%"
+        aria-label="Buka Banner Promo Diskon 50%"
+      >
+        <Sparkles className="w-3.5 h-3.5 fill-current animate-pulse" />
+        <span>Diskon 50%</span>
+      </button>
 
       {/* Floating Back to Top Button (appears after 400px scroll) */}
       <BackToTop />
+
+      {/* Promo 50% Pop-up Floating Overlay Banner with 3s Delay Close Button */}
+      <PromoModal
+        isOpen={isPromoModalOpen}
+        onClose={handleClosePromo}
+        onClaimPromo={handleClaimPromo}
+        bannerSrc="/assets/aistudio/1792751270454_463fdeff.jpg"
+      />
     </div>
   );
 }
