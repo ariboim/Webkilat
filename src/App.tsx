@@ -14,7 +14,6 @@ import { OrderFormSection } from './components/OrderFormSection';
 import { OrderPageSection } from './components/OrderPageSection';
 import { ContactPageSection } from './components/ContactPageSection';
 import { ArticlesPageSection } from './components/ArticlesPageSection';
-import { KumpulBloggerAds } from './components/KumpulBloggerAds';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
@@ -72,8 +71,6 @@ export default function App() {
       {/* Animated Vibrant Marquee Banner */}
       <AnimatedMarqueeBanner />
 
-      {/* KumpulBlogger Classified Ads in Header / Content */}
-      <KumpulBloggerAds variant="header" />
 
       <main className="flex-1">
         {/* ================= PAGE 1: HOME (BERANDA) ================= */}

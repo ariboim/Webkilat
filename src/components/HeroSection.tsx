@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ADMIN_WA_NUMBER } from '../types/order';
 import { CountdownDisplay } from './CountdownTimer';
+import { IndoDigitalLogo } from './IndoDigitalLogo';
 
 const LIVE_NOTIFICATIONS = [
   {
@@ -187,34 +188,46 @@ export const HeroSection: React.FC = () => {
               </motion.button>
             </div>
 
+            {/* Trust Pill & Brand Badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200/90 text-xs font-bold text-slate-800 shadow-2xs">
+              <span className="flex items-center gap-1.5 text-[#1D3582] font-black">
+                <span className="w-2 h-2 rounded-full bg-[#00A3E0] animate-pulse"></span>
+                INDO DIGITAL
+              </span>
+              <span className="text-slate-300">|</span>
+              <span className="text-slate-600 font-medium">Inovasi Digital Indonesia</span>
+              <span className="text-slate-300">|</span>
+              <span className="text-emerald-600 font-black flex items-center gap-1">
+                <span>★ 4.9/5</span>
+                <span className="text-slate-500 font-medium hidden sm:inline">(1.280+ UMKM)</span>
+              </span>
+            </div>
+
             {/* Unboxed editorial kicker */}
-            <div className="flex items-center gap-2 text-xs font-black text-rose-600 tracking-wide uppercase">
-              <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping"></span>
-              <span>KLAIM SEBELUM HARGA NAIK KEMBALI RP 1.8 JUTA</span>
+            <div className="flex items-center gap-2 text-xs font-black text-[#1D3582] tracking-wide uppercase">
+              <span className="w-2 h-2 rounded-full bg-[#F97316] animate-ping"></span>
+              <span className="text-[#F97316]">PROMO FLASH SALE RP 499RB</span>
               <span aria-hidden="true" className="text-slate-300">·</span>
-              <span>1 HARI JADI</span>
+              <span>1 HARI SELESAI</span>
               <span aria-hidden="true" className="text-slate-300">·</span>
               <span>FREE DOMAIN 1 TAHUN</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-black text-slate-900 tracking-tight leading-[1.1] text-balance">
-              Landing Page Bisnis 1 Hari Jadi,{' '}
-              <span className="inline-flex items-center text-red-600 mr-1.5">
-                <span className="line-through decoration-red-600 decoration-[4px]">Rp 1.8 Juta</span>
-              </span>{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-sky-600 to-blue-700">
-                Jadi Cuma Rp 499 Ribu!
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.35rem] font-black text-slate-900 tracking-tight leading-[1.12] text-balance">
+              Jasa Pembuatan Landing Page &amp; Website Bisnis bersama{' '}
+              <span className="inline-block text-[#1D3582]">
+                INDO<span className="text-[#00A3E0] ml-1">DIGITAL</span>
               </span>
             </h1>
 
-            {/* Hard Selling Callout */}
-            <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 shadow-2xs space-y-1.5">
-              <div className="text-xs font-black text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-amber-600 fill-amber-600" />
-                <span>JANGAN BIARKAN CALON PEMBELI LARI KE KOMPETITOR!</span>
+            {/* Corporate Value Callout */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/90 border border-slate-200/90 shadow-2xs space-y-2">
+              <div className="text-xs font-black text-[#1D3582] uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#00A3E0]"></span>
+                <span>SOLUSI EKOSISTEM DIGITAL BERKELAS KORPORAT UNTUK BISNIS ANDA</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
-                Pebisnis sukses punya website sendiri untuk meyakinkan pembeli tanpa ragu. Khusus <strong className="text-rose-600">6 jam hari ini</strong>, dapatkan landing page kustom profesional + domain aktif 1 tahun <strong className="text-slate-900">cuma Rp 499.000</strong> (Diskon spesial dari harga normal <span className="inline-flex items-center text-red-600 font-bold"><span className="line-through decoration-red-600 decoration-2">Rp 1.8 Juta</span></span>). Besok harga normal kembali!
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                Hadirkan website profil dan landing page kustom berkecepatan tinggi (0.4 detik) yang dirancang khusus untuk memikat calon konsumen dan meningkatkan rasa percaya. Khusus hari ini, nikmati paket all-in <strong className="text-slate-900 font-bold">Rp 499.000</strong> (diskon dari harga normal <span className="line-through text-red-600 decoration-red-600 decoration-2">Rp 1.8 Juta</span>), lengkap dengan domain resmi 1 tahun dan <strong className="text-emerald-700 font-bold">bayar setelah website selesai Anda review</strong>.
               </p>
             </div>
 
@@ -222,30 +235,43 @@ export const HeroSection: React.FC = () => {
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button
                 onClick={scrollToOrder}
-                className="group relative inline-flex items-center justify-center gap-2 px-7 py-4 text-base font-black text-white bg-gradient-to-r from-rose-600 via-rose-500 to-sky-600 hover:from-rose-700 hover:to-sky-700 rounded-2xl shadow-xl hover:shadow-rose-500/25 transition-all cursor-pointer whitespace-nowrap active:scale-98 overflow-hidden"
+                className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-black text-white bg-gradient-to-r from-[#1D3582] via-[#0284C7] to-[#1D3582] hover:from-[#162968] hover:to-[#0284C7] rounded-2xl shadow-xl hover:shadow-[#0284C7]/25 transition-all cursor-pointer whitespace-nowrap active:scale-98 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
-                <span className="relative">KLAIM PROMO RP 499RB SEKARANG</span>
+                <span className="relative">MULAI PROYEK DIGITAL (RP 499RB)</span>
                 <ArrowRight className="relative w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
 
               <a
-                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Webkilat,%20saya%20mau%20klaim%20promo%20terbatas%201.8%20juta%20jadi%20499%20ribu%20sebelum%20countdown%20habis!`}
+                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20INDO%20DIGITAL,%20saya%20mau%20konsultasi%20jasa%20website%20dan%20landing%20page%201%20hari%20Rp%20499rb!`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-bold text-slate-700 bg-sky-50/90 hover:bg-sky-100/90 border border-sky-200/90 rounded-2xl transition-all whitespace-nowrap shadow-xs hover:shadow-md"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 text-base font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-300 rounded-2xl transition-all whitespace-nowrap shadow-xs hover:shadow-md"
               >
                 <MessageCircle className="w-5 h-5 text-emerald-600" />
-                <span>Klaim via WA (089673686625)</span>
+                <span>Konsultasi Solusi (089673686625)</span>
               </a>
             </div>
 
-            {/* Reassurance Banner: PESAN SEKARANG BAYAR SETELAH JADI */}
-            <div className="flex items-center gap-2.5 p-3.5 bg-emerald-50 rounded-2xl border-2 border-emerald-300 text-emerald-950 text-xs font-bold shadow-2xs">
-              <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-              <div>
-                <strong className="font-black text-emerald-900 uppercase">JAMINAN 100% AMAN & BEBAS RISIKO: </strong>
-                <span>Pesan Sekarang, Bayar Setelah Web Selesai &amp; Anda Review!</span>
+            {/* Reassurance Banner: PESAN SEKARANG BAYAR SETELAH JADI with Tilted Seal */}
+            <div className="flex items-center gap-3.5 p-3.5 sm:p-4 bg-gradient-to-r from-emerald-50 via-teal-50/70 to-emerald-50 rounded-2xl border-2 border-emerald-300 text-emerald-950 text-xs font-bold shadow-xs relative overflow-hidden group">
+              <div className="shrink-0 relative">
+                <img
+                  src="/assets/aistudio/IMG_20261023_134231_44224f1d.jpg"
+                  alt="Logo Garansi Terjamin 100% Aman Tanpa DP Bebas Resiko"
+                  className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded-full border-2 border-red-300/80 shadow-md bg-white p-0.5 transform -rotate-12 group-hover:-rotate-3 group-hover:scale-105 transition-all duration-300 cursor-pointer"
+                  onClick={scrollToOrder}
+                  title="Garansi Terjamin 100% Aman - Tanpa DP Bebas Resiko"
+                />
+              </div>
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5 text-emerald-900 font-black text-xs sm:text-sm uppercase tracking-wide">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>GARANSI 100% AMAN &amp; BEBAS RESIKO</span>
+                </div>
+                <p className="text-slate-700 text-xs leading-relaxed font-medium">
+                  Pesan Sekarang, Bayar Setelah Web Selesai &amp; Anda Review! Tanpa DP sepeserpun di awal.
+                </p>
               </div>
             </div>
 
@@ -388,15 +414,17 @@ export const HeroSection: React.FC = () => {
 
                 {/* Simulated Custom Landing Page Canvas */}
                 <div className="bg-white rounded-b-2xl p-5 text-slate-900 space-y-4 max-h-[380px] overflow-y-auto">
-                  <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <span className="font-extrabold text-sm text-sky-700 tracking-tight">KREASI BISNIS NUSANTARA</span>
-                    <span className="text-[11px] text-slate-500 font-medium">Buka 24 Jam · WhatsApp Fast Response</span>
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                    <IndoDigitalLogo size="sm" variant="full" />
+                    <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                      Cloud Uptime 99.9%
+                    </span>
                   </div>
 
-                  <div className="bg-gradient-to-r from-sky-50 via-blue-50/50 to-sky-50 p-4 rounded-xl border border-sky-100/90 shadow-2xs">
-                    <div className="text-[10px] font-bold text-sky-700 uppercase tracking-wider mb-1 flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-sky-600" />
-                      <span>Kustom Desain Sesuai Brand Anda</span>
+                  <div className="bg-gradient-to-r from-slate-50 via-sky-50/40 to-slate-50 p-4 rounded-xl border border-slate-200/80 shadow-2xs">
+                    <div className="text-[10px] font-bold text-[#1D3582] uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+                      <span>Solusi Ekosistem Digital Berkecepatan Tinggi</span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900 leading-snug">
                       Tingkatkan Omzet Penjualan dengan Landing Page yang Bikin Pembeli Langsung Percaya
@@ -409,25 +437,49 @@ export const HeroSection: React.FC = () => {
                         <MessageCircle className="w-3.5 h-3.5" />
                         <span>Chat Pesan Sekarang (WA)</span>
                       </div>
-                      <span className="text-[11px] text-slate-500 font-medium">Garansi 100% Produk Original</span>
+                      <span className="text-[11px] text-slate-500 font-medium">Garansi 100% Bebas Risiko</span>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2 pt-1 text-center">
                     <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                      <div className="text-xs font-bold text-slate-900">Bahan Alami</div>
-                      <div className="text-[10px] text-slate-500">100% Higienis</div>
+                      <div className="text-xs font-bold text-slate-900">1 Hari Jadi</div>
+                      <div className="text-[10px] text-slate-500">24 Jam Aktif</div>
                     </div>
                     <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                      <div className="text-xs font-bold text-slate-900">Pengiriman Kilat</div>
-                      <div className="text-[10px] text-slate-500">Bisa Bayar COD</div>
+                      <div className="text-xs font-bold text-slate-900">Free Domain</div>
+                      <div className="text-[10px] text-slate-500">1 Tahun Resmi</div>
                     </div>
                     <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                      <div className="text-xs font-bold text-slate-900">Ribuan Testimoni</div>
-                      <div className="text-[10px] text-slate-500">Bintang 4.9/5.0</div>
+                      <div className="text-xs font-bold text-slate-900">Tanpa DP</div>
+                      <div className="text-[10px] text-slate-500">Bayar Setelah Jadi</div>
                     </div>
                   </div>
                 </div>
+
+                {/* Official Guarantee Seal (Logo Garansi Terjamin - Agak Miring) */}
+                <motion.div
+                  initial={{ scale: 0.8, rotate: -22, opacity: 0 }}
+                  animate={{ scale: 1, rotate: -12, opacity: 1 }}
+                  transition={{ duration: 0.7, type: 'spring', bounce: 0.35, delay: 0.2 }}
+                  whileHover={{ scale: 1.08, rotate: -5 }}
+                  className="absolute -bottom-7 -right-4 sm:-bottom-8 sm:-right-7 md:-bottom-9 md:-right-8 z-30 cursor-pointer select-none"
+                  onClick={scrollToOrder}
+                  title="Garansi Terjamin 100% Aman - Tanpa DP, Bebas Resiko (Klik untuk Pesan)"
+                >
+                  <div className="relative group">
+                    <div className="absolute inset-0 rounded-full bg-rose-500/30 blur-xl group-hover:bg-rose-500/45 transition-all duration-300 animate-pulse" />
+                    <img
+                      src="/assets/aistudio/IMG_20261023_134231_44224f1d.jpg"
+                      alt="Logo Garansi Terjamin 100% Aman Tanpa DP Bebas Resiko"
+                      className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain rounded-full shadow-2xl border-4 border-white bg-white p-0.5 transform transition-transform duration-300 ring-2 ring-red-200/90 drop-shadow-2xl"
+                    />
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-slate-950 text-yellow-300 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full shadow-md whitespace-nowrap border border-yellow-400/50 flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                      <Sparkles className="w-2.5 h-2.5 text-yellow-400" />
+                      <span>GARANSI RESMI</span>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             ) : (
               <div className="w-[280px] bg-slate-900 rounded-[38px] p-3 shadow-2xl border-4 border-slate-800 transition-all duration-300 relative">
@@ -443,7 +495,7 @@ export const HeroSection: React.FC = () => {
 
                 <div className="bg-white rounded-[26px] p-4 text-slate-900 space-y-3 overflow-hidden">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-1.5">
-                    <span className="font-extrabold text-xs text-sky-700">BISNIS ANDA</span>
+                    <IndoDigitalLogo size="sm" variant="lockup" showTagline={false} />
                     <span className="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-medium">Online</span>
                   </div>
 
@@ -462,6 +514,29 @@ export const HeroSection: React.FC = () => {
                     *Domain aktif 1 tahun & bebas konsultasi
                   </div>
                 </div>
+
+                {/* Official Guarantee Seal (Logo Garansi Terjamin - Agak Miring on Mobile) */}
+                <motion.div
+                  initial={{ scale: 0.8, rotate: -22, opacity: 0 }}
+                  animate={{ scale: 1, rotate: -12, opacity: 1 }}
+                  transition={{ duration: 0.7, type: 'spring', bounce: 0.35 }}
+                  whileHover={{ scale: 1.08, rotate: -5 }}
+                  className="absolute -bottom-6 -right-5 z-30 cursor-pointer select-none"
+                  onClick={scrollToOrder}
+                  title="Garansi Terjamin 100% Aman - Tanpa DP, Bebas Resiko (Klik untuk Pesan)"
+                >
+                  <div className="relative group">
+                    <div className="absolute inset-0 rounded-full bg-rose-500/30 blur-lg group-hover:bg-rose-500/45 transition-all duration-300 animate-pulse" />
+                    <img
+                      src="/assets/aistudio/IMG_20261023_134231_44224f1d.jpg"
+                      alt="Logo Garansi Terjamin 100% Aman Tanpa DP Bebas Resiko"
+                      className="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-full shadow-2xl border-4 border-white bg-white p-0.5 transform transition-transform duration-300 ring-2 ring-red-200/90 drop-shadow-xl"
+                    />
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-slate-950 text-yellow-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-md whitespace-nowrap border border-yellow-400/50 flex items-center gap-0.5 opacity-90">
+                      <span>GARANSI RESMI</span>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             )}
           </motion.div>

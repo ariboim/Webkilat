@@ -13,6 +13,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { ADMIN_WA_NUMBER, ADMIN_WA_DISPLAY } from '../types/order';
+import { IndoDigitalLogo } from './IndoDigitalLogo';
 
 export type PageTab = 'home' | 'order' | 'artikel' | 'kontak';
 
@@ -70,30 +71,29 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-sky-50/95 backdrop-blur-md border-b border-sky-100 shadow-xs">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 lg:gap-8 h-18">
-          {/* Zone 1: Brand Wordmark */}
+        <div className="flex items-center justify-between gap-4 lg:gap-8 h-20">
+          {/* Zone 1: Official INDO DIGITAL Logo (Seamless, Zero White-Frame/Tile Artifacts) */}
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => handleSelectTab('home')}
-              className="text-2xl font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5 cursor-pointer text-left"
-              title="Kembali ke Beranda"
+              className="flex items-center cursor-pointer text-left focus:outline-none"
+              title="INDO DIGITAL - Inovasi Digital Indonesia"
             >
-              <span className="text-sky-600 font-black">web</span>kilat
-              <span className="w-2 h-2 rounded-full bg-sky-500 inline-block mb-1"></span>
+              <IndoDigitalLogo size="md" variant="full" />
             </button>
           </div>
 
-          {/* Zone 2: 3 Primary Navigation Tabs (Home, Form Order, Kontak Kami) */}
-          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-white/90 rounded-2xl border border-sky-200/80 shadow-2xs">
+          {/* Zone 2: 4 Primary Navigation Tabs */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-slate-50/90 rounded-2xl border border-slate-200/80 shadow-2xs">
             {/* Tab 1: Home */}
             <button
               onClick={() => handleSelectTab('home')}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
                 activeTab === 'home'
-                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
-                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+                  ? 'bg-[#1D3582] text-white shadow-md shadow-[#1D3582]/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-[#1D3582] hover:bg-white'
               }`}
             >
               <Home className="w-4 h-4" />
@@ -105,8 +105,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               onClick={() => handleSelectTab('order')}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer relative ${
                 activeTab === 'order'
-                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
-                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+                  ? 'bg-[#1D3582] text-white shadow-md shadow-[#1D3582]/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-[#1D3582] hover:bg-white'
               }`}
             >
               <FileEdit className="w-4 h-4" />
@@ -128,8 +128,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               onClick={() => handleSelectTab('artikel')}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
                 activeTab === 'artikel'
-                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
-                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+                  ? 'bg-[#1D3582] text-white shadow-md shadow-[#1D3582]/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-[#1D3582] hover:bg-white'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -144,8 +144,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               onClick={() => handleSelectTab('kontak')}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
                 activeTab === 'kontak'
-                  ? 'bg-sky-600 text-white shadow-md shadow-sky-600/25 scale-[1.02]'
-                  : 'text-slate-700 hover:text-sky-800 hover:bg-sky-50'
+                  ? 'bg-[#1D3582] text-white shadow-md shadow-[#1D3582]/25 scale-[1.02]'
+                  : 'text-slate-700 hover:text-[#1D3582] hover:bg-white'
               }`}
             >
               <PhoneCall className="w-4 h-4" />
@@ -161,17 +161,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
               href="https://indo-digital.myr.id"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black text-amber-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 hover:from-amber-400 hover:to-yellow-400 rounded-lg shadow-sm border border-amber-400/90 transition-all transform hover:scale-105 active:scale-95 whitespace-nowrap group ring-2 ring-amber-300/60"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-black text-amber-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-400 hover:from-amber-400 hover:to-yellow-400 rounded-xl shadow-xs border border-amber-400/90 transition-all transform hover:scale-102 active:scale-95 whitespace-nowrap group ring-2 ring-amber-300/60"
               title="Kunjungi Produk Indo Digital Lainnya"
             >
               <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-              <span>PRODUK INDODIGITAL LAINNYA</span>
+              <span>PRODUK INDODIGITAL</span>
               <ExternalLink className="w-3.5 h-3.5 text-amber-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </a>
 
             <button
               onClick={openGeminiChat}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg border border-indigo-200 transition-colors whitespace-nowrap cursor-pointer shadow-xs group"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl border border-indigo-200 transition-colors whitespace-nowrap cursor-pointer shadow-2xs group"
               title="Tanya Asisten AI Gemini 24 Jam"
             >
               <Sparkles className="w-3.5 h-3.5 text-indigo-600 animate-pulse group-hover:rotate-12 transition-transform" />
@@ -181,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
             {activeTab !== 'order' && (
               <button
                 onClick={() => handleSelectTab('order')}
-                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#1D3582] hover:bg-[#162968] rounded-xl shadow-sm transition-all transform active:scale-98 whitespace-nowrap cursor-pointer"
               >
                 <span>Pesan Sekarang</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -210,8 +210,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
 
       {/* Mobile navigation drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-sky-50/98 border-b border-sky-200/60 px-4 pt-3 pb-6 space-y-4 shadow-xl">
-          {/* 3 Main Page Tabs on Mobile */}
+        <div className="md:hidden bg-white/98 border-b border-slate-200 px-4 pt-3 pb-6 space-y-4 shadow-xl">
+          {/* 4 Main Page Tabs on Mobile */}
           <div className="space-y-1.5">
             <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-3">
               Pilih Halaman Website:
@@ -221,8 +221,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
                 onClick={() => handleSelectTab('home')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
                   activeTab === 'home'
-                    ? 'bg-sky-600 text-white shadow-md'
-                    : 'bg-white text-slate-800 border border-slate-200'
+                    ? 'bg-[#1D3582] text-white shadow-md'
+                    : 'bg-slate-50 text-slate-800 border border-slate-200'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -236,15 +236,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
                 onClick={() => handleSelectTab('order')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
                   activeTab === 'order'
-                    ? 'bg-sky-600 text-white shadow-md'
-                    : 'bg-white text-slate-800 border border-slate-200'
+                    ? 'bg-[#1D3582] text-white shadow-md'
+                    : 'bg-slate-50 text-slate-800 border border-slate-200'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <FileEdit className="w-4 h-4 text-amber-500" />
                   <span>2. Form Order (Pemesanan Kilat)</span>
                 </div>
-                <span className="text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full">
+                <span className="text-[10px] bg-rose-500 text-white px-2 py-0.5 rounded-full font-bold">
                   Rp 499rb
                 </span>
               </button>
@@ -253,12 +253,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
                 onClick={() => handleSelectTab('artikel')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
                   activeTab === 'artikel'
-                    ? 'bg-sky-600 text-white shadow-md'
-                    : 'bg-white text-slate-800 border border-slate-200'
+                    ? 'bg-[#1D3582] text-white shadow-md'
+                    : 'bg-slate-50 text-slate-800 border border-slate-200'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <BookOpen className="w-4 h-4 text-sky-600" />
+                  <BookOpen className="w-4 h-4 text-[#00A3E0]" />
                   <span>3. Artikel (Kisah Sukses UMKM)</span>
                 </div>
                 <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
@@ -270,8 +270,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, onTabChange }) => {
                 onClick={() => handleSelectTab('kontak')}
                 className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-black transition-all ${
                   activeTab === 'kontak'
-                    ? 'bg-sky-600 text-white shadow-md'
-                    : 'bg-white text-slate-800 border border-slate-200'
+                    ? 'bg-[#1D3582] text-white shadow-md'
+                    : 'bg-slate-50 text-slate-800 border border-slate-200'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
