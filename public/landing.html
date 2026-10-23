@@ -84,21 +84,84 @@
 </head>
 <body class="selection:bg-blue-600 selection:text-white">
 
-  <!-- ================= TOP SLA & URGENCY STATUS BAR ================= -->
-  <div class="bg-brand-navy text-slate-300 text-xs py-2.5 px-4 border-b border-slate-800">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
-      <div class="flex items-center gap-2.5">
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-900/60 text-blue-300 font-semibold border border-blue-700/50 text-[11px]">
-          <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-          SLA 99.9% Uptime Cloud
+  <!-- ================= TOP FLASH SALE & URGENCY STATUS BAR (INDO DIGITAL PALETTE) ================= -->
+  <div class="relative bg-white text-slate-800 py-2.5 px-4 shadow-[0_2px_10px_rgba(29,53,130,0.06)] border-b border-sky-100 z-50 overflow-hidden">
+    <!-- Brand Background Pattern -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute -top-12 -left-12 w-64 h-32 bg-sky-200/25 rounded-full blur-2xl"></div>
+      <div class="absolute -bottom-10 right-1/4 w-80 h-28 bg-[#00A3E0]/10 rounded-full blur-2xl"></div>
+      <div class="absolute top-0 right-4 w-48 h-24 bg-[#F58220]/10 rounded-full blur-2xl"></div>
+      <svg class="absolute inset-0 w-full h-full opacity-[0.07] stroke-[#1D3582]" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="id-top-pattern" width="60" height="28" patternUnits="userSpaceOnUse">
+            <path d="M 0 14 Q 15 0 30 14 T 60 14" fill="none" stroke-width="1" />
+            <circle cx="15" cy="7" r="1.5" fill="#00A3E0" />
+            <circle cx="45" cy="21" r="1.5" fill="#F58220" />
+            <line x1="15" y1="7" x2="30" y2="14" stroke-width="0.8" stroke-dasharray="2,2" />
+            <line x1="30" y1="14" x2="45" y2="21" stroke-width="0.8" stroke-dasharray="2,2" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#id-top-pattern)" />
+      </svg>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-2.5 text-xs">
+      <!-- Left: Badges & Price Hierarchy -->
+      <div class="flex items-center gap-2 flex-wrap justify-center lg:justify-start text-center lg:text-left">
+        <!-- Badge 1: FLASH SALE HEMAT 1.3 JT -->
+        <span class="inline-flex items-center gap-1.5 bg-[#1D3582] text-white font-extrabold text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs border border-[#2D4DA7]">
+          <span class="text-[#F58220]">🔥</span>
+          FLASH SALE HEMAT 1.3 JT
         </span>
-        <span class="hidden md:inline text-slate-300 text-xs">Pengerjaan Kilat 1 Hari Jadi &bull; Bebas Risiko (Bayar Setelah Jadi)</span>
+
+        <!-- Badge 2: PESAN SEKARANG, BAYAR SETELAH JADI -->
+        <span class="inline-flex items-center gap-1.5 bg-[#EBF5FB] text-[#1D3582] font-black text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs border border-[#BAE6FD]">
+          <span>🛡️</span>
+          PESAN SEKARANG, BAYAR SETELAH JADI
+        </span>
+
+        <!-- Price Headline -->
+        <div class="flex items-center gap-1.5 flex-wrap justify-center">
+          <span class="font-extrabold text-[#1D3582] tracking-tight text-xs sm:text-sm">
+            PROMO TERBATAS:
+          </span>
+          <span class="inline-flex items-center bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+            <span class="line-through text-slate-500 decoration-[#EA580C] decoration-[2.5px] text-xs sm:text-sm font-bold">
+              Rp 1.8 Juta
+            </span>
+          </span>
+          <span class="text-[#00A3E0] font-black text-sm">➔</span>
+          <span class="text-[#EA580C] text-sm sm:text-base font-black underline decoration-[#F58220] underline-offset-2 tracking-tight">
+            CUMA RP 499.000!
+          </span>
+        </div>
+
+        <span class="hidden xl:inline-flex items-center bg-sky-50 text-[#0369A1] px-2 py-0.5 rounded-full text-[10.5px] font-bold border border-sky-200">
+          (HEMAT RP 1.301.000 + FREE DOMAIN 1 TAHUN)
+        </span>
       </div>
-      <div class="flex items-center gap-3 text-xs">
-        <span class="text-slate-400">Konsultasi Gratis via WhatsApp:</span>
-        <a href="https://wa.me/6289673686625?text=Halo%20Admin%20webmurah.biz.id,%20saya%20ingin%20konsultasi%20pembuatan%20landing%20page." target="_blank" class="text-blue-400 hover:text-white font-bold transition-colors flex items-center gap-1">
-          <span>0896-7368-6625</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+
+      <!-- Right: Navy Countdown & Brand Orange Action CTA -->
+      <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        <div class="flex items-center gap-1.5 bg-[#0F2454] px-2.5 py-1 rounded-lg border border-[#1D3582] shadow-xs">
+          <span class="text-[10px] sm:text-[11px] font-black text-[#7DD3FC] uppercase tracking-wider">
+            BERAKHIR:
+          </span>
+          <div class="flex items-center gap-1 font-mono text-xs font-black">
+            <span id="top-cd-hours" class="bg-[#1D3582] text-yellow-300 px-1.5 py-0.5 rounded shadow-xs border border-[#3052B3]">05</span>
+            <span class="text-[#38BDF8] font-bold">:</span>
+            <span id="top-cd-minutes" class="bg-[#1D3582] text-yellow-300 px-1.5 py-0.5 rounded shadow-xs border border-[#3052B3]">59</span>
+            <span class="text-[#38BDF8] font-bold">:</span>
+            <span id="top-cd-seconds" class="bg-[#1D3582] text-amber-400 px-1.5 py-0.5 rounded shadow-xs border border-[#3052B3] animate-pulse">00</span>
+          </div>
+        </div>
+
+        <a
+          href="#paket"
+          class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 text-xs font-black bg-gradient-to-r from-[#F58220] via-[#FA8C16] to-[#E65100] hover:from-[#EA580C] hover:to-[#D96B00] text-white rounded-lg shadow-sm hover:shadow-md hover:shadow-orange-500/20 transition-all cursor-pointer whitespace-nowrap active:scale-95"
+        >
+          <span>AMBIL PROMO RP 499RB</span>
+          <span>&rarr;</span>
         </a>
       </div>
     </div>
@@ -985,6 +1048,37 @@
         firstChevron.classList.add('rotate-180');
       }
     }
+
+    // Top Flash Sale Countdown Timer
+    (function initTopCountdown() {
+      const hEl = document.getElementById('top-cd-hours');
+      const mEl = document.getElementById('top-cd-minutes');
+      const sEl = document.getElementById('top-cd-seconds');
+      if (!hEl || !mEl || !sEl) return;
+
+      const DURATION = 6 * 3600 * 1000;
+      let target = localStorage.getItem('webkilat_countdown_target_v1');
+      target = target ? parseInt(target, 10) : 0;
+      if (!target || isNaN(target) || target <= Date.now()) {
+        target = Date.now() + DURATION;
+        localStorage.setItem('webkilat_countdown_target_v1', target);
+      }
+
+      function update() {
+        const diff = Math.max(0, target - Date.now());
+        const totalSec = Math.floor(diff / 1000);
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+
+        hEl.textContent = String(hours).padStart(2, '0');
+        mEl.textContent = String(minutes).padStart(2, '0');
+        sEl.textContent = String(seconds).padStart(2, '0');
+      }
+
+      update();
+      setInterval(update, 1000);
+    })();
   </script>
 </body>
 </html>
